@@ -18,7 +18,7 @@ public class MainGame implements ApplicationListener {
 	private String currentAtlasKey = new String("0001");
 
 	@Override
-	public void create() { 
+	public void create() {
 		batch = new SpriteBatch();
 		textureAtlas = new TextureAtlas(Gdx.files.internal("image.png"));
 		AtlasRegion region = textureAtlas.findRegion("0001");
