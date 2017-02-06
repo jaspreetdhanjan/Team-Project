@@ -4,6 +4,12 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.SpriteSheet;
 
+/**
+ * Generates a random particle.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class Particle extends Entity {
 	public double z, za;
 	public int life;
@@ -52,20 +58,6 @@ public class Particle extends Entity {
 		double xxa = x + xa;
 		double yya = y + ya;
 		double zza = z + za;
-
-		/*		if (xxa < 0 || yya < 0 || x >= (level.width << 4) || yya > (level.height << 4)) {
-					collide(null, xxa, yya, zza);
-					return;
-				}
-
-				int xb = (int) (xxa / 16.0);
-				int yb = (int) (yya / 16.0);
-				Block nextBlock = level.getBlock(xb, yb);
-				if (nextBlock != null) {
-					if (nextBlock.blocks(this)) {
-						collide(null, xxa, yya, zza);
-					}
-				}*/
 
 		x = xxa;
 		y = yya;

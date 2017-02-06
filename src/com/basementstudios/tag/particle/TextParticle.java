@@ -3,6 +3,12 @@ package com.basementstudios.tag.particle;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.Font;
 
+/**
+ * Generates a random text based particle.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class TextParticle extends Particle {
 	private String msg;
 	private int colour;

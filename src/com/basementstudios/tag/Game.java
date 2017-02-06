@@ -1,21 +1,19 @@
 package com.basementstudios.tag;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import java.awt.*;
+import java.awt.image.*;
 
 import javax.swing.JFrame;
 
-import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.graphics.Font;
-import com.basementstudios.tag.screen.GameScreen;
-import com.basementstudios.tag.screen.MenuScreen;
-import com.basementstudios.tag.screen.PauseScreen;
-import com.basementstudios.tag.screen.Screen;
+import com.basementstudios.tag.screen.*;
+
+/**
+ * Entry-point for the main application.
+ * 
+ * @author Jaspreet Dhanjan
+ */
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;

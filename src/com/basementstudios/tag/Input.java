@@ -7,6 +7,12 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles and updates input received from the keyboard.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class Input implements KeyListener, FocusListener {
 	public class Key {
 		public int presses, absorbs;

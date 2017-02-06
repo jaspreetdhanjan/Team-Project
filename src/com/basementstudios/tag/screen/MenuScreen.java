@@ -5,6 +5,12 @@ import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.Font;
 
+/**
+ * Screen representation for when the game is in the menu state.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class MenuScreen extends Screen {
 	private String[] options = { "Play", "Exit" };
 	private int selected = 0;

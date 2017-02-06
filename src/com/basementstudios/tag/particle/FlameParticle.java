@@ -2,6 +2,12 @@ package com.basementstudios.tag.particle;
 
 import com.basementstudios.tag.graphics.Bitmap;
 
+/**
+ * Generates a random flame particle.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class FlameParticle extends Particle {
 	public int maxLife;
 	public boolean noSmoke;

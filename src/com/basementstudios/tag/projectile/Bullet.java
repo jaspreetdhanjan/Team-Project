@@ -1,10 +1,7 @@
 package com.basementstudios.tag.projectile;
 
-import java.util.List;
-
-import com.basementstudios.tag.Entity;
-import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.mob.Mob;
+import com.basementstudios.tag.*;
+import com.basementstudios.tag.mob.*;
 
 // Largely unfinished
 // Do not attempt to fix this
@@ -28,10 +25,8 @@ public class Bullet extends Entity {
 		life = 100 - random.nextInt(20);
 		dmg = random.nextInt(2) + 1;
 
-		xr0 = 0;
-		yr0 = 0;
-		xr1 = 5;
-		yr1 = 5;
+		xs = 5;
+		ys = 5;
 	}
 
 	public void tick() {
@@ -45,7 +40,9 @@ public class Bullet extends Entity {
 	}
 
 	private void attemptMove() {
-		if (isRemoved()) return;
+	/*	if (isRemoved()) return;
+		
+		
 
 		double xxa = x + xa;
 		double yya = y + ya;
@@ -55,10 +52,10 @@ public class Bullet extends Entity {
 		double x1 = xxa + xr1;
 		double y1 = yya + yr1;
 
-		if (x0 < 0 || y0 < 0 || x1 >= (level.width * 16) || y1 >= (level.height * 16)) {
+		if (x0 < 0 || y0 < 0 || x1 >= (getLevel().getWidth() * 16) || y1 >= (getLevel().getWidth() * 16)) {
 			remove();
 			return;
-		}
+		}*/
 	/*	List<Entity> entities = level.getEntities(x0, y0, x1, y1);
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -71,12 +68,12 @@ public class Bullet extends Entity {
 					remove();
 				}
 			}
-		}*/
+		}
 
 		x = xxa;
-		y = yya;
+		y = yya;*/
 	}
-
+/*
 	public void render(Bitmap bm) {
 		int x0 = (int) (x + xr0);
 		int y0 = (int) (y + yr0);
@@ -84,7 +81,7 @@ public class Bullet extends Entity {
 		int y1 = (int) (y + yr1);
 
 		bm.fill(x0, y0, x1, y1, 0xff0000);
-	}
+	}*/
 
 	public boolean blocks(Entity e) {
 		return true;

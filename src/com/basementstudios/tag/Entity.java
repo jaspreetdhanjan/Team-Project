@@ -6,17 +6,26 @@ import com.basementstudios.tag.component.Component;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
+import com.basementstudios.tag.phys.AxisAlignedBB;
+
+/**
+ * A base class for all entities in the game. These are tracked by Level.java
+ * 
+ * @author Jaspreet Dhanjan
+ */
 
 public class Entity {
 	public static final Random random = new Random();
 
-	public Level level;
 	private boolean removed = false;
 
-	public int xSpriteIndex, ySpriteIndex;
+	protected Level level;
+	protected AxisAlignedBB bb = new AxisAlignedBB();
+
 	public double x, y;
 	public double xa, ya;
-	public double xr0, yr0, xr1, yr1;
+	public double xs, ys;
+	public int xSpriteIndex, ySpriteIndex;
 
 	private List<Component> components = new ArrayList<Component>();
 
@@ -55,20 +64,15 @@ public class Entity {
 		return removed;
 	}
 
-	public boolean intersects(double x0, double y0, double x1, double y1) {
-		double xr = xr1 - xr0;
-		double yr = yr1 - yr0;
-		if (x1 <= x - xr || x0 > x + xr || y1 <= y - yr || y0 > y + yr) return false;
-		return true;
-	}
-
-	public boolean intersects(Entity e) {
-		double xr = e.xr1 - e.xr0;
-		double yr = e.yr1 - e.yr0;
-		return intersects(e.x, e.y, e.x + xr, e.y + yr);
-	}
-
 	public boolean blocks(Entity e) {
 		return false;
+	}
+
+	public Level getLevel() {
+		return level;
+	}
+
+	public AxisAlignedBB getBB() {
+		return bb;
 	}
 }

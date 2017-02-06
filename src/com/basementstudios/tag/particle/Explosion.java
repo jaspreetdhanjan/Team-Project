@@ -2,6 +2,12 @@ package com.basementstudios.tag.particle;
 
 import com.basementstudios.tag.Entity;
 
+/**
+ * Creates an explosion effect within the game with use of other particles.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class Explosion extends Entity {
 	public double z;
 	public int life, maxLife;

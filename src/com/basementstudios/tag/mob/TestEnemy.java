@@ -11,10 +11,8 @@ public class TestEnemy extends Mob {
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 
-		xr0 = 5;
-		yr0 = 4;
-		xr1 = 13 + 16;
-		yr1 = 26 + 16;
+		xs = 13 + 16;
+		ys = 26 + 16;
 		
 		addComponent(new AIComponent(this));
 	}

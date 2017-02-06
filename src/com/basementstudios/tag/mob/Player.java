@@ -1,12 +1,16 @@
 package com.basementstudios.tag.mob;
 
-import java.util.List;
-
-import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
-import com.basementstudios.tag.projectile.Bullet;
+
+/**
+ * The player representation within the game.
+ * 
+ * @author Jaspreet Dhanjan
+ */
 
 public class Player extends Mob {
+	private AIAttackComponent attackComponent = new AIAttackComponent(this);
 	private int shootTime = 0;
 
 	public Player(double x, double y) {
@@ -14,10 +18,10 @@ public class Player extends Mob {
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 
-		xr0 = 5;
-		yr0 = 4;
-		xr1 = 13 + 16;
-		yr1 = 26 + 16;
+		xs = 13 + 16;
+		ys = 26 + 16;
+
+		addComponent(attackComponent);
 	}
 
 	public void tick() {
@@ -32,26 +36,7 @@ public class Player extends Mob {
 		if (shootTime != 0) return;
 		shootTime = 10;
 
-		double radius = 240.0;
-		Mob target = getNearestMob(radius);
-		if (target == null) return;
-
-		double dy = (target.y + (target.yr1 - target.yr0) / 3) - y;
-		double dx = (target.x + (target.xr1 - target.xr0) / 3) - x;
-		double dir = Math.atan2(dy, dx);
-		level.add(new Bullet(this, x, y, dir));
-	}
-
-	private Mob getNearestMob(double radius) {
-		Mob result = null;
-		List<Entity> entities = level.getEntities(x - radius, y - radius, x + radius, y + radius);
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-			if (e == this) continue;
-			if (e instanceof Mob) result = (Mob) e;
-		}
-
-		return result;
+		attackComponent.tryAttack(240.0);
 	}
 
 	public void render(Bitmap bm) {

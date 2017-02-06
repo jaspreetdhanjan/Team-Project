@@ -3,6 +3,12 @@ package com.basementstudios.tag.particle;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 
+/**
+ * Generates a single smoke particle.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class SmokeParticle extends Particle {
 	private int lifeTime;
 
@@ -26,7 +32,7 @@ public class SmokeParticle extends Particle {
 		xa += random.nextGaussian() * 0.01;
 		super.tick();
 	}
-	
+
 	public void collide(Entity otherEntity, double xxa, double yya, double zza) {
 		remove();
 	}

@@ -4,12 +4,13 @@ import java.util.*;
 
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.phys.AxisAlignedBB;
 
 public class Level {
-	public final int width, height;
+	private final int width, height;
+
 	private int playTime;
 	private List<Entity> entities = new ArrayList<Entity>();
-
 	private boolean isDirty = false;
 	private List<Entity> entitiesToRemove = new ArrayList<Entity>();
 	private List<Entity> tmpResult = new ArrayList<Entity>();
@@ -63,7 +64,9 @@ public class Level {
 		tmpResult.clear();
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
-			if (e.intersects(x0, y0, x1, y1)) {
+
+			AxisAlignedBB bb = e.getBB();
+			if (bb.overlaps(x0, y0, x1, y1)) {
 				tmpResult.add(e);
 			}
 		}
@@ -72,5 +75,13 @@ public class Level {
 
 	public int getPlayTime() {
 		return playTime;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

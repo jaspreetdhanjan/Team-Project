@@ -3,12 +3,16 @@ package com.basementstudios.tag.mob;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.particle.TextParticle;
 
+/**
+ * A moving and dynamic character within the game.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class Mob extends Entity {
 	public int health = 10;
 	public int hitTime = 0;
 	public int walkDist = 0;
-
-	public boolean moving = false;
 
 	public Mob(double x, double y) {
 		this.x = x;
@@ -23,14 +27,13 @@ public class Mob extends Entity {
 
 	private void move(double xxa, double yya) {
 		if (isRemoved()) return;
-		if (moving) moving = false;
 
-		double x0 = xxa + xr0;
-		double y0 = yya + yr0;
-		double x1 = xxa + xr1;
-		double y1 = yya + yr1;
+		double x0 = bb.x;
+		double y0 = bb.y;
+		double x1 = bb.x + bb.xs;
+		double y1 = bb.y + bb.ys;
 
-		if (x0 < 0 || y0 < 0 || x1 >= (level.width << 4) || y1 >= (level.height << 4)) {
+		if (x0 < 0 || y0 < 0 || x1 >= (level.getWidth() * 16) || y1 >= (level.getHeight() * 16)) {
 			collide(null, xxa, yya);
 			return;
 		}
@@ -38,24 +41,12 @@ public class Mob extends Entity {
 		x = xxa;
 		y = yya;
 		walkDist++;
-		moving = true;
+		bb.set(x, y, xs, ys);
 	}
 
 	public boolean blocks(Entity e) {
 		return true;
 	}
-
-/*	private boolean checkBlock(Block nextBlock, int xb, int yb, double xxa, double yya) {
-		if (nextBlock.getDamage() != 0) {
-			hurt(null, nextBlock.getDamage());
-			return true;
-		}
-		if (nextBlock.blocks(this)) {
-			collide(null, xxa, yya);
-			return true;
-		}
-		return false;
-	}*/
 
 	public void hurt(Entity hurtBy, int dmg) {
 		int colour = 0xff0000;

@@ -7,6 +7,13 @@ import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Player;
 import com.basementstudios.tag.mob.TestEnemy;
+import com.basementstudios.tag.util.Colour;
+
+/**
+ * The main screen. Is a screen representation for the game.
+ * 
+ * @author Jaspreet Dhanjan
+ */
 
 public class GameScreen extends Screen {
 	private Level currentLevel;
@@ -29,13 +36,10 @@ public class GameScreen extends Screen {
 		if (input.isDown(KeyEvent.VK_P)) player.attemptShoot();
 
 		player.attemptMove();
-		if (player.isRemoved()) {
-			game.setScreen(new DeathScreen(currentLevel));
-		}
 	}
 
 	public void render(Bitmap bm) {
-		bm.fill(0, 0, bm.width, bm.height, bm.hex(153, 204, 255));
+		bm.fill(0, 0, bm.width, bm.height, Colour.hex(153, 204, 255));
 		currentLevel.render(bm);
 	}
 }

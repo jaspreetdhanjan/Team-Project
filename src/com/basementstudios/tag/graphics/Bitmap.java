@@ -2,9 +2,16 @@ package com.basementstudios.tag.graphics;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * A fast drawing tool used to draw directly to the screen buffer.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class Bitmap {
 	public final int width, height;
 	public final int pixels[];
+
 	public boolean xFlip = false;
 	public boolean yFlip = false;
 
@@ -56,9 +63,5 @@ public class Bitmap {
 				pixels[x + y * width] = colour;
 			}
 		}
-	}
-
-	public int hex(int r, int g, int b) {
-		return (r << 16 | g << 8 | b);
 	}
 }

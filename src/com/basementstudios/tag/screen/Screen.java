@@ -4,8 +4,14 @@ import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
 
+/**
+ * A base class that localises all screen states.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class Screen {
-	public Game game;
+	protected Game game;
 
 	public final void init(Game game) {
 		this.game = game;
