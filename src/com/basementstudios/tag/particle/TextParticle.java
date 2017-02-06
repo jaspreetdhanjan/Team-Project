@@ -31,6 +31,6 @@ public class TextParticle extends Particle {
 	public void render(Bitmap bm) {
 		int xp = (int) x;
 		int yp = (int) (y - z);
-		Font.render(bm, msg, xp, yp, colour);
+		Font.instance.render(bm, msg, xp, yp, colour);
 	}
 }

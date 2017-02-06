@@ -38,9 +38,9 @@ public class DeathScreen extends Screen {
 	}
 
 	private void renderMsg(Bitmap bm, String msg, int xp, int yp, int colour) {
-		int xx = (Game.WIDTH - Font.getWidth(msg)) / 2;
+		int xx = (Game.WIDTH - Font.instance.getCharWidth(msg)) / 2;
 		int shade = 0x111111;
-		Font.render(bm, msg, xx + 1, yp + 1, shade);
-		Font.render(bm, msg, xx, yp, colour);
+		Font.instance.render(bm, msg, xx + 1, yp + 1, shade);
+		Font.instance.render(bm, msg, xx, yp, colour);
 	}
 }

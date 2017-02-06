@@ -22,8 +22,8 @@ public class PauseScreen extends Screen {
 		bm.fill(0, 0, bm.width, bm.height, 0xffffff);
 
 		String m = "Click to focus!";
-		int xo = (Game.WIDTH - Font.getWidth(m)) / 2;
+		int xo = (Game.WIDTH - Font.instance.getCharWidth(m)) / 2;
 		int yo = (Game.HEIGHT - 8) / 2;
-		Font.render(bm, m, xo, yo, 0xff);
+		Font.instance.render(bm, m, xo, yo, 0xff);
 	}
 }

@@ -25,9 +25,9 @@ public class Game extends Canvas implements Runnable {
 	public static final int SCALE = 2;
 	public static final String TITLE = "The Adventurers' Guild";
 
-	private String fpsString = "";
-	
 	private boolean stop = false;
+	private String fpsString = "";
+
 	private BufferedImage screenImage;
 	private int[] pixels;
 	private Bitmap screenBitmap;
@@ -69,7 +69,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer1 > 1000) {
 				lastTimer1 += 1000;
-//				System.out.println(ticks + " ticks, " + frames + " fps");
+				// System.out.println(ticks + " ticks, " + frames + " fps");
 				fpsString = ticks + " ticks, " + frames + " fps";
 				ticks = 0;
 				frames = 0;
@@ -111,7 +111,7 @@ public class Game extends Canvas implements Runnable {
 		int h = HEIGHT;
 
 		screen.render(screenBitmap);
-		Font.render(screenBitmap, fpsString, 6, 6, 0);
+		Font.instance.render(screenBitmap, fpsString, 6, 6, 0);
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
 				pixels[x + y * w] = screenBitmap.pixels[x + y * w];

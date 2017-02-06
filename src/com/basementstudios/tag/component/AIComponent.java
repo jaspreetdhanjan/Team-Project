@@ -10,6 +10,8 @@ public class AIComponent implements Component {
 	}
 
 	public void tick() {
-		mob.xa = 1;
+		mob.xa++;
+		mob.attemptMove();
+		mob.xa = 0;
 	}
 }

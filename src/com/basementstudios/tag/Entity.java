@@ -17,19 +17,19 @@ public class Entity {
 	public double x, y;
 	public double xa, ya;
 	public double xr0, yr0, xr1, yr1;
-	
+
 	private List<Component> components = new ArrayList<Component>();
 
 	public final void init(Level level) {
 		this.level = level;
 	}
-	
+
 	public void addComponent(Component c) {
 		components.add(c);
 	}
 
 	public void tick() {
-		for(Component com : components) {
+		for (Component com : components) {
 			com.tick();
 		}
 	}

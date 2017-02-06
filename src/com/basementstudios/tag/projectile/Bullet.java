@@ -6,6 +6,9 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.mob.Mob;
 
+// Largely unfinished
+// Do not attempt to fix this
+
 public class Bullet extends Entity {
 	private Mob launchedBy;
 //	private double xOrigin, yOrigin;

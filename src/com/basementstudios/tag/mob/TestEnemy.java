@@ -21,6 +21,8 @@ public class TestEnemy extends Mob {
 
 	public void tick() {
 		super.tick();
+		
+		attemptMove();
 	}
 
 	public void render(Bitmap bm) {

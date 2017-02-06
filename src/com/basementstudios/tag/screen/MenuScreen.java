@@ -19,15 +19,16 @@ public class MenuScreen extends Screen {
 
 	public void render(Bitmap bm) {
 		bm.fill(0, 0, bm.width, bm.height, 0xffffff);
-		int xom = (Game.WIDTH - Font.getWidth(Game.TITLE)) / 2;
-		Font.render(bm, Game.TITLE, xom, 64, 0);
+
+		int xom = (Game.WIDTH - Font.instance.getCharWidth(Game.TITLE)) / 2;
+		Font.instance.render(bm, Game.TITLE, xom, 64, 0);
 
 		for (int i = 0; i < options.length; i++) {
 			String option = options[i];
 			if (i == selected) option = "-> " + option;
-			int xo = (Game.WIDTH - Font.getWidth(option)) / 2;
+			int xo = (Game.WIDTH - Font.instance.getCharWidth(option)) / 2;
 			int yo = 100 + i * 20;
-			Font.render(bm, option, xo, yo, 0);
+			Font.instance.render(bm, option, xo, yo, 0);
 		}
 	}
 }
