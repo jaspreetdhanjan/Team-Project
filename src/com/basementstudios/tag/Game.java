@@ -32,6 +32,23 @@ public class Game extends Canvas implements Runnable {
 	private Input input;
 	private Screen screen;
 
+	public Game() {
+		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+		setMinimumSize(d);
+		setMaximumSize(d);
+		setPreferredSize(d);
+
+		JFrame frame = new JFrame(TITLE);
+		frame.add(this);
+		frame.pack();
+		frame.setResizable(false);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+
+		new Thread(this, "Game Thread").start();
+	}
+
 	public void setScreen(Screen screen) {
 		this.screen = screen;
 		screen.init(this);
@@ -124,21 +141,5 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(screenImage, (w - wr) / 2, (h - hr) / 2, wr, hr, null);
 		g.dispose();
 		bs.show();
-	}
-
-	public static void main(String[] args) {
-		Game game = new Game();
-		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
-		game.setMinimumSize(d);
-		game.setMaximumSize(d);
-		game.setPreferredSize(d);
-		JFrame frame = new JFrame(TITLE);
-		frame.add(game);
-		frame.pack();
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		new Thread(game, "Game Thread").start();
 	}
 }
