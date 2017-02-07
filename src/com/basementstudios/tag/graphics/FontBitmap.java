@@ -1,7 +1,7 @@
 package com.basementstudios.tag.graphics;
 
 public class FontBitmap {
-	public static final String CHARS = "" + //
+	private static final String CHARS = "" + //
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?\"'/\\<>()[]{}" + //
 			"abcdefghijklmnopqrstuvwxyz_               " + //
 			"0123456789+-=*:;ÖÅÄå                      " + //
@@ -26,5 +26,9 @@ public class FontBitmap {
 
 	public int getCharHeight() {
 		return charHeight;
+	}
+	
+	public String getAlphabet() {
+		return FontBitmap.CHARS;
 	}
 }

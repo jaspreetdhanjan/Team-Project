@@ -30,6 +30,6 @@ public class PauseScreen extends Screen {
 		String m = "Paused";
 		int xo = (Game.WIDTH - Font.instance.getCharWidth(m)) / 2;
 		int yo = (Game.HEIGHT - 8) / 2;
-		Font.instance.render(bm, m, xo, yo, 0xff);
+		Font.instance.draw(bm, m, xo, yo, 0xff);
 	}
 }

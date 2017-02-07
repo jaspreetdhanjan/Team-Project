@@ -1,6 +1,7 @@
 package com.basementstudios.tag.graphics;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 /**
  * A fast drawing tool used to draw directly to the screen buffer.
@@ -48,6 +49,10 @@ public class Bitmap {
 				if (src < 0) pixels[xPixel + yPixel * width] = src & colour;
 			}
 		}
+	}
+
+	public void clear() {
+		Arrays.fill(pixels, 0);
 	}
 
 	public void fill(int x0, int y0, int x1, int y1, int colour) {

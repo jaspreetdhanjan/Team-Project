@@ -15,7 +15,11 @@ public class MenuScreen extends Screen {
 	private String[] options = { "Play", "Exit" };
 	private int selected = 0;
 
+	private int tickCount = 0;
+
 	public void tick(Input input) {
+		tickCount++;
+
 		if ((input.up.clicked || input.left.clicked) && selected > 0) selected--;
 		if ((input.down.clicked || input.right.clicked) && selected < options.length - 1) selected++;
 
@@ -24,17 +28,21 @@ public class MenuScreen extends Screen {
 	}
 
 	public void render(Bitmap bm) {
-		bm.fill(0, 0, bm.width, bm.height, 0xffffff);
+		// Does cool pixel distortion! Plz don't remove
+		bm.clear();
+		for (int i = 0; i < bm.pixels.length; i++) {
+			bm.pixels[i] = ((i + tickCount) & 32) << 1;
+		}
 
 		int xom = (Game.WIDTH - Font.instance.getCharWidth(Game.TITLE)) / 2;
-		Font.instance.render(bm, Game.TITLE, xom, 64, 0);
+		Font.instance.draw(bm, Game.TITLE, xom, 64, 0xffffff);
 
 		for (int i = 0; i < options.length; i++) {
 			String option = options[i];
 			if (i == selected) option = "-> " + option;
 			int xo = (Game.WIDTH - Font.instance.getCharWidth(option)) / 2;
 			int yo = 100 + i * 20;
-			Font.instance.render(bm, option, xo, yo, 0);
+			Font.instance.draw(bm, option, xo, yo, 0xffffff);
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable {
 	private Input input;
 	private Screen screen;
 
-	public Game() {
+	public Game(CharacterInfo characterInfo) {
 		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 		setMinimumSize(d);
 		setMaximumSize(d);
@@ -126,7 +126,7 @@ public class Game extends Canvas implements Runnable {
 		int h = HEIGHT;
 
 		screen.render(screenBitmap);
-		Font.instance.render(screenBitmap, fpsString, 6, 6, 0);
+		Font.instance.drawShadowed(screenBitmap, fpsString, 6, 6, 0xffffff);
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
 				pixels[x + y * w] = screenBitmap.pixels[x + y * w];
@@ -141,5 +141,9 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(screenImage, (w - wr) / 2, (h - hr) / 2, wr, hr, null);
 		g.dispose();
 		bs.show();
+	}
+
+	public static void main(String[] args) {
+		new Game(null);
 	}
 }

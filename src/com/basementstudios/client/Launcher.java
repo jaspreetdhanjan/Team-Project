@@ -59,14 +59,14 @@ public class Launcher {
 				String password = new String(passwordField.getPassword());
 
 				if (!LoginController.verifyDetails(username, password)) {
-					new Game();
+					new Game(null);
 					frame.dispose();
 				}
 			}
 		});
 	}
 
-	public static void main(String[] args) {
-		new Launcher(new Dimension(WIDTH, HEIGHT));
-	}
+//	public static void main(String[] args) {
+//		new Launcher(new Dimension(WIDTH, HEIGHT));
+//	}
 }
