@@ -27,22 +27,22 @@ public class MenuScreen extends Screen {
 		if (selected == 1 && (input.enter.clicked || input.space.clicked)) exit();
 	}
 
-	public void render(Bitmap bm) {
+	public void renderScene(Bitmap bm) {
 		// Does cool pixel distortion! Plz don't remove
 		bm.clear();
 		for (int i = 0; i < bm.pixels.length; i++) {
-			bm.pixels[i] = ((i + tickCount) & 32) << 1;
+			bm.pixels[i] = ((i + tickCount) & 128);
 		}
 
-		int xom = (Game.WIDTH - Font.instance.getCharWidth(Game.TITLE)) / 2;
-		Font.instance.draw(bm, Game.TITLE, xom, 64, 0xffffff);
+		int xom = (Game.WIDTH - Font.getInstance().getCharWidth(Game.TITLE)) / 2;
+		Font.getInstance().draw(bm, Game.TITLE, xom, 84, 0xffffff);
 
 		for (int i = 0; i < options.length; i++) {
 			String option = options[i];
 			if (i == selected) option = "-> " + option;
-			int xo = (Game.WIDTH - Font.instance.getCharWidth(option)) / 2;
-			int yo = 100 + i * 20;
-			Font.instance.draw(bm, option, xo, yo, 0xffffff);
+			int xo = (Game.WIDTH - Font.getInstance().getCharWidth(option)) / 2;
+			int yo = 128 + i * 20;
+			Font.getInstance().draw(bm, option, xo, yo, 0xffffff);
 		}
 	}
 }

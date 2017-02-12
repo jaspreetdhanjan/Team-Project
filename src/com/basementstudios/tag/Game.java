@@ -18,10 +18,11 @@ import com.basementstudios.tag.screen.*;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 640;
-	public static final int HEIGHT = 320;
+	public static final int WIDTH = 400;
+	public static final int HEIGHT = 300;
 	public static final int SCALE = 2;
 	public static final String TITLE = "The Adventurers' Guild";
+	public static final String VERSION = "Prototype 1";
 
 	private boolean stop = false;
 	private String fpsString = "";
@@ -104,11 +105,11 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void tick() {
-		if (!hasFocus() && screen instanceof GameScreen) {
+		if (!hasFocus() && (screen instanceof GameScreen)) {
 			setScreen(new PauseScreen(screen));
 			return;
 		}
-
+		
 		input.tick();
 		screen.tick(input);
 	}
@@ -126,7 +127,8 @@ public class Game extends Canvas implements Runnable {
 		int h = HEIGHT;
 
 		screen.render(screenBitmap);
-		Font.instance.drawShadowed(screenBitmap, fpsString, 6, 6, 0xffffff);
+		Font.getInstance().drawShadowed(screenBitmap, VERSION, 6, 6, 0xffffff);
+		Font.getInstance().drawShadowed(screenBitmap, fpsString, 6, 6+12, 0xffffff);
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
 				pixels[x + y * w] = screenBitmap.pixels[x + y * w];

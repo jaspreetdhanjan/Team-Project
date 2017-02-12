@@ -35,7 +35,6 @@ public class Player extends Mob {
 	public void attemptShoot() {
 		if (shootTime != 0) return;
 		shootTime = 10;
-
 		attackComponent.tryAttack(240.0);
 	}
 
@@ -46,16 +45,27 @@ public class Player extends Mob {
 			colour = 0xcc0000;
 		}
 
-		xSpriteIndex = 0;
-		if (xa != 0) xSpriteIndex = 2;
+		if (xa == 0) {
+			xSpriteIndex = 0;
+			ySpriteIndex = 0;
+		} else if (xa < 0) {
+			xSpriteIndex = 0;
+			ySpriteIndex = 1;
 
-		if (xa < 0) bm.xFlip = true;
-		if (xa > 0) bm.xFlip = false;
+			if (isMoving()) {
+				xSpriteIndex = (walkDist/10) % 4;
+			}
+		} else if (xa > 0) {
+			xSpriteIndex = 0;
+			ySpriteIndex = 3;
+
+			if (isMoving()) {
+				xSpriteIndex = (walkDist/10) % 4;
+			}
+		}
 
 		int xp = (int) x;
 		int yp = (int) y;
-		bm.render(SpriteSheet.entities[xSpriteIndex][ySpriteIndex + 0], xp, yp, colour);
-		bm.render(SpriteSheet.entities[xSpriteIndex][ySpriteIndex + 1], xp, yp + 16, colour);
-		if (bm.xFlip == true) bm.xFlip = false;
+		bm.render(SpriteSheet.chars[xSpriteIndex][ySpriteIndex], xp, yp, colour);
 	}
 }

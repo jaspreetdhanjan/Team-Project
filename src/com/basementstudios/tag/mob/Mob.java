@@ -12,7 +12,7 @@ import com.basementstudios.tag.particle.TextParticle;
 public class Mob extends Entity {
 	public int health = 10;
 	public int hitTime = 0;
-	public int walkDist = 0;
+	public int lastWalkDist, walkDist;
 
 	public Mob(double x, double y) {
 		this.x = x;
@@ -28,12 +28,14 @@ public class Mob extends Entity {
 	private void move(double xxa, double yya) {
 		if (isRemoved()) return;
 
+		lastWalkDist = walkDist;
+		
 		double x0 = bb.x;
 		double y0 = bb.y;
 		double x1 = bb.x + bb.xs;
 		double y1 = bb.y + bb.ys;
 
-		if (x0 < 0 || y0 < 0 || x1 >= (level.getWidth() * 16) || y1 >= (level.getHeight() * 16)) {
+		if (x0 < 0 || y0 < 0 || x1 >= level.getWidth() || y1 >= level.getHeight()) {
 			collide(null, xxa, yya);
 			return;
 		}
@@ -42,6 +44,10 @@ public class Mob extends Entity {
 		y = yya;
 		walkDist++;
 		bb.set(x, y, xs, ys);
+	}
+	
+	public boolean isMoving() {
+		return walkDist != lastWalkDist;
 	}
 
 	public boolean blocks(Entity e) {
@@ -78,7 +84,7 @@ public class Mob extends Entity {
 	}
 
 	public void collide(Entity otherEntity, double xxa, double yya) {
-		if (xxa != 0) xa = 0;
-		if (yya != 0) ya = 0;
+		if (xxa != 0) xa = -1*20;
+		if (yya != 0) ya = -1*20;
 	}
 }

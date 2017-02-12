@@ -24,12 +24,12 @@ public class PauseScreen extends Screen {
 		}
 	}
 
-	public void render(Bitmap bm) {
+	public void renderScene(Bitmap bm) {
 		bm.fill(0, 0, bm.width, bm.height, 0xffffff);
 
 		String m = "Paused";
-		int xo = (Game.WIDTH - Font.instance.getCharWidth(m)) / 2;
+		int xo = (Game.WIDTH - Font.getInstance().getCharWidth(m)) / 2;
 		int yo = (Game.HEIGHT - 8) / 2;
-		Font.instance.draw(bm, m, xo, yo, 0xff);
+		Font.getInstance().draw(bm, m, xo, yo, 0xff);
 	}
 }

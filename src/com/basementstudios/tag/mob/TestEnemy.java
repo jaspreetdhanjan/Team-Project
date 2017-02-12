@@ -1,8 +1,7 @@
 package com.basementstudios.tag.mob;
 
 import com.basementstudios.tag.component.AIComponent;
-import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
+import com.basementstudios.tag.graphics.*;
 
 public class TestEnemy extends Mob {
 	public TestEnemy(double x, double y) {
@@ -13,13 +12,13 @@ public class TestEnemy extends Mob {
 
 		xs = 13 + 16;
 		ys = 26 + 16;
-		
+
 		addComponent(new AIComponent(this));
 	}
 
 	public void tick() {
 		super.tick();
-		
+
 		attemptMove();
 	}
 

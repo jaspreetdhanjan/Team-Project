@@ -15,9 +15,9 @@ public class Level {
 	private List<Entity> entitiesToRemove = new ArrayList<Entity>();
 	private List<Entity> tmpResult = new ArrayList<Entity>();
 
-	public Level(Bitmap map) {
-		width = map.width;
-		height = map.height;
+	public Level(int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void add(Entity e) {

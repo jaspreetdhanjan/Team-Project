@@ -1,12 +1,23 @@
 package com.basementstudios.tag.graphics;
 
 public class Font {
-	public static final Font instance = new Font(new FontBitmap(SpriteSheet.font, 6, 8));
+	private static Font singleton;
+
+	public static Font getInstance() {
+		if (singleton == null) {
+			singleton = new Font(new FontBitmap(SpriteSheet.font, 6, 8));
+		}
+		return singleton;
+	}
 
 	private FontBitmap fontSheet;
 
 	public Font(FontBitmap fontSheet) {
 		this.fontSheet = fontSheet;
+	}
+
+	public void drawBg(Bitmap bm, int x, int y, int w, int h) {
+		bm.fill(x, y, x + w, y + h, 0xffffff);
 	}
 
 	public void draw(Bitmap bm, String msg, int xp, int yp, int colour) {
@@ -21,7 +32,7 @@ public class Font {
 	}
 
 	public void drawShadowed(Bitmap bm, String msg, int xp, int yp, int colour) {
-		draw(bm, msg, xp + 1, yp + 1, 0x000000);
+		draw(bm, msg, xp + 1, yp + 1, 0x111111);
 		draw(bm, msg, xp + 0, yp + 0, colour);
 	}
 

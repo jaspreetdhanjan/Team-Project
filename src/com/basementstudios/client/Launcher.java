@@ -66,7 +66,7 @@ public class Launcher {
 		});
 	}
 
-//	public static void main(String[] args) {
-//		new Launcher(new Dimension(WIDTH, HEIGHT));
-//	}
+	//public static void main(String[] args) {
+	//	new Launcher(new Dimension(WIDTH, HEIGHT));
+	//}
 }
