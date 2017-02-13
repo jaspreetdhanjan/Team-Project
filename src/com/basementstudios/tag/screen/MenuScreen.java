@@ -1,5 +1,8 @@
 package com.basementstudios.tag.screen;
 
+import java.util.ArrayList;
+
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
@@ -16,6 +19,12 @@ public class MenuScreen extends Screen {
 	private int selected = 0;
 
 	private int tickCount = 0;
+	
+	private ArrayList<CharacterData> selectedCharas;
+	
+	public MenuScreen (ArrayList<CharacterData> selectedCharas){
+		this.selectedCharas=selectedCharas;
+	}
 
 	public void tick(Input input) {
 		tickCount++;
@@ -23,7 +32,7 @@ public class MenuScreen extends Screen {
 		if ((input.up.clicked || input.left.clicked) && selected > 0) selected--;
 		if ((input.down.clicked || input.right.clicked) && selected < options.length - 1) selected++;
 
-		if (selected == 0 && (input.enter.clicked || input.space.clicked)) game.setScreen(new GameScreen());
+		if (selected == 0 && (input.enter.clicked || input.space.clicked)) game.setScreen(new GameScreen(selectedCharas));
 		if (selected == 1 && (input.enter.clicked || input.space.clicked)) exit();
 	}
 

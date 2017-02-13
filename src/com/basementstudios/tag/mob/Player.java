@@ -2,6 +2,7 @@ package com.basementstudios.tag.mob;
 
 import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
+import com.basementstudios.network.*;
 
 /**
  * The player representation within the game.
@@ -12,9 +13,11 @@ import com.basementstudios.tag.graphics.*;
 public class Player extends Mob {
 	private AIAttackComponent attackComponent = new AIAttackComponent(this);
 	private int shootTime = 0;
+	private CharacterData characterData;
 
-	public Player(double x, double y) {
+	public Player(double x, double y,CharacterData characterData) {
 		super(x, y);
+		this.characterData=characterData;
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 
@@ -67,5 +70,13 @@ public class Player extends Mob {
 		int xp = (int) x;
 		int yp = (int) y;
 		bm.render(SpriteSheet.chars[xSpriteIndex][ySpriteIndex], xp, yp, colour);
+	}
+
+	public CharacterData getCharacterData() {
+		return characterData;
+	}
+
+	public void setCharacterData(CharacterData characterData) {
+		this.characterData = characterData;
 	}
 }

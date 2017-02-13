@@ -2,12 +2,15 @@ package com.basementstudios.tag;
 
 import java.awt.*;
 import java.awt.image.*;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.screen.*;
+import com.basementstudios.network.*;
+import com.basementstudios.network.CharacterData;
 
 /**
  * Entry-point for the main application.
@@ -22,7 +25,7 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = 300;
 	public static final int SCALE = 2;
 	public static final String TITLE = "The Adventurers' Guild";
-	public static final String VERSION = "Prototype 1";
+	public static final String VERSION = "Network Pre Alpha 1";
 
 	private boolean stop = false;
 	private String fpsString = "";
@@ -32,8 +35,11 @@ public class Game extends Canvas implements Runnable {
 	private Bitmap screenBitmap;
 	private Input input;
 	private Screen screen;
+	
+	private ArrayList<CharacterData> selectedCharas;
 
-	public Game(CharacterInfo characterInfo) {
+	public Game(ArrayList<CharacterData> selectedCharas) {
+		this.selectedCharas = selectedCharas;
 		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 		setMinimumSize(d);
 		setMaximumSize(d);
@@ -101,7 +107,7 @@ public class Game extends Canvas implements Runnable {
 		screenBitmap = new Bitmap(screenImage);
 
 		input = new Input(this);
-		setScreen(new MenuScreen());
+		setScreen(new MenuScreen(selectedCharas));
 	}
 
 	private void tick() {
