@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
 public class PostRequest {
 	public JSONObject send(String urlString, Map<String, String> arguments) throws IOException, ParseException {
 		URL url = new URL(urlString);
@@ -37,17 +36,8 @@ public class PostRequest {
 		}
 
 		JSONParser parser = new JSONParser();
-		String s = IOUtils.toString(http.getInputStream(),"UTF-8");
-		//System.out.println(s);
+		String s = IOUtils.toString(http.getInputStream(), "UTF-8");
 		JSONObject obj = (JSONObject) parser.parse(s);
-
 		return obj;
-	}
-
-	private String convertStreamToString(InputStream is) {
-		Scanner s = new Scanner(is);
-		String ss = s.hasNext() ? s.next() : "";
-		s.close();
-		return ss;
 	}
 }

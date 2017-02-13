@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 
 import com.basementstudios.network.CharaSelect;
 import com.basementstudios.network.Token;
-import com.basementstudios.tag.Game;
 
 public class Launcher {
 	public static final String TITLE = "The Adventurers' Guild Launcher";
@@ -26,12 +25,11 @@ public class Launcher {
 	private final JLabel lblLogin = new JLabel("Login");
 	private final JLabel lblUsername = new JLabel("Username");
 	private final JLabel lblPassword = new JLabel("Password");
-	
 
 	public Launcher() {
 		lblUsername.setLabelFor(lblUsername);
 		lblPassword.setLabelFor(passwordField);
-		Dimension dimension = new Dimension(300,200);
+		Dimension dimension = new Dimension(300, 200);
 		frame.setMinimumSize(dimension);
 		frame.setMaximumSize(dimension);
 		frame.setPreferredSize(dimension);
@@ -50,26 +48,26 @@ public class Launcher {
 
 		addActionListeners(loginButton);
 		GridBagLayout gbl_centerPanel = new GridBagLayout();
-		gbl_centerPanel.columnWidths = new int[]{294, 0};
-		gbl_centerPanel.rowHeights = new int[]{20, 20, 20, 20, 0};
-		gbl_centerPanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_centerPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_centerPanel.columnWidths = new int[] { 294, 0 };
+		gbl_centerPanel.rowHeights = new int[] { 20, 20, 20, 20, 0 };
+		gbl_centerPanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		gbl_centerPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		centerPanel.setLayout(gbl_centerPanel);
-		
+
 		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 		gbc_lblUsername.fill = GridBagConstraints.VERTICAL;
 		gbc_lblUsername.insets = new Insets(0, 0, 5, 0);
 		gbc_lblUsername.gridx = 0;
 		gbc_lblUsername.gridy = 0;
 		centerPanel.add(lblUsername, gbc_lblUsername);
-		
-				GridBagConstraints gbc_usernameField = new GridBagConstraints();
-				gbc_usernameField.insets = new Insets(0, 0, 5, 0);
-				gbc_usernameField.gridx = 0;
-				gbc_usernameField.gridy = 1;
-				usernameField.setColumns(20);
-				centerPanel.add(usernameField, gbc_usernameField);
-		
+
+		GridBagConstraints gbc_usernameField = new GridBagConstraints();
+		gbc_usernameField.insets = new Insets(0, 0, 5, 0);
+		gbc_usernameField.gridx = 0;
+		gbc_usernameField.gridy = 1;
+		usernameField.setColumns(20);
+		centerPanel.add(usernameField, gbc_usernameField);
+
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
 		gbc_lblPassword.insets = new Insets(0, 0, 5, 0);
 		gbc_lblPassword.gridx = 0;
@@ -84,7 +82,7 @@ public class Launcher {
 
 		frame.getContentPane().add(northPanel, BorderLayout.NORTH);
 		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 15));
-		
+
 		northPanel.add(lblLogin);
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
@@ -97,18 +95,17 @@ public class Launcher {
 
 				String username = usernameField.getText();
 				String password = new String(passwordField.getPassword());
-				JSONObject loginData=LoginController.login(username, password);
+				JSONObject loginData = LoginController.login(username, password);
 
 				if ((boolean) loginData.get("success")) {
-					Token token = new Token((String) loginData.get("token"));
+					new Token((String) loginData.get("token"));
 					System.out.println((String) loginData.get("token"));
 					new CharaSelect();
 					frame.dispose();
-				}else{
-						JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 	}
-
 }

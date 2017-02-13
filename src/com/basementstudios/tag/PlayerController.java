@@ -1,6 +1,6 @@
 package com.basementstudios.tag;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.graphics.Bitmap;
@@ -20,12 +20,12 @@ public class PlayerController {
 	private Player selectedPlayer = null;
 	private int selectionIndex = PLAYER_NONE;
 
-	public void addPlayers(Level level, double x, double y,ArrayList<CharacterData> selectedCharas) {
+	public void addPlayers(Level level, double x, double y, List<CharacterData> selectedCharas) {
 		this.level = level;
 
-		p0 = new Player(x, y + 30 * 0,selectedCharas.get(0));
-		p1 = new Player(x, y + 30 * 1,selectedCharas.get(1));
-		p2 = new Player(x, y + 30 * 2,selectedCharas.get(2));
+		p0 = new Player(x, y + 30 * 0, selectedCharas.get(0));
+		p1 = new Player(x, y + 30 * 1, selectedCharas.get(1));
+		p2 = new Player(x, y + 30 * 2, selectedCharas.get(2));
 
 		this.level.add(p0);
 		this.level.add(p1);

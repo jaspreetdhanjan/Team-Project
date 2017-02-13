@@ -2,14 +2,13 @@ package com.basementstudios.tag;
 
 import java.awt.*;
 import java.awt.image.*;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.screen.*;
-import com.basementstudios.network.*;
 import com.basementstudios.network.CharacterData;
 
 /**
@@ -35,11 +34,12 @@ public class Game extends Canvas implements Runnable {
 	private Bitmap screenBitmap;
 	private Input input;
 	private Screen screen;
-	
-	private ArrayList<CharacterData> selectedCharas;
 
-	public Game(ArrayList<CharacterData> selectedCharas) {
+	private List<CharacterData> selectedCharas;
+
+	public Game(List<CharacterData> selectedCharas) {
 		this.selectedCharas = selectedCharas;
+		
 		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 		setMinimumSize(d);
 		setMaximumSize(d);
@@ -115,7 +115,7 @@ public class Game extends Canvas implements Runnable {
 			setScreen(new PauseScreen(screen));
 			return;
 		}
-		
+
 		input.tick();
 		screen.tick(input);
 	}
@@ -134,7 +134,7 @@ public class Game extends Canvas implements Runnable {
 
 		screen.render(screenBitmap);
 		Font.getInstance().drawShadowed(screenBitmap, VERSION, 6, 6, 0xffffff);
-		Font.getInstance().drawShadowed(screenBitmap, fpsString, 6, 6+12, 0xffffff);
+		Font.getInstance().drawShadowed(screenBitmap, fpsString, 6, 6 + 12, 0xffffff);
 		for (int y = 0; y < h; y++) {
 			for (int x = 0; x < w; x++) {
 				pixels[x + y * w] = screenBitmap.pixels[x + y * w];

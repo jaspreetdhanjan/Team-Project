@@ -1,6 +1,6 @@
 package com.basementstudios.tag.screen;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
@@ -19,11 +19,11 @@ public class MenuScreen extends Screen {
 	private int selected = 0;
 
 	private int tickCount = 0;
-	
-	private ArrayList<CharacterData> selectedCharas;
-	
-	public MenuScreen (ArrayList<CharacterData> selectedCharas){
-		this.selectedCharas=selectedCharas;
+
+	private List<CharacterData> selectedCharas;
+
+	public MenuScreen(List<CharacterData> selectedCharas) {
+		this.selectedCharas = selectedCharas;
 	}
 
 	public void tick(Input input) {

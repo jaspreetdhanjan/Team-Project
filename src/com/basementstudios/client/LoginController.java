@@ -3,8 +3,6 @@ package com.basementstudios.client;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
@@ -26,9 +24,6 @@ public class LoginController {
 		}
 
 		System.out.println(loginData.toString());
-
 		return loginData;
-		
-		
 	}
 }
