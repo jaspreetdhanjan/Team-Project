@@ -7,33 +7,29 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 
-public class Audio implements Runnable{
-	
-	private Clip clip;
+public class Audio implements Runnable {
 	private AudioInputStream inputStream;
+
+	private Clip clip;
 	private Thread thread;
-	
-	public Audio(String path) throws Exception{
-        	this.inputStream = AudioSystem.getAudioInputStream(
-        		this.getClass().getResourceAsStream(path));
+
+	public Audio(String path) throws Exception {
+		inputStream = AudioSystem.getAudioInputStream(this.getClass().getResourceAsStream(path));
 	}
-	
+
 	public synchronized void play() {
-		this.thread = new Thread(this);
-		this.thread.setName(this.toString());
-		this.thread.start();
+		thread = new Thread(this);
+		thread.setName(this.toString());
+		thread.start();
 	}
-	
-	@Override
+
 	public void run() {
 		try {
-			this.clip = AudioSystem.getClip();
-			this.clip.open(this.inputStream);
-			clip.start(); 
+			clip = AudioSystem.getClip();
+			clip.open(inputStream);
+			clip.start();
 		} catch (LineUnavailableException | IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
-	
 }
