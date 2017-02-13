@@ -19,7 +19,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CharaSelect {
-	private JFrame frame;
+	private JFrame frame = new JFrame();
 	private boolean chara1, chara2, chara3;
 	private CharaViewControler charaViewControler;
 	private DefaultListModel<CharacterData> modal;
@@ -27,9 +27,12 @@ public class CharaSelect {
 	public CharaSelect() {
 		charaViewControler = new CharaViewControler();
 		modal = charaViewControler.getModal();
-		frame = new JFrame();
-		if (modal.getSize() > 3) initialize();
-		else JOptionPane.showMessageDialog(frame.getContentPane(), "You need at least 3 characters to play the game go online to add more", "Error", JOptionPane.ERROR_MESSAGE);
+
+		if (modal.getSize() >= 3) {
+			initialize();
+		} else {
+			JOptionPane.showMessageDialog(frame.getContentPane(), "You need at least 3 characters to play the game go online to add more", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
