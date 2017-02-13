@@ -23,6 +23,9 @@ public class Game extends Canvas implements Runnable {
 	public static final int WIDTH = 400;
 	public static final int HEIGHT = 300;
 	public static final int SCALE = 2;
+	public static final int SCALED_WIDTH = WIDTH * SCALE;
+	public static final int SCALED_HEIGHT = HEIGHT * SCALE;
+
 	public static final String TITLE = "The Adventurers' Guild";
 	public static final String VERSION = "Pre-Alpha 2.0";
 
@@ -127,27 +130,32 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
+		bitmapRender(Font.getInstance());
+
 		int wr = getWidth();
 		int hr = getHeight();
-		int w = WIDTH;
-		int h = HEIGHT;
-
-		screen.render(screenBitmap);
-		Font.getInstance().drawShadowed(screenBitmap, VERSION, 6, 6, 0xffffff);
-		Font.getInstance().drawShadowed(screenBitmap, fpsString, 6, 6 + 12, 0xffffff);
-		for (int y = 0; y < h; y++) {
-			for (int x = 0; x < w; x++) {
-				pixels[x + y * w] = screenBitmap.pixels[x + y * w];
-			}
-		}
-		w *= SCALE;
-		h *= SCALE;
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, wr, hr);
-		g.drawImage(screenImage, (w - wr) / 2, (h - hr) / 2, wr, hr, null);
+		g.drawImage(screenImage, (SCALED_WIDTH - wr) / 2, (SCALED_HEIGHT - hr) / 2, wr, hr, null);
 		g.dispose();
 		bs.show();
+	}
+
+	private void bitmapRender(Font font) {
+		// Draw the "screen" – i.e. Game Screen
+		screen.render(screenBitmap);
+
+		// Overlay debug info – FPS, ticks
+		font.drawShadowed(screenBitmap, VERSION, 6, 6, 0xffffff);
+		font.drawShadowed(screenBitmap, fpsString, 6, 6 + 12, 0xffffff);
+
+		// Pass to the BufferedImage
+		for (int y = 0; y < HEIGHT; y++) {
+			for (int x = 0; x < WIDTH; x++) {
+				pixels[x + y * WIDTH] = screenBitmap.pixels[x + y * WIDTH];
+			}
+		}
 	}
 }
