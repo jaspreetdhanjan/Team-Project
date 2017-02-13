@@ -1,5 +1,6 @@
 package com.basementstudios.tag.mob;
 
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.particle.TextParticle;
 
@@ -9,14 +10,17 @@ import com.basementstudios.tag.particle.TextParticle;
  * @author Jaspreet Dhanjan
  */
 
+// Combat will eventually be replaced and fix, these are some placeholder classes for when Nick is finished...
 public class Mob extends Entity {
-	public int health = 10;
+	private final CharacterData characterData;
+
 	public int hitTime = 0;
 	public int lastWalkDist, walkDist;
 
-	public Mob(double x, double y) {
+	public Mob(double x, double y, CharacterData characterData) {
 		this.x = x;
 		this.y = y;
+		this.characterData = characterData;
 	}
 
 	public void attemptMove() {
@@ -29,11 +33,11 @@ public class Mob extends Entity {
 		if (isRemoved()) return;
 
 		lastWalkDist = walkDist;
-		
+
 		double x0 = bb.x;
 		double y0 = bb.y;
-		double x1 = bb.x + bb.xs;
-		double y1 = bb.y + bb.ys;
+		double x1 = bb.x + bb.xSize;
+		double y1 = bb.y + bb.ySize;
 
 		if (x0 < 0 || y0 < 0 || x1 >= level.getWidth() || y1 >= level.getHeight()) {
 			collide(null, xxa, yya);
@@ -45,7 +49,7 @@ public class Mob extends Entity {
 		walkDist++;
 		bb.set(x, y, xs, ys);
 	}
-	
+
 	public boolean isMoving() {
 		return walkDist != lastWalkDist;
 	}
@@ -57,14 +61,9 @@ public class Mob extends Entity {
 	public void hurt(Entity hurtBy, int dmg) {
 		int colour = 0xff0000;
 
-		health -= dmg;
 		hitTime = 15;
 		knockback(dmg);
 		level.add(new TextParticle("-" + dmg, x, y, 2, colour));
-
-		if (health <= 0) {
-			onDied();
-		}
 	}
 
 	public void onDied() {
@@ -84,7 +83,11 @@ public class Mob extends Entity {
 	}
 
 	public void collide(Entity otherEntity, double xxa, double yya) {
-		if (xxa != 0) xa = -1*20;
-		if (yya != 0) ya = -1*20;
+		if (xxa != 0) xa = 0;
+		if (yya != 0) ya = 0;
+	}
+
+	public CharacterData getCharacterData() {
+		return characterData;
 	}
 }

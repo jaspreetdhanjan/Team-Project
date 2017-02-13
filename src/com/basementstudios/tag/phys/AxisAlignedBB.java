@@ -6,22 +6,23 @@ package com.basementstudios.tag.phys;
  * @author Jaspreet Dhanjan
  */
 
+// TODO: Needs to be completed!
 public class AxisAlignedBB {
 	public double x, y;
-	public double xs, ys;
+	public double xSize, ySize;
 
-	public void set(double x, double y, double xs, double ys) {
+	public void set(double x, double y, double xSize, double ySize) {
 		this.x = x;
 		this.y = y;
-		this.xs = xs;
-		this.ys = ys;
+		this.xSize = xSize;
+		this.ySize = ySize;
 	}
 
 	public boolean overlaps(AxisAlignedBB bb) {
 		return false;
 	}
 
-	public boolean overlaps(double x0, double y0, double x1, double y1) {
+	public boolean contains(double x0, double y0, double x1, double y1) {
 		return false;
 	}
 }

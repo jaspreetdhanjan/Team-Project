@@ -22,7 +22,7 @@ public class CharaViewControler {
 		}
 	}
 
-	public DefaultListModel<CharacterData> getModal() {
+	public DefaultListModel<CharacterData> getModel() {
 		DefaultListModel<CharacterData> model = new DefaultListModel<CharacterData>();
 		PostRequest poster = new PostRequest();
 		Map<String, String> arguments = new HashMap<String, String>();

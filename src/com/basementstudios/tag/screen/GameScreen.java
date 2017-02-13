@@ -53,7 +53,7 @@ public class GameScreen extends Screen {
 
 		super.renderHud(bm, font, xStart, yStart);
 		font.draw(bm, "Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
-		font.draw(bm, "Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHelth(), xStart, yStart + 1 * 12, 0xffffff);
+		font.draw(bm, "Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), xStart, yStart + 1 * 12, 0xffffff);
 
 		int i = 0;
 		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {

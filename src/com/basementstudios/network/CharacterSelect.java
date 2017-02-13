@@ -20,16 +20,17 @@ import java.awt.event.ActionEvent;
 
 public class CharacterSelect {
 	private JFrame frame = new JFrame();
+
 	private boolean chara1, chara2, chara3;
 	private CharaViewControler charaViewControler;
-	private DefaultListModel<CharacterData> modal;
+	private DefaultListModel<CharacterData> model;
 
 	public CharacterSelect() {
 		charaViewControler = new CharaViewControler();
-		modal = charaViewControler.getModal();
+		model = charaViewControler.getModel();
 
-		if (modal.getSize() >= 3) {
-			initialize();
+		if (model.getSize() >= 3) {
+			init();
 		} else {
 			JOptionPane.showMessageDialog(frame.getContentPane(), "You need at least 3 characters to play the game go online to add more", "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -38,7 +39,7 @@ public class CharacterSelect {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void init() {
 		List<CharacterData> selectedCharas = new ArrayList<CharacterData>();
 		for (int i = 0; i < 3; i++) {
 			selectedCharas.add(null);
@@ -225,14 +226,14 @@ public class CharacterSelect {
 			public void actionPerformed(ActionEvent arg0) {
 				chara1 = true;
 				if (selectedCharas.get(0) != null) {
-					modal.addElement(selectedCharas.get(0));
+					model.addElement(selectedCharas.get(0));
 				}
-				CharacterList charaList = new CharacterList(modal);
+				CharacterList charaList = new CharacterList(model);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
 				name1.setText("Name: " + chara.getName());
-				health1.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
+				health1.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
 				List<CharacterStat> stats = chara.getStats();
 
@@ -241,7 +242,7 @@ public class CharacterSelect {
 				stamina1.setText("Stamina: " + String.valueOf(stats.get(4).getValue()));
 				magic1.setText("Magic: " + String.valueOf(stats.get(5).getValue()));
 
-				modal.removeElement(chara);
+				model.removeElement(chara);
 				selectedCharas.set(0, chara);
 			}
 		});
@@ -250,14 +251,14 @@ public class CharacterSelect {
 			public void actionPerformed(ActionEvent arg0) {
 				chara2 = true;
 				if (selectedCharas.get(1) != null) {
-					modal.addElement(selectedCharas.get(1));
+					model.addElement(selectedCharas.get(1));
 				}
-				CharacterList charaList = new CharacterList(modal);
+				CharacterList charaList = new CharacterList(model);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
 				name2.setText("Name: " + chara.getName());
-				health2.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
+				health2.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
 				List<CharacterStat> stats = chara.getStats();
 
@@ -266,7 +267,7 @@ public class CharacterSelect {
 				stamina2.setText("Stamina: " + String.valueOf(stats.get(4).getValue()));
 				magic2.setText("Magic: " + String.valueOf(stats.get(5).getValue()));
 
-				modal.removeElement(chara);
+				model.removeElement(chara);
 				selectedCharas.set(1, chara);
 			}
 		});
@@ -275,14 +276,14 @@ public class CharacterSelect {
 			public void actionPerformed(ActionEvent e) {
 				chara3 = true;
 				if (selectedCharas.get(2) != null) {
-					modal.addElement(selectedCharas.get(2));
+					model.addElement(selectedCharas.get(2));
 				}
-				CharacterList charaList = new CharacterList(modal);
+				CharacterList charaList = new CharacterList(model);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
 				name3.setText("Name: " + chara.getName());
-				health3.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
+				health3.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
 				List<CharacterStat> stats = chara.getStats();
 
@@ -291,7 +292,7 @@ public class CharacterSelect {
 				stamina3.setText("Stamina: " + String.valueOf(stats.get(4).getValue()));
 				magic3.setText("Magic: " + String.valueOf(stats.get(5).getValue()));
 
-				modal.removeElement(chara);
+				model.removeElement(chara);
 				selectedCharas.set(2, chara);
 			}
 		});
@@ -304,7 +305,6 @@ public class CharacterSelect {
 				} else {
 					JOptionPane.showMessageDialog(frame.getContentPane(), "Please select three characters", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
 

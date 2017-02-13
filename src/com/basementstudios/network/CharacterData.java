@@ -8,7 +8,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 public class CharacterData {
-	private int id, currentHealth, maxHealth;
+	private final int id;
+	private int currentHealth, maxHealth;
 	private String name;
 
 	private List<CharacterStat> stats = new ArrayList<CharacterStat>();
@@ -20,19 +21,15 @@ public class CharacterData {
 		this.maxHealth = maxHealth;
 	}
 
-	public int getId() {
+	public int getID() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getCurrentHelth() {
+	public int getCurrentHealth() {
 		return currentHealth;
 	}
 
-	public void setCurrentHelth(int currentHealth) {
+	public void setCurrentHealth(int currentHealth) {
 		this.currentHealth = currentHealth;
 	}
 
@@ -61,7 +58,7 @@ public class CharacterData {
 	}
 
 	public String toString() {
-		return name + " " + Integer.toString(getCurrentHelth()) + "/" + Integer.toString(getMaxHealth());
+		return name + " " + Integer.toString(getCurrentHealth()) + "/" + Integer.toString(getMaxHealth());
 	}
 
 	public void addStat() {

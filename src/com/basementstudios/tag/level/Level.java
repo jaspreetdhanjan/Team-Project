@@ -66,7 +66,7 @@ public class Level {
 			Entity e = entities.get(i);
 
 			AxisAlignedBB bb = e.getBB();
-			if (bb.overlaps(x0, y0, x1, y1)) {
+			if (bb.contains(x0, y0, x1, y1)) {
 				tmpResult.add(e);
 			}
 		}
