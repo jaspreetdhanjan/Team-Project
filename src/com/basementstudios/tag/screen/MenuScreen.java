@@ -40,7 +40,7 @@ public class MenuScreen extends Screen {
 
 		bm.clear();
 		for (int i = 0; i < bm.pixels.length; i++) {
-			bm.pixels[i] = ((i + tickCount) & 16);
+			bm.pixels[i] = i + tickCount;
 		}
 
 		int xom = (Game.WIDTH - font.getCharWidth(Game.TITLE)) / 2;

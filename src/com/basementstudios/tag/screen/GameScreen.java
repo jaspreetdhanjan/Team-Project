@@ -19,9 +19,9 @@ import com.basementstudios.tag.level.*;
 public class GameScreen extends Screen {
 	private Level currentLevel;
 	private PlayerController playerController = new PlayerController();
-	
+
 	public GameScreen(List<CharacterData> selectedCharas) {
-		currentLevel = new Level(Game.WIDTH, Game.HEIGHT);
+		currentLevel = new Level(Game.WIDTH-50, Game.HEIGHT-50);
 		playerController.addPlayers(currentLevel, 50, 100, selectedCharas);
 	}
 
@@ -42,7 +42,7 @@ public class GameScreen extends Screen {
 	}
 
 	public void renderScene(Bitmap bm) {
-		bm.fill(0, 0, bm.width, bm.height, 0xf5deb3);
+		bm.clear();
 
 		currentLevel.render(bm);
 		playerController.render(bm);

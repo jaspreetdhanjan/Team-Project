@@ -1,13 +1,14 @@
 package com.basementstudios.network;
 
 public class CharacterStat {
-	private int value, id;
+	private final int id;
+	private int value;
 	private String name;
-	
-	public CharacterStat(int id, int value, String name){
-		this.id=id;
-		this.name=name;
-		this.value=value;
+
+	public CharacterStat(int id, int value, String name) {
+		this.id = id;
+		this.name = name;
+		this.value = value;
 	}
 
 	public int getValue() {
@@ -18,12 +19,8 @@ public class CharacterStat {
 		this.value = value;
 	}
 
-	public int getId() {
+	public int getID() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getName() {
@@ -33,6 +30,4 @@ public class CharacterStat {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

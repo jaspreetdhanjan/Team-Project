@@ -31,6 +31,8 @@ public class Level {
 	}
 
 	public void render(Bitmap bm) {
+		bm.fill(0, 0, width, height, 0xe4cda2);
+
 		renderEntities(bm);
 	}
 
