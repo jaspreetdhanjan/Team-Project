@@ -9,12 +9,12 @@ import javax.sound.sampled.LineUnavailableException;
 
 public class Audio implements Runnable{
 	
-	Clip clip;
-	AudioInputStream inputStream;
+	private Clip clip;
+	private AudioInputStream inputStream;
 	private Thread thread;
 	
 	public Audio(String path) throws Exception{
-        this.inputStream = AudioSystem.getAudioInputStream(
+        	this.inputStream = AudioSystem.getAudioInputStream(
         		this.getClass().getResourceAsStream(path));
 	}
 	
