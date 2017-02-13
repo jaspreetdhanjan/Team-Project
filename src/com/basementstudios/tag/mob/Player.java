@@ -11,13 +11,15 @@ import com.basementstudios.network.*;
  */
 
 public class Player extends Mob {
+	private final CharacterData characterData;
+
 	private AIAttackComponent attackComponent = new AIAttackComponent(this);
 	private int shootTime = 0;
-	private CharacterData characterData;
 
-	public Player(double x, double y,CharacterData characterData) {
+	public Player(double x, double y, CharacterData characterData) {
 		super(x, y);
-		this.characterData=characterData;
+		this.characterData = characterData;
+
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 
@@ -56,14 +58,14 @@ public class Player extends Mob {
 			ySpriteIndex = 1;
 
 			if (isMoving()) {
-				xSpriteIndex = (walkDist/10) % 4;
+				xSpriteIndex = (walkDist / 10) % 4;
 			}
 		} else if (xa > 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 3;
 
 			if (isMoving()) {
-				xSpriteIndex = (walkDist/10) % 4;
+				xSpriteIndex = (walkDist / 10) % 4;
 			}
 		}
 
@@ -74,9 +76,5 @@ public class Player extends Mob {
 
 	public CharacterData getCharacterData() {
 		return characterData;
-	}
-
-	public void setCharacterData(CharacterData characterData) {
-		this.characterData = characterData;
 	}
 }

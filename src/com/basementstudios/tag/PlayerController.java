@@ -23,9 +23,9 @@ public class PlayerController {
 	public void addPlayers(Level level, double x, double y, List<CharacterData> selectedCharas) {
 		this.level = level;
 
-		p0 = new Player(x, y + 30 * 0, selectedCharas.get(0));
-		p1 = new Player(x, y + 30 * 1, selectedCharas.get(1));
-		p2 = new Player(x, y + 30 * 2, selectedCharas.get(2));
+		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1 - 1));
+		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2 - 1));
+		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3 - 1));
 
 		this.level.add(p0);
 		this.level.add(p1);
