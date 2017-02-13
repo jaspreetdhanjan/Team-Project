@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import org.json.simple.JSONObject;
 
-import com.basementstudios.network.CharaSelect;
+import com.basementstudios.network.CharacterSelect;
 import com.basementstudios.network.Token;
 
 public class Launcher {
@@ -100,7 +100,7 @@ public class Launcher {
 				if ((boolean) loginData.get("success")) {
 					new Token((String) loginData.get("token"));
 					System.out.println((String) loginData.get("token"));
-					new CharaSelect();
+					new CharacterSelect();
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);

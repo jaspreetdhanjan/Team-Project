@@ -6,7 +6,7 @@ public class Run {
 	public static void main(String[] args) {
 		try {
 			new Token();
-			new CharaSelect();
+			new CharacterSelect();
 		} catch (InvalidTokenException e) {
 			new Launcher();
 		}

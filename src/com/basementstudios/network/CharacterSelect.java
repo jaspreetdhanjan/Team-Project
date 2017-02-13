@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
-public class CharaSelect {
+public class CharacterSelect {
 	private JFrame frame = new JFrame();
 	private boolean chara1, chara2, chara3;
 	private CharaViewControler charaViewControler;
 	private DefaultListModel<CharacterData> modal;
 
-	public CharaSelect() {
+	public CharacterSelect() {
 		charaViewControler = new CharaViewControler();
 		modal = charaViewControler.getModal();
 
@@ -227,7 +227,7 @@ public class CharaSelect {
 				if (selectedCharas.get(0) != null) {
 					modal.addElement(selectedCharas.get(0));
 				}
-				CharaList charaList = new CharaList(modal);
+				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
@@ -252,7 +252,7 @@ public class CharaSelect {
 				if (selectedCharas.get(1) != null) {
 					modal.addElement(selectedCharas.get(1));
 				}
-				CharaList charaList = new CharaList(modal);
+				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
@@ -277,7 +277,7 @@ public class CharaSelect {
 				if (selectedCharas.get(2) != null) {
 					modal.addElement(selectedCharas.get(2));
 				}
-				CharaList charaList = new CharaList(modal);
+				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 

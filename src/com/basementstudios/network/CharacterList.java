@@ -16,13 +16,13 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import java.awt.Font;
 
-public class CharaList extends JDialog {
+public class CharacterList extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private final JPanel contentPanel = new JPanel();
-	public JList<CharacterData> list = new JList<CharacterData>();
+	private JList<CharacterData> list = new JList<CharacterData>();
 
-	public CharaList(DefaultListModel<CharacterData> model) {
+	public CharacterList(DefaultListModel<CharacterData> model) {
 		setUndecorated(true);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setModal(true);
@@ -65,7 +65,7 @@ public class CharaList extends JDialog {
 	}
 
 	public CharacterData getSelectedChara() {
-		return (CharacterData) list.getSelectedValue();
+		return list.getSelectedValue();
 	}
 
 	public Object showDialog() {
