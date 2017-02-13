@@ -1,7 +1,10 @@
 package com.basementstudios.tag.screen;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
+import com.basementstudios.network.CharacterData;
+import com.basementstudios.network.CharacterStat;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
@@ -15,10 +18,12 @@ import com.basementstudios.tag.level.*;
 public class GameScreen extends Screen {
 	private Level currentLevel;
 	private PlayerController playerController = new PlayerController();
-
-	public GameScreen() {
+	private ArrayList<CharacterData> selectedCharas;
+	
+	public GameScreen(ArrayList<CharacterData> selectedCharas){
+		this.selectedCharas=selectedCharas;
 		currentLevel = new Level(Game.WIDTH, Game.HEIGHT);
-		playerController.addPlayers(currentLevel, 50, 150);
+		playerController.addPlayers(currentLevel, 50, 100,selectedCharas);
 	}
 
 	public void init() {
@@ -31,6 +36,7 @@ public class GameScreen extends Screen {
 		if (input.isDown(KeyEvent.VK_A)) xa--;
 		if (input.isDown(KeyEvent.VK_D)) xa++;
 		playerController.attemptMove(xa, 0);
+		
 
 		if (input.isDown(KeyEvent.VK_1)) playerController.select(PlayerController.PLAYER_1);
 		if (input.isDown(KeyEvent.VK_2)) playerController.select(PlayerController.PLAYER_2);
@@ -48,7 +54,13 @@ public class GameScreen extends Screen {
 		if (playerController.getSelected() == PlayerController.PLAYER_NONE) return;
 
 		super.renderHud(bm, font, xStart, yStart);
-		font.draw(bm, "Selected: Player " + playerController.getSelected(), xStart, yStart + 0 * 12, 0xffffff);
-		font.draw(bm, "Health: " + playerController.getSelectedPlayer().health, xStart, yStart + 1 * 12, 0xffffff);
+		font.draw(bm, "Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
+		font.draw(bm, "Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHelth(), xStart, yStart + 1 * 12, 0xffffff);
+		
+		int i=0;
+		for(CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()){
+			font.draw(bm, stats.getName()+" : " +stats.getValue(), xStart+200, yStart + i * 12, 0xffffff);
+			i++;
+		}
 	}
 }

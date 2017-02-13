@@ -12,7 +12,7 @@ import com.basementstudios.tag.graphics.Font;
  */
 
 public class Screen {
-	private static final int HUD_HEIGHT = 80;
+	private static final int HUD_HEIGHT = 100;
 
 	protected Game game;
 
