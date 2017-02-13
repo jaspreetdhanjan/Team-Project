@@ -1,22 +1,22 @@
 package com.basementstudios.network;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 public class CharacterData {
-	private int id, currentHelth, maxHealth;
+	private int id, currentHealth, maxHealth;
 	private String name;
-	private ArrayList<CharacterStat> stats = new ArrayList<CharacterStat>();
+
+	private List<CharacterStat> stats = new ArrayList<CharacterStat>();
 
 	public CharacterData(int id, String name, int currentHealth, int maxHealth) {
 		this.id = id;
 		this.name = name;
-		this.currentHelth = currentHealth;
+		this.currentHealth = currentHealth;
 		this.maxHealth = maxHealth;
 	}
 
@@ -29,11 +29,11 @@ public class CharacterData {
 	}
 
 	public int getCurrentHelth() {
-		return currentHelth;
+		return currentHealth;
 	}
 
-	public void setCurrentHelth(int currentHelth) {
-		this.currentHelth = currentHelth;
+	public void setCurrentHelth(int currentHealth) {
+		this.currentHealth = currentHealth;
 	}
 
 	public int getMaxHealth() {
@@ -52,7 +52,7 @@ public class CharacterData {
 		this.name = name;
 	}
 
-	public ArrayList<CharacterStat> getStats() {
+	public List<CharacterStat> getStats() {
 		return stats;
 	}
 
@@ -67,7 +67,7 @@ public class CharacterData {
 	public void addStat() {
 		if (stats.size() == 0) {
 			PostRequest poster = new PostRequest();
-			HashMap<String, String> arguments = new HashMap();
+			Map<String, String> arguments = new HashMap<String, String>();
 			arguments.put("CharID", String.valueOf(id));
 			JSONObject charaData;
 			try {
@@ -77,16 +77,12 @@ public class CharacterData {
 					JSONArray charaArray = (JSONArray) charaData1.get("stat");
 					for (Object charaObject : charaArray) {
 						JSONObject chara = (JSONObject) charaObject;
-						stats.add(Integer.parseInt((String) chara.get("CharacteristicID")),
-								new CharacterStat(Integer.parseInt((String) chara.get("CharacteristicID")),
-										Integer.parseInt((String) chara.get("Value")), (String) chara.get("Name")));
+						stats.add(Integer.parseInt((String) chara.get("CharacteristicID")), new CharacterStat(Integer.parseInt((String) chara.get("CharacteristicID")), Integer.parseInt((String) chara.get("Value")), (String) chara.get("Name")));
 					}
 				}
 			} catch (IOException | ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-
 }

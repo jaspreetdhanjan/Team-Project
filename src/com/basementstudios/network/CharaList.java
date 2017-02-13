@@ -1,13 +1,11 @@
 package com.basementstudios.network;
 
 import java.awt.BorderLayout;
-import java.awt.Dialog;
 import java.awt.FlowLayout;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,16 +13,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
 import javax.swing.JLabel;
 import java.awt.Font;
 
 public class CharaList extends JDialog {
+	private static final long serialVersionUID = 1L;
 
 	private final JPanel contentPanel = new JPanel();
-	public JList list = new JList();
+	public JList<CharacterData> list = new JList<CharacterData>();
 
-	public CharaList(DefaultListModel model) {
+	public CharaList(DefaultListModel<CharacterData> model) {
 		setUndecorated(true);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		setModal(true);
@@ -55,9 +53,9 @@ public class CharaList extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						if(list.isSelectionEmpty()){
+						if (list.isSelectionEmpty()) {
 							JOptionPane.showMessageDialog(getContentPane(), "Please select a character", "Error", JOptionPane.ERROR_MESSAGE);
-						}else{
+						} else {
 							dispose();
 						}
 					}
@@ -65,15 +63,13 @@ public class CharaList extends JDialog {
 			}
 		}
 	}
-	
-	public CharacterData getSelectedChara(){
-		return (CharacterData) list.getSelectedValue();
-		
-	}
-	
-	public Object showDialog(){
-		   setVisible(true);
-		   return getSelectedChara();
-		}
 
+	public CharacterData getSelectedChara() {
+		return (CharacterData) list.getSelectedValue();
+	}
+
+	public Object showDialog() {
+		setVisible(true);
+		return getSelectedChara();
+	}
 }

@@ -1,33 +1,26 @@
 package com.basementstudios.network;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.SwingConstants;
 
 import com.basementstudios.tag.Game;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CharaSelect {
-
 	private JFrame frame;
-	private boolean chara1, chara2, chara3 = false;
+	private boolean chara1, chara2, chara3;
 	private CharaViewControler charaViewControler;
 	private DefaultListModel<CharacterData> modal;
 
@@ -35,7 +28,7 @@ public class CharaSelect {
 		charaViewControler = new CharaViewControler();
 		modal = charaViewControler.getModal();
 		frame = new JFrame();
-		if(modal.getSize()>3)initialize(); 
+		if (modal.getSize() > 3) initialize();
 		else JOptionPane.showMessageDialog(frame.getContentPane(), "You need at least 3 characters to play the game go online to add more", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -43,11 +36,11 @@ public class CharaSelect {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		ArrayList<CharacterData> selectedCharas = new ArrayList<CharacterData>();
+		List<CharacterData> selectedCharas = new ArrayList<CharacterData>();
 		for (int i = 0; i < 3; i++) {
 			selectedCharas.add(null);
 		}
-		
+
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 655, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -238,7 +231,7 @@ public class CharaSelect {
 				name1.setText("Name: " + chara.getName());
 				health1.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
-				ArrayList<CharacterStat> stats = chara.getStats();
+				List<CharacterStat> stats = chara.getStats();
 
 				strength1.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility1.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
@@ -263,7 +256,7 @@ public class CharaSelect {
 				name2.setText("Name: " + chara.getName());
 				health2.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
-				ArrayList<CharacterStat> stats = chara.getStats();
+				List<CharacterStat> stats = chara.getStats();
 
 				strength2.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility2.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
@@ -288,7 +281,7 @@ public class CharaSelect {
 				name3.setText("Name: " + chara.getName());
 				health3.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
-				ArrayList<CharacterStat> stats = chara.getStats();
+				List<CharacterStat> stats = chara.getStats();
 
 				strength3.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility3.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
@@ -302,10 +295,10 @@ public class CharaSelect {
 
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(chara1&&chara2&&chara3){
+				if (chara1 && chara2 && chara3) {
 					new Game(selectedCharas);
 					frame.dispose();
-				}else{
+				} else {
 					JOptionPane.showMessageDialog(frame.getContentPane(), "Please select three characters", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
