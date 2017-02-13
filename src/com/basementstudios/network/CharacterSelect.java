@@ -230,11 +230,12 @@ public class CharacterSelect {
 				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
+				chara.addItems();
 
 				name1.setText("Name: " + chara.getName());
 				health1.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
-				List<CharacterStat> stats = chara.getStats();
+				List<Stat> stats = chara.getStats();
 
 				strength1.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility1.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
@@ -255,11 +256,12 @@ public class CharacterSelect {
 				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
+				chara.addItems();
 
 				name2.setText("Name: " + chara.getName());
 				health2.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
-				List<CharacterStat> stats = chara.getStats();
+				List<Stat> stats = chara.getStats();
 
 				strength2.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility2.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
@@ -280,11 +282,12 @@ public class CharacterSelect {
 				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
+				chara.addItems();
 
 				name3.setText("Name: " + chara.getName());
 				health3.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
-				List<CharacterStat> stats = chara.getStats();
+				List<Stat> stats = chara.getStats();
 
 				strength3.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility3.setText("Agility: " + String.valueOf(stats.get(3).getValue()));

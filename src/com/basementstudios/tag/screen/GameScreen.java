@@ -5,7 +5,8 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.network.CharacterStat;
+import com.basementstudios.network.Item;
+import com.basementstudios.network.Stat;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
@@ -56,8 +57,13 @@ public class GameScreen extends Screen {
 		font.draw(bm, "Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHelth(), xStart, yStart + 1 * 12, 0xffffff);
 
 		int i = 0;
-		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
+		for (Stat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
 			font.draw(bm, stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
+			i++;
+		}
+		i = 0;
+		for(Item item: playerController.getSelectedPlayer().getCharacterData().getItems()){
+			font.draw(bm, item.getName(), xStart, yStart + i+2 * 12, 0xffffff);
 			i++;
 		}
 	}
