@@ -43,7 +43,7 @@ public class Game extends Canvas implements Runnable {
 	public Game(List<CharacterData> selectedCharas) {
 		this.selectedCharas = selectedCharas;
 
-		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+		Dimension d = new Dimension(SCALED_WIDTH, SCALED_HEIGHT);
 		setMinimumSize(d);
 		setMaximumSize(d);
 		setPreferredSize(d);
@@ -72,7 +72,7 @@ public class Game extends Canvas implements Runnable {
 		double nsPerTick = 1000000000.0 / 60.0;
 		int frames = 0;
 		int ticks = 0;
-		long lastTimer1 = System.currentTimeMillis();
+		long lastTimer = System.currentTimeMillis();
 
 		while (!stop) {
 			long nowTime = System.nanoTime();
@@ -92,8 +92,8 @@ public class Game extends Canvas implements Runnable {
 				frames++;
 			}
 
-			if (System.currentTimeMillis() - lastTimer1 > 1000) {
-				lastTimer1 += 1000;
+			if (System.currentTimeMillis() - lastTimer > 1000) {
+				lastTimer += 1000;
 				// System.out.println(ticks + " ticks, " + frames + " fps");
 				fpsString = ticks + " ticks, " + frames + " fps";
 				ticks = 0;
