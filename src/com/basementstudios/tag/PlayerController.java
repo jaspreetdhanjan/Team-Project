@@ -88,7 +88,7 @@ public class PlayerController {
 		boolean finished = false;
 		for (Player player : charaList) {
 			if (player.isAttacking) {
-				System.out.println(player.xa);
+				//System.out.println(player.xa);
 				if (player.x - player.xStart == 0 && player.isRetracting) {
 					player.isAttacking = false;
 					player.xa = 0;

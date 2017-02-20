@@ -110,7 +110,7 @@ public class EnemyController {
 	public void tick() {
 		for (Enemy player : charaList) {
 			if (player.isAttacking) {
-				System.out.println(player.x);
+				//System.out.println(player.x);
 				if (player.xStart - player.x == 0 && player.isRetracting) {
 					player.isAttacking = false;
 					player.xa = 0;

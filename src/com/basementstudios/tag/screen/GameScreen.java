@@ -21,14 +21,13 @@ import com.basementstudios.tag.level.*;
 public class GameScreen extends Screen {
 	private Level currentLevel;
 	private GameController gameController;
-	private Random rand = new Random();
 	
 	public GameScreen(List<CharacterData> selectedCharas) {
 		currentLevel = new Level(Game.WIDTH, Game.HEIGHT);
 		gameController = new GameController(currentLevel);
 		gameController.addPlayers(selectedCharas);
-		gameController.addEnemys(10);
-		//gameController.loop();
+		gameController.addEnemys(1);
+		gameController.gameLoop();
 	}
 
 	public void init() {
@@ -37,8 +36,6 @@ public class GameScreen extends Screen {
 	public void tick(Input input) {
 		currentLevel.tick();
 		gameController.tick(input);
-
-		
 	}
 
 	public void renderScene(Bitmap bm) {

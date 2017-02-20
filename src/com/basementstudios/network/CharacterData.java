@@ -199,7 +199,8 @@ public class CharacterData {
 			}
 
 		}
+		System.out.println(spd);
 		if (spd < 0)
-			spd = 0;
+			spd = 1;
 	}
 }

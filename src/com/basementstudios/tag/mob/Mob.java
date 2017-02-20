@@ -13,6 +13,7 @@ public class Mob extends Entity {
 	public int health = 10;
 	public int hitTime = 0;
 	public int lastWalkDist, walkDist;
+	public boolean hasGone=false;
 
 	public Mob(double x, double y) {
 		this.x = x;
