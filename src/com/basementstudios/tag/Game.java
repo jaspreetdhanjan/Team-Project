@@ -111,7 +111,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void tick() {
 		input.tick();
-		screenManager.tick(input, hasFocus());
+		screenManager.tick(input);
 	}
 
 	private void render() {

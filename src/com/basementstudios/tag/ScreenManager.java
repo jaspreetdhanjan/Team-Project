@@ -24,8 +24,8 @@ public class ScreenManager {
 		currentScreen.init(this);
 	}
 
-	public void tick(Input input, boolean hasFocus) {
-		if (!hasFocus && currentScreen.isLive()) {
+	public void tick(Input input) {
+		if (!input.hasFocus() && currentScreen.isLive()) {
 			setScreen(new PauseScreen());
 		}
 
