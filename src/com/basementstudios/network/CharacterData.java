@@ -10,6 +10,11 @@ import org.json.simple.parser.ParseException;
 public class CharacterData {
 	private int id, currentHealth, maxHealth;
 	private String name;
+	private int dmg, def, spd, spellDuration, wepponType;
+	public static final int NO_WEPPON_ID = 0;
+	public static final int MAGIC_ID = 1;
+	public static final int RANGED_ID = 2;
+	public static final int MELLE_ID = 3;
 
 	private List<Stat> stats = new ArrayList<Stat>();
 	private List<Item> items = new ArrayList<Item>();
@@ -19,6 +24,15 @@ public class CharacterData {
 		this.name = name;
 		this.currentHealth = currentHealth;
 		this.maxHealth = maxHealth;
+		dmg = 0;
+		def = 0;
+		spd = 0;
+		spellDuration = 0;
+		wepponType = NO_WEPPON_ID;
+	}
+
+	public int getWepponType() {
+		return wepponType;
 	}
 
 	public int getId() {
@@ -69,6 +83,30 @@ public class CharacterData {
 		this.items = items;
 	}
 
+	public int getCurrentHealth() {
+		return currentHealth;
+	}
+
+	public int getDef() {
+		return def;
+	}
+
+	public int getSpd() {
+		return spd;
+	}
+
+	public int getSpellDuration() {
+		return spellDuration;
+	}
+
+	public int getDmg() {
+		return dmg;
+	}
+
+	public void setStats(List<Stat> stats) {
+		this.stats = stats;
+	}
+
 	public String toString() {
 		return name + " " + Integer.toString(getCurrentHelth()) + "/" + Integer.toString(getMaxHealth());
 	}
@@ -113,7 +151,8 @@ public class CharacterData {
 						JSONObject chara = (JSONObject) charaObject;
 						Item item = new Item(Integer.parseInt((String) chara.get("ItemID")),
 								((String) chara.get("ItemName")), Integer.parseInt((String) chara.get("SlotID")),
-								(String) chara.get("SlotName"), Integer.parseInt((String) chara.get("TypeID")), (String)chara.get("TypeName"));
+								(String) chara.get("SlotName"), Integer.parseInt((String) chara.get("TypeID")),
+								(String) chara.get("TypeName"));
 						item.addStats();
 						items.add(item);
 					}
@@ -122,5 +161,45 @@ public class CharacterData {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void calculateBattleStats() {
+		spd += stats.get(4).getValue();
+		dmg += stats.get(2).getValue();
+		for (Item item : items) {
+			switch (item.getTypeID()) {
+			case 1:
+				wepponType = MELLE_ID;
+				break;
+			case 2:
+				wepponType = RANGED_ID;
+				break;
+			case 3:
+				wepponType = MAGIC_ID;
+			}
+
+			for (Stat stat : item.getStats()) {
+				switch (stat.getValue()) {
+				case 1:
+					spd -= stat.getValue();
+					break;
+				case 2:
+					dmg +=stat.getValue();
+					break;
+				case 4:
+					spellDuration += stat.getValue();
+					break;
+				case 5:
+					def+=stat.getValue();
+					break;
+				case 6:
+					spd+=stat.getValue();
+					break;
+				}
+			}
+
+		}
+		if (spd < 0)
+			spd = 0;
 	}
 }

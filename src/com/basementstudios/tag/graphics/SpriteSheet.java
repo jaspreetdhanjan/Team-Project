@@ -11,6 +11,7 @@ public class SpriteSheet {
 //	public static final Bitmap[][] blocks = loadBitmap("/blocks.png", 16, 16);
 	public static final Bitmap[][] entities = loadBitmap("/entities.png", 16, 16);
 	public static final Bitmap[][] chars = loadBitmap("/chars.png", 32, 32);
+	public static final Bitmap[][] enemy = loadBitmap("/enemy.png", 32, 32);
 
 	public static Bitmap[][] loadBitmap(String path, final int spriteWidth, final int spriteHeight) {
 		BufferedImage img = null;

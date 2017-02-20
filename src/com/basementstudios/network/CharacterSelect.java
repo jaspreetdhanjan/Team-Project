@@ -230,7 +230,6 @@ public class CharacterSelect {
 				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
-				chara.addItems();
 
 				name1.setText("Name: " + chara.getName());
 				health1.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
@@ -256,7 +255,6 @@ public class CharacterSelect {
 				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
-				chara.addItems();
 
 				name2.setText("Name: " + chara.getName());
 				health2.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
@@ -282,8 +280,7 @@ public class CharacterSelect {
 				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
-				chara.addItems();
-
+				
 				name3.setText("Name: " + chara.getName());
 				health3.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
 
@@ -302,6 +299,10 @@ public class CharacterSelect {
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chara1 && chara2 && chara3) {
+					for(CharacterData chara : selectedCharas){
+						chara.addItems();
+						chara.calculateBattleStats();
+					}
 					new Game(selectedCharas);
 					frame.dispose();
 				} else {

@@ -10,31 +10,33 @@ import com.basementstudios.network.*;
  * @author Jaspreet Dhanjan
  */
 
-public class Player extends Mob {
-	private final CharacterData characterData;
+public class Enemy extends Mob {
 
-	private AIAttackComponent attackComponent = new AIAttackComponent(this);
-	private int shootTime = 0;
 	public boolean isAttacking = false;
 	public boolean isRetracting = false;
 	public int maxAttackFrame;
+	private int dmg, def, spd, spellDuration, wepponType,health;
 
-	public Player(double x, double y, CharacterData characterData) {
+	public Enemy(double x, double y, int dmg, int def,int spd, int spellDuration,int wepponType, int health) {
 		super(x, y);
-		this.characterData = characterData;
-
+		this.dmg=dmg;
+		this.def=def;
+		this.spd=spd;
+		this.spellDuration=spellDuration;
+		this.wepponType=wepponType;
+		this.health=health;
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 
 		xs = 13 + 16;
 		ys = 26 + 16;
 
-		addComponent(attackComponent);
 	}
 
 	public void tick() {
 		super.tick();
 	}
+
 
 	public void render(Bitmap bm) {
 		int colour = 0xffffff;
@@ -64,17 +66,38 @@ public class Player extends Mob {
 
 		int xp = (int) x;
 		int yp = (int) y;
-		bm.render(SpriteSheet.chars[xSpriteIndex][ySpriteIndex], xp, yp, colour);
+		bm.render(SpriteSheet.enemy[xSpriteIndex][ySpriteIndex], xp, yp, colour);
 	}
 
-	public CharacterData getCharacterData() {
-		return characterData;
-	}
 
 	public void startAttack(int maxAttackFrame) {
 		isAttacking = true;
 		isRetracting = false;
 		this.maxAttackFrame = maxAttackFrame;
 
+	}
+	
+	public int getDmg() {
+		return dmg;
+	}
+
+	public int getDef() {
+		return def;
+	}
+
+	public int getSpd() {
+		return spd;
+	}
+
+	public int getSpellDuration() {
+		return spellDuration;
+	}
+
+	public int getWepponType() {
+		return wepponType;
+	}
+
+	public int getHealth() {
+		return health;
 	}
 }

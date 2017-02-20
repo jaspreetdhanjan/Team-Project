@@ -84,4 +84,8 @@ public class Level {
 	public int getHeight() {
 		return height;
 	}
+
+	public List<Entity> getEntities() {
+		return entities;
+	}
 }

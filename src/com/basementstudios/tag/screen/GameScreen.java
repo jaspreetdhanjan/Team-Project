@@ -3,6 +3,7 @@ package com.basementstudios.tag.screen;
 import java.awt.event.KeyEvent;
 
 import java.util.List;
+import java.util.Random;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.Item;
@@ -19,11 +20,15 @@ import com.basementstudios.tag.level.*;
 
 public class GameScreen extends Screen {
 	private Level currentLevel;
-	private PlayerController playerController = new PlayerController();
+	private GameController gameController;
+	private Random rand = new Random();
 	
 	public GameScreen(List<CharacterData> selectedCharas) {
 		currentLevel = new Level(Game.WIDTH, Game.HEIGHT);
-		playerController.addPlayers(currentLevel, 50, 100, selectedCharas);
+		gameController = new GameController(currentLevel);
+		gameController.addPlayers(selectedCharas);
+		gameController.addEnemys(10);
+		//gameController.loop();
 	}
 
 	public void init() {
@@ -31,38 +36,33 @@ public class GameScreen extends Screen {
 
 	public void tick(Input input) {
 		currentLevel.tick();
+		gameController.tick(input);
 
-		double xa = 0;
-		if (input.isDown(KeyEvent.VK_A)) xa--;
-		if (input.isDown(KeyEvent.VK_D)) xa++;
-		playerController.attemptMove(xa, 0);
-
-		if (input.isDown(KeyEvent.VK_1)) playerController.select(PlayerController.PLAYER_1);
-		if (input.isDown(KeyEvent.VK_2)) playerController.select(PlayerController.PLAYER_2);
-		if (input.isDown(KeyEvent.VK_3)) playerController.select(PlayerController.PLAYER_3);
+		
 	}
 
 	public void renderScene(Bitmap bm) {
 		bm.fill(0, 0, bm.width, bm.height, 0xf5deb3);
 
 		currentLevel.render(bm);
-		playerController.render(bm);
+		gameController.getPlayerController().render(bm);
+		gameController.getEnemyController().render(bm);
 	}
 
 	public void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
-		if (playerController.getSelected() == PlayerController.PLAYER_NONE) return;
+		if (gameController.getPlayerController().getSelected() == PlayerController.PLAYER_NONE) return;
 
 		super.renderHud(bm, font, xStart, yStart);
-		font.draw(bm, "Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
-		font.draw(bm, "Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHelth(), xStart, yStart + 1 * 12, 0xffffff);
+		font.draw(bm, "Name: " + gameController.getPlayerController().getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
+		font.draw(bm, "Health: " + gameController.getPlayerController().getSelectedPlayer().getCharacterData().getCurrentHelth(), xStart, yStart + 1 * 12, 0xffffff);
 
 		int i = 0;
-		for (Stat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
+		for (Stat stats : gameController.getPlayerController().getSelectedPlayer().getCharacterData().getStats()) {
 			font.draw(bm, stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
 			i++;
 		}
 		i = 0;
-		for(Item item: playerController.getSelectedPlayer().getCharacterData().getItems()){
+		for(Item item: gameController.getPlayerController().getSelectedPlayer().getCharacterData().getItems()){
 			font.draw(bm, item.getName(), xStart, yStart + i+2 * 12, 0xffffff);
 			i++;
 		}

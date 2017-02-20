@@ -25,6 +25,7 @@ public class Entity {
 	public double x, y;
 	public double xa, ya;
 	public double xs, ys;
+	public double xStart, yStart;
 	public int xSpriteIndex, ySpriteIndex;
 
 	private List<Component> components = new ArrayList<Component>();

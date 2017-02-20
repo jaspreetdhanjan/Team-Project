@@ -17,6 +17,9 @@ public class Mob extends Entity {
 	public Mob(double x, double y) {
 		this.x = x;
 		this.y = y;
+		
+		this.xStart=x;
+		this.yStart=y;
 	}
 
 	public void attemptMove() {
