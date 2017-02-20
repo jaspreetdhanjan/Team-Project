@@ -12,15 +12,9 @@ import com.basementstudios.tag.graphics.Font;
  */
 
 public class PauseScreen extends Screen {
-	private Screen oldScreen;
-
-	public PauseScreen(Screen oldScreen) {
-		this.oldScreen = oldScreen;
-	}
-
 	public void tick(Input input) {
 		if (input.hasFocus()) {
-			game.setScreen(oldScreen);
+			screenManager.toLastScreen();
 		}
 	}
 

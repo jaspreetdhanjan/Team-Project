@@ -36,9 +36,9 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels;
 	private Bitmap screenBitmap;
 	private Input input;
-	private Screen screen;
 
 	private List<CharacterData> selectedCharas;
+	private ScreenManager screenManager;
 
 	public Game(List<CharacterData> selectedCharas) {
 		this.selectedCharas = selectedCharas;
@@ -57,11 +57,6 @@ public class Game extends Canvas implements Runnable {
 		frame.setVisible(true);
 
 		new Thread(this, "Game Thread").start();
-	}
-
-	public void setScreen(Screen screen) {
-		this.screen = screen;
-		screen.init(this);
 	}
 
 	public void run() {
@@ -110,17 +105,13 @@ public class Game extends Canvas implements Runnable {
 		screenBitmap = new Bitmap(screenImage);
 
 		input = new Input(this);
-		setScreen(new MenuScreen(selectedCharas));
+
+		screenManager = new ScreenManager(input, new TitleScreen(selectedCharas));
 	}
 
 	private void tick() {
-		if (!hasFocus() && (screen instanceof GameScreen)) {
-			setScreen(new PauseScreen(screen));
-			return;
-		}
-
 		input.tick();
-		screen.tick(input);
+		screenManager.tick(input, hasFocus());
 	}
 
 	private void render() {
@@ -145,7 +136,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void bitmapRender(Font font) {
 		// Draw the "screen" – i.e. Game Screen
-		screen.render(screenBitmap);
+		screenManager.render(screenBitmap);
 
 		// Overlay debug info – FPS, ticks
 		font.drawShadowed(screenBitmap, VERSION, 6, 6, 0xffffff);

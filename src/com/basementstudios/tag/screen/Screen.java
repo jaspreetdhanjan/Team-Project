@@ -2,6 +2,7 @@ package com.basementstudios.tag.screen;
 
 import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
+import com.basementstudios.tag.ScreenManager;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.Font;
 
@@ -13,11 +14,11 @@ import com.basementstudios.tag.graphics.Font;
 
 public class Screen {
 	private static final int HUD_HEIGHT = 100;
+	
+	protected ScreenManager screenManager;
 
-	protected Game game;
-
-	public final void init(Game game) {
-		this.game = game;
+	public final void init(ScreenManager screenManager) {
+		this.screenManager = screenManager;
 		init();
 	}
 
@@ -48,8 +49,22 @@ public class Screen {
 	 */
 	protected void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
 	}
+	
+	public void renderSelectables(Font font, Bitmap bm, String[] options, int selected) {
+		for (int i = 0; i < options.length; i++) {
+			String option = options[i];
+			if (i == selected) option = "-> " + option;
+			int xo = (Game.WIDTH - font.getCharWidth(option)) / 2;
+			int yo = 128 + i * 20;
+			font.draw(bm, option, xo, yo, 0xffffff);
+		}
+	}
 
 	public final void exit() {
 		System.exit(1);
+	}
+
+	public boolean isLive() {
+		return false;
 	}
 }

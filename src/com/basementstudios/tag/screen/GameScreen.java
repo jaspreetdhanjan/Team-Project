@@ -17,19 +17,19 @@ import com.basementstudios.tag.level.*;
  */
 
 public class GameScreen extends Screen {
-	private Level currentLevel;
+	private Level level;
 	private PlayerController playerController = new PlayerController();
 
-	public GameScreen(List<CharacterData> selectedCharas) {
-		currentLevel = new Level(Game.WIDTH-50, Game.HEIGHT-50);
-		playerController.addPlayers(currentLevel, 50, 100, selectedCharas);
+	public GameScreen(List<CharacterData> selectedCharas, Level level) {
+		this.level = level;
+		playerController.addPlayers(level, 50, 100, selectedCharas);
 	}
 
 	public void init() {
 	}
 
 	public void tick(Input input) {
-		currentLevel.tick();
+		level.tick();
 
 		double xa = 0;
 		if (input.isDown(KeyEvent.VK_A)) xa--;
@@ -44,7 +44,7 @@ public class GameScreen extends Screen {
 	public void renderScene(Bitmap bm) {
 		bm.clear();
 
-		currentLevel.render(bm);
+		level.render(bm);
 		playerController.render(bm);
 	}
 
@@ -60,5 +60,9 @@ public class GameScreen extends Screen {
 			font.draw(bm, stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
 			i++;
 		}
+	}
+	
+	public boolean isLive() {
+		return false;
 	}
 }
