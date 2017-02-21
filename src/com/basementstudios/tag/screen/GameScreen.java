@@ -1,7 +1,5 @@
 package com.basementstudios.tag.screen;
 
-import java.awt.event.KeyEvent;
-
 import java.util.List;
 
 import com.basementstudios.network.CharacterData;
@@ -32,13 +30,14 @@ public class GameScreen extends Screen {
 		level.tick();
 
 		double xa = 0;
-		if (input.isDown(KeyEvent.VK_A)) xa--;
-		if (input.isDown(KeyEvent.VK_D)) xa++;
-		playerController.attemptMove(xa, 0);
+		double ya = 0;
+		if (input.left.isDown()) xa--;
+		if (input.right.isDown()) xa++;
+		playerController.attemptMove(xa, ya);
 
-		if (input.isDown(KeyEvent.VK_1)) playerController.select(PlayerController.PLAYER_1);
-		if (input.isDown(KeyEvent.VK_2)) playerController.select(PlayerController.PLAYER_2);
-		if (input.isDown(KeyEvent.VK_3)) playerController.select(PlayerController.PLAYER_3);
+		if (input.num1.isDown()) playerController.select(PlayerController.PLAYER_1);
+		if (input.num2.isDown()) playerController.select(PlayerController.PLAYER_2);
+		if (input.num3.isDown()) playerController.select(PlayerController.PLAYER_3);
 	}
 
 	public void renderScene(Bitmap bm) {

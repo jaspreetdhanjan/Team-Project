@@ -28,9 +28,9 @@ public class OverlayRenderer<S, T extends Screen> {
 	}
 
 	public void inputTick(Input input) {
-		boolean moveUp = input.up.clicked || input.left.clicked;
-		boolean moveDown = input.down.clicked || input.right.clicked;
-		boolean clicked = input.enter.clicked || input.space.clicked;
+		boolean moveUp = input.up.isClicked() || input.left.isClicked();
+		boolean moveDown = input.down.isClicked() || input.right.isClicked();
+		boolean clicked = input.enter.isClicked() || input.space.isClicked();
 
 		if (moveUp || moveDown || clicked) {
 			opTick(moveUp, moveDown, clicked);

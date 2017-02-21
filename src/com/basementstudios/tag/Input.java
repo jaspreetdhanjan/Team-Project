@@ -15,10 +15,12 @@ import java.util.List;
 
 public class Input implements KeyListener, FocusListener {
 	public class Key {
-		public int presses, absorbs;
-		public boolean down, clicked;
+		private int[] keyCodes;
+		private int presses, absorbs;
+		private boolean down, clicked;
 
-		public Key() {
+		public Key(int... keyCodes) {
+			this.keyCodes = keyCodes;
 			keys.add(this);
 		}
 
@@ -39,39 +41,42 @@ public class Input implements KeyListener, FocusListener {
 		public void release() {
 			down = false;
 		}
+
+		public boolean isDown() {
+			return down;
+		}
+
+		public boolean isClicked() {
+			return clicked;
+		}
 	}
 
-	private boolean[] keys_ = new boolean[255];
-	public List<Key> keys = new ArrayList<Key>();
-	public List<Character> charsTyped = new ArrayList<Character>();
-
-	public Key up = new Key();
-	public Key down = new Key();
-	public Key left = new Key();
-	public Key right = new Key();
-	public Key enter = new Key();
-	public Key space = new Key();
-
+	private List<Key> keys = new ArrayList<Key>();
 	private boolean hasFocus = true;
+
+	public Key up = new Key(KeyEvent.VK_W, KeyEvent.VK_UP);
+	public Key down = new Key(KeyEvent.VK_S, KeyEvent.VK_DOWN);
+	public Key left = new Key(KeyEvent.VK_A, KeyEvent.VK_LEFT);
+	public Key right = new Key(KeyEvent.VK_D, KeyEvent.VK_RIGHT);
+	public Key enter = new Key(KeyEvent.VK_ENTER);
+	public Key space = new Key(KeyEvent.VK_SPACE);
+	public Key num1 = new Key(KeyEvent.VK_1);
+	public Key num2 = new Key(KeyEvent.VK_2);
+	public Key num3 = new Key(KeyEvent.VK_3);
 
 	public Input(Game game) {
 		game.addKeyListener(this);
 		game.addFocusListener(this);
-
-		charsTyped.clear();
 	}
 
 	public void keyTyped(KeyEvent e) {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		keys_[e.getKeyCode()] = true;
 		toggle(e, true);
-		handlePress(e);
 	}
 
 	public void keyReleased(KeyEvent e) {
-		keys_[e.getKeyCode()] = false;
 		toggle(e, false);
 	}
 
@@ -90,40 +95,20 @@ public class Input implements KeyListener, FocusListener {
 		}
 	}
 
-	private void handlePress(KeyEvent e) {
-		charsTyped.add(e.getKeyChar());
-	}
-
 	private void toggle(KeyEvent ke, boolean pressed) {
-		if (ke.getKeyCode() == KeyEvent.VK_NUMPAD8) up.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_W) up.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_UP) up.toggle(pressed);
-
-		if (ke.getKeyCode() == KeyEvent.VK_NUMPAD2) down.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_S) down.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_DOWN) down.toggle(pressed);
-
-		if (ke.getKeyCode() == KeyEvent.VK_NUMPAD4) left.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_A) left.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_LEFT) left.toggle(pressed);
-
-		if (ke.getKeyCode() == KeyEvent.VK_NUMPAD6) right.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_D) right.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_RIGHT) right.toggle(pressed);
-
-		if (ke.getKeyCode() == KeyEvent.VK_ENTER) enter.toggle(pressed);
-
-		if (ke.getKeyCode() == KeyEvent.VK_SPACE) space.toggle(pressed);
+		for (Key key : keys) {
+			for (int i = 0; i < key.keyCodes.length; i++) {
+				if (key.keyCodes[i] == ke.getKeyCode()) {
+					key.toggle(pressed);
+				}
+			}
+		}
 	}
 
 	private void releaseAll() {
 		for (int i = 0; i < keys.size(); i++) {
 			keys.get(i).release();
 		}
-	}
-
-	public boolean isDown(int key) {
-		return keys_[key];
 	}
 
 	public boolean hasFocus() {

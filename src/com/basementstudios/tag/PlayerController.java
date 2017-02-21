@@ -16,7 +16,7 @@ import com.basementstudios.tag.mob.Player;
  */
 
 public class PlayerController {
-	public static final int PLAYER_NONE = -1;
+	public static final int NO_PLAYER = -1;
 	public static final int PLAYER_1 = 0;
 	public static final int PLAYER_2 = 1;
 	public static final int PLAYER_3 = 2;
@@ -39,7 +39,7 @@ public class PlayerController {
 	}
 
 	public void select(int selectionIndex) {
-		if (selectionIndex == PLAYER_NONE) selectedPlayer = null;
+		if (selectionIndex == NO_PLAYER) selectedPlayer = null;
 		if (selectionIndex == PLAYER_1) selectedPlayer = p0;
 		if (selectionIndex == PLAYER_2) selectedPlayer = p1;
 		if (selectionIndex == PLAYER_3) selectedPlayer = p2;
