@@ -7,13 +7,15 @@ import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
 public abstract class Level {
+	private final String levelName;
 	private final int width, height;
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> entitiesToRemove = new ArrayList<Entity>();
 	private boolean isDirty = false;
 
-	public Level(int width, int height) {
+	public Level(String levelName, int width, int height) {
+		this.levelName = levelName;
 		this.width = width;
 		this.height = height;
 	}
@@ -80,5 +82,7 @@ public abstract class Level {
 		return height;
 	}
 
-	public abstract String toString();
+	public String toString() {
+		return levelName;
+	}
 }
