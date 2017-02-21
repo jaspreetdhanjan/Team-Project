@@ -7,7 +7,6 @@ import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.OverlayRenderer;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.level.TestLevel;
 
@@ -38,6 +37,6 @@ public class LevelScreen extends Screen {
 
 	public void renderScene(Bitmap bm) {
 		bm.clear();
-		overlayRenderer.renderSelectables(Font.getInstance(), bm);
+		overlayRenderer.renderSelectables(bm);
 	}
 }

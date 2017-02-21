@@ -16,6 +16,8 @@ public class Bitmap {
 	public boolean xFlip = false;
 	public boolean yFlip = false;
 
+	private FontBitmap fontBitmap = new FontBitmap(SpriteSheet.font, 6, 8);
+
 	public Bitmap(int width, int height, int[] pixels) {
 		this.width = width;
 		this.height = height;
@@ -68,5 +70,33 @@ public class Bitmap {
 				pixels[x + y * width] = colour;
 			}
 		}
+	}
+
+	public void setFontBitmap(FontBitmap fontBitmap) {
+		this.fontBitmap = fontBitmap;
+	}
+
+	public void drawString(String msg, int xp, int yp, int colour) {
+		for (int i = 0; i < msg.length(); i++) {
+			int ch = fontBitmap.getAlphabet().indexOf(msg.charAt(i));
+			if (ch < 0) continue;
+
+			int xx = ch % 42;
+			int yy = ch / 42;
+			render(fontBitmap.getBitmap()[xx][yy], xp + i * fontBitmap.getCharWidth(), yp, colour);
+		}
+	}
+	
+	public void drawStringShadowed(String msg, int xp, int yp, int colour) {
+		drawString(msg, xp + 1, yp + 1, 0x111111);
+		drawString(msg, xp + 0, yp + 0, colour);
+	}
+	
+	public int getCharWidth(String msg) {
+		return msg.length() * fontBitmap.getCharWidth();
+	}
+
+	public int getCharHeight() {
+		return fontBitmap.getCharHeight();
 	}
 }

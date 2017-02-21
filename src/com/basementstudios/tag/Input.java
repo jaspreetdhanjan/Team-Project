@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Handles and updates input received from the keyboard.
+ * Additionally, clears input when focus is lost.
  * 
  * @author Jaspreet Dhanjan
  */

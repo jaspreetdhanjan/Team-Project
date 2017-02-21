@@ -7,7 +7,6 @@ import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.OverlayRenderer;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.Font;
 
 /**
  * Screen representation for when the game is in the menu state.
@@ -38,15 +37,14 @@ public class TitleScreen extends Screen {
 	}
 
 	public void renderScene(Bitmap bm) {
-		Font font = Font.getInstance();
 		bm.clear();
 		for (int i = 0; i < bm.pixels.length; i++) {
 			bm.pixels[i] = i + tickCount;
 		}
 
-		int xom = (Game.WIDTH - font.getCharWidth(Game.TITLE)) / 2;
-		font.draw(bm, Game.TITLE, xom, 84, 0xffffff);
+		int xom = (Game.WIDTH - bm.getCharWidth(Game.TITLE)) / 2;
+		bm.drawString(Game.TITLE, xom, 84, 0xffffff);
 
-		overlayRenderer.renderSelectables(font, bm);
+		overlayRenderer.renderSelectables(bm);
 	}
 }

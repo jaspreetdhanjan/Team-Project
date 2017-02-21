@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import com.basementstudios.tag.graphics.*;
-import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.screen.*;
 import com.basementstudios.network.CharacterData;
 
@@ -121,7 +120,7 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		bitmapRender(Font.getInstance());
+		bitmapRender();
 
 		int wr = getWidth();
 		int hr = getHeight();
@@ -134,13 +133,13 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 
-	private void bitmapRender(Font font) {
+	private void bitmapRender() {
 		// Draw the "screen" – i.e. Game Screen
 		screenManager.render(screenBitmap);
 
 		// Overlay debug info – FPS, ticks
-		font.drawShadowed(screenBitmap, VERSION, 6, 6, 0xffffff);
-		font.drawShadowed(screenBitmap, fpsString, 6, 6 + 12, 0xffffff);
+		screenBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
+		screenBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
 
 		// Pass to the BufferedImage
 		for (int y = 0; y < HEIGHT; y++) {

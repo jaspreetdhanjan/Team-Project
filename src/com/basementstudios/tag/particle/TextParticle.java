@@ -1,7 +1,6 @@
 package com.basementstudios.tag.particle;
 
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.Font;
 
 /**
  * Generates a random text based particle.
@@ -37,6 +36,6 @@ public class TextParticle extends Particle {
 	public void render(Bitmap bm) {
 		int xp = (int) x;
 		int yp = (int) (y - z);
-		Font.getInstance().draw(bm, msg, xp, yp, colour);
+		bm.drawString(msg, xp, yp, colour);
 	}
 }

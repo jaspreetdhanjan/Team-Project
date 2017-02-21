@@ -53,7 +53,7 @@ public class OverlayRenderer<S, T extends Screen> {
 
 	int i = 0;
 
-	public void renderSelectables(Font font, Bitmap bm) {
+	public void renderSelectables(Bitmap bm) {
 		i = 0;
 		stateDirectory.entrySet().forEach((e) -> {
 			S op = e.getKey();
@@ -61,9 +61,9 @@ public class OverlayRenderer<S, T extends Screen> {
 			String option = op.toString();
 			if (i == selectedIndex) option = "-> " + option;
 
-			int xo = (Game.WIDTH - font.getCharWidth(option)) / 2;
+			int xo = (Game.WIDTH - bm.getCharWidth(option)) / 2;
 			int yo = 128 + i * 20;
-			font.draw(bm, option, xo, yo, 0xffffff);
+			bm.drawString(option, xo, yo, 0xffffff);
 			i++;
 		});
 	}

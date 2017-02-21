@@ -47,16 +47,16 @@ public class GameScreen extends Screen {
 		playerController.render(bm);
 	}
 
-	public void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
+	public void renderHud(Bitmap bm, int xStart, int yStart) {
 		if (playerController.getSelectedPlayer() == null) return;
 
-		super.renderHud(bm, font, xStart, yStart);
-		font.draw(bm, "Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
-		font.draw(bm, "Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), xStart, yStart + 1 * 12, 0xffffff);
+		super.renderHud(bm, xStart, yStart);
+		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
+		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), xStart, yStart + 1 * 12, 0xffffff);
 
 		int i = 0;
 		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
-			font.draw(bm, stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
+			bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
 			i++;
 		}
 	}

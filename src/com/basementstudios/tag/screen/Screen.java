@@ -4,7 +4,6 @@ import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.ScreenManager;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.Font;
 
 /**
  * A base class that localises all screen states.
@@ -34,7 +33,7 @@ public class Screen {
 		if (this instanceof GameScreen) {
 			int yOffs = Game.HEIGHT - HUD_HEIGHT;
 			bm.fill(0, yOffs, bm.width, bm.height, 0);
-			renderHud(bm, Font.getInstance(), 8, yOffs + 8);
+			renderHud(bm, 8, yOffs + 8);
 		}
 	}
 
@@ -47,7 +46,7 @@ public class Screen {
 	/**
 	 * The "hud" is the content displayed in the box in the gamescreen.
 	 */
-	protected void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
+	protected void renderHud(Bitmap bm, int xStart, int yStart) {
 	}
 
 	public final void exit() {
