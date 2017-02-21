@@ -23,6 +23,7 @@ public class PlayerController {
 	public void addPlayers(Level level, double x, double y, List<CharacterData> selectedCharas) {
 		this.level = level;
 
+		//TODO: remove the -1!
 		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1 - 1));
 		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2 - 1));
 		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3 - 1));

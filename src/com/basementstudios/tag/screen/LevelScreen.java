@@ -5,6 +5,7 @@ import java.util.List;
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
+import com.basementstudios.tag.OverlayRenderer;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.level.Level;
@@ -16,9 +17,7 @@ import com.basementstudios.tag.level.Level;
  */
 
 public class LevelScreen extends Screen {
-	private String[] options = { "Level 1" };
-	private Level[] levels = { new Level(Game.WIDTH - 50, Game.HEIGHT - 50) };
-	private int selected = 0;
+	private OverlayRenderer<Level, Screen> overlayRenderer;
 
 	private List<CharacterData> selectedCharas;
 
@@ -26,21 +25,22 @@ public class LevelScreen extends Screen {
 		this.selectedCharas = selectedCharas;
 	}
 
-	public void tick(Input input) {
-		if ((input.up.clicked || input.left.clicked) && selected > 0) selected--;
-		if ((input.down.clicked || input.right.clicked) && selected < options.length - 1) selected++;
+	public void init() {
+		overlayRenderer = new OverlayRenderer<Level, Screen>(screenManager);
 
-		if (selected == 0 && (input.enter.clicked || input.space.clicked)) {
-			screenManager.setScreen(new GameScreen(selectedCharas, levels[selected]));
-		} else if (selected == 1 && (input.enter.clicked || input.space.clicked)) {
-			exit();
-		}
+		Level level0 = new Level(Game.WIDTH - 50, Game.HEIGHT - 50);
+		overlayRenderer.add(level0, new GameScreen(selectedCharas, level0));
+	}
+
+	public void tick(Input input) {
+		overlayRenderer.inputTick(input);
 	}
 
 	public void renderScene(Bitmap bm) {
 		Font font = Font.getInstance();
 
 		bm.clear();
-		renderSelectables(font, bm, options, selected);
+
+		overlayRenderer.renderSelectables(font, bm);
 	}
 }

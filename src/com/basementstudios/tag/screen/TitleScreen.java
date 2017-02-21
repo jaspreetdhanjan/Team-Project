@@ -5,6 +5,7 @@ import java.util.List;
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
+import com.basementstudios.tag.OverlayRenderer;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.Font;
 
@@ -15,8 +16,7 @@ import com.basementstudios.tag.graphics.Font;
  */
 
 public class TitleScreen extends Screen {
-	private String[] options = { "Play", "Exit" };
-	private int selected = 0;
+	private OverlayRenderer<String, Screen> overlayRenderer;
 	private int tickCount = 0;
 
 	private List<CharacterData> selectedCharas;
@@ -25,17 +25,16 @@ public class TitleScreen extends Screen {
 		this.selectedCharas = selectedCharas;
 	}
 
+	public void init() {
+		overlayRenderer = new OverlayRenderer<String, Screen>(screenManager);
+		overlayRenderer.add("Play", new LevelScreen(selectedCharas));
+		overlayRenderer.add("Exit", new ExitScreen());
+	}
+
 	public void tick(Input input) {
 		tickCount++;
 
-		if ((input.up.clicked || input.left.clicked) && selected > 0) selected--;
-		if ((input.down.clicked || input.right.clicked) && selected < options.length - 1) selected++;
-
-		if (selected == 0 && (input.enter.clicked || input.space.clicked)) {
-			screenManager.setScreen(new LevelScreen(selectedCharas));
-		} else if (selected == 1 && (input.enter.clicked || input.space.clicked)) {
-			exit();
-		}
+		overlayRenderer.inputTick(input);
 	}
 
 	public void renderScene(Bitmap bm) {
@@ -48,6 +47,6 @@ public class TitleScreen extends Screen {
 		int xom = (Game.WIDTH - font.getCharWidth(Game.TITLE)) / 2;
 		font.draw(bm, Game.TITLE, xom, 84, 0xffffff);
 
-		renderSelectables(font, bm, options, xom);
+		overlayRenderer.renderSelectables(font, bm);
 	}
 }

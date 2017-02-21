@@ -14,7 +14,7 @@ import com.basementstudios.tag.graphics.Font;
 
 public class Screen {
 	private static final int HUD_HEIGHT = 100;
-	
+
 	protected ScreenManager screenManager;
 
 	public final void init(ScreenManager screenManager) {
@@ -49,19 +49,9 @@ public class Screen {
 	 */
 	protected void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
 	}
-	
-	public void renderSelectables(Font font, Bitmap bm, String[] options, int selected) {
-		for (int i = 0; i < options.length; i++) {
-			String option = options[i];
-			if (i == selected) option = "-> " + option;
-			int xo = (Game.WIDTH - font.getCharWidth(option)) / 2;
-			int yo = 128 + i * 20;
-			font.draw(bm, option, xo, yo, 0xffffff);
-		}
-	}
 
 	public final void exit() {
-		System.exit(1);
+		screenManager.setScreen(new ExitScreen());
 	}
 
 	public boolean isLive() {

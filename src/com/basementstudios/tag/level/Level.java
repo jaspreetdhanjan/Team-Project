@@ -86,4 +86,8 @@ public class Level {
 	public int getHeight() {
 		return height;
 	}
+	
+	public String toString() {
+		return "Level 1";
+	}
 }
