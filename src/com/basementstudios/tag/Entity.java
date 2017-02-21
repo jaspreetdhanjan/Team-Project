@@ -14,7 +14,7 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
  * @author Jaspreet Dhanjan
  */
 
-public class Entity {
+public abstract class Entity {
 	public static final Random random = new Random();
 
 	private boolean removed = false;

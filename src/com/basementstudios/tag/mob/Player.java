@@ -2,6 +2,7 @@ package com.basementstudios.tag.mob;
 
 import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
+import com.basementstudios.tag.particle.Explosion;
 import com.basementstudios.network.*;
 
 /**
@@ -32,6 +33,10 @@ public class Player extends Mob {
 		if (shootTime > 0) {
 			shootTime--;
 		}
+
+//		if (random.nextInt(100) == 0) {
+//			level.add(new Explosion(x, y, 10));
+//		}
 	}
 
 	public void attemptShoot() {
@@ -68,6 +73,10 @@ public class Player extends Mob {
 
 		int xp = (int) x;
 		int yp = (int) y;
-		bm.render(SpriteSheet.chars[xSpriteIndex][ySpriteIndex], xp, yp, colour);
+		bm.render(getBitmap(), xp, yp, colour);
+	}
+	
+	public Bitmap getBitmap() {
+		return SpriteSheet.chars[xSpriteIndex][ySpriteIndex];
 	}
 }

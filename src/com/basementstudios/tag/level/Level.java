@@ -11,8 +11,6 @@ public abstract class Level {
 	private final int width, height;
 
 	private List<Entity> entities = new ArrayList<Entity>();
-	private List<Entity> entitiesToRemove = new ArrayList<Entity>();
-	private boolean isDirty = false;
 
 	public Level(String levelName, int width, int height) {
 		this.levelName = levelName;
@@ -25,7 +23,7 @@ public abstract class Level {
 		e.init(this);
 	}
 
-	private void remove(Entity e) {
+	public void remove(Entity e) {
 		e.onRemoved();
 		entities.remove(e);
 	}
@@ -43,24 +41,19 @@ public abstract class Level {
 	}
 
 	public void tick() {
-		for (Entity entity : entities) {
-			if (entity.isRemoved()) {
-				isDirty = true;
-				entitiesToRemove.add(entity);
-			} else {
-				entity.tick();
+		Iterator<Entity> it = entities.iterator();
+		while (it.hasNext()) {
+			Entity e = it.next();
+			if (e.isRemoved()) {
+				it.remove();
 			}
-		}
 
-		if (isDirty) {
-			for (Entity entity : entitiesToRemove) {
-				remove(entity);
-			}
-			entitiesToRemove.clear();
+			e.tick();
 		}
 	}
 
 	private List<Entity> tmpResult = new ArrayList<Entity>();
+
 	public List<Entity> getEntities(AxisAlignedBB bb) {
 		tmpResult.clear();
 		for (int i = 0; i < entities.size(); i++) {

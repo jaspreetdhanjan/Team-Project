@@ -10,7 +10,6 @@ import com.basementstudios.tag.graphics.Bitmap;
 
 public class FlameParticle extends Particle {
 	public int maxLife;
-	public boolean noSmoke;
 
 	public FlameParticle(double x, double y, double z) {
 		super(x, y, z);
@@ -25,7 +24,7 @@ public class FlameParticle extends Particle {
 	}
 
 	public void onRemoved() {
-		if (random.nextInt(5) == 0 && !noSmoke) {
+		if (random.nextInt(5) == 0) {
 			Particle smoke = new SmokeParticle(x, y, 2);
 			smoke.xa *= 0.1;
 			smoke.ya *= 0.1;
