@@ -9,11 +9,9 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 public abstract class Level {
 	private final int width, height;
 
-	private int playTime;
 	private List<Entity> entities = new ArrayList<Entity>();
-	private boolean isDirty = false;
 	private List<Entity> entitiesToRemove = new ArrayList<Entity>();
-	private List<Entity> tmpResult = new ArrayList<Entity>();
+	private boolean isDirty = false;
 
 	public Level(int width, int height) {
 		this.width = width;
@@ -43,8 +41,6 @@ public abstract class Level {
 	}
 
 	public void tick() {
-		playTime++;
-
 		for (Entity entity : entities) {
 			if (entity.isRemoved()) {
 				isDirty = true;
@@ -62,21 +58,18 @@ public abstract class Level {
 		}
 	}
 
-	public List<Entity> getEntities(double x0, double y0, double x1, double y1) {
+	private List<Entity> tmpResult = new ArrayList<Entity>();
+	public List<Entity> getEntities(AxisAlignedBB bb) {
 		tmpResult.clear();
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 
-			AxisAlignedBB bb = e.getBB();
-			if (bb.contains(x0, y0, x1, y1)) {
+			AxisAlignedBB otherBB = e.getBB();
+			if (bb.contains(otherBB)) {
 				tmpResult.add(e);
 			}
 		}
 		return tmpResult;
-	}
-
-	public int getPlayTime() {
-		return playTime;
 	}
 
 	public int getWidth() {

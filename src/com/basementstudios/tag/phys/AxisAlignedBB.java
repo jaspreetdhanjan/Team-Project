@@ -8,21 +8,25 @@ package com.basementstudios.tag.phys;
 
 // TODO: Needs to be completed!
 public class AxisAlignedBB {
-	public double x, y;
+	public double xPos, yPos;
 	public double xSize, ySize;
 
-	public void set(double x, double y, double xSize, double ySize) {
-		this.x = x;
-		this.y = y;
+	public void set(double xPos, double yPos, double xSize, double ySize) {
+		this.xPos = xPos;
+		this.yPos = yPos;
 		this.xSize = xSize;
 		this.ySize = ySize;
 	}
 
-	public boolean overlaps(AxisAlignedBB bb) {
-		return false;
+	public boolean contains(AxisAlignedBB bb) {
+		if (bb.xPos < xPos || bb.yPos < yPos) return false;
+		if (bb.xPos + bb.xSize > xPos + xSize || bb.yPos + bb.ySize > yPos + ySize) return false;
+		return true;
 	}
 
-	public boolean contains(double x0, double y0, double x1, double y1) {
-		return false;
+	public boolean overlaps(AxisAlignedBB bb) {
+		if (bb.xPos + bb.xSize < xPos || bb.yPos + bb.ySize < yPos) return false;
+		if (bb.xPos > xPos + xSize || bb.yPos > yPos + yPos) return false;
+		return true;
 	}
 }

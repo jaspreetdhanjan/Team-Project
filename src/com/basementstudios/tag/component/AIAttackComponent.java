@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.mob.Mob;
+import com.basementstudios.tag.phys.AxisAlignedBB;
 import com.basementstudios.tag.projectile.Bullet;
 
 public class AIAttackComponent extends AIComponent {
+	private AxisAlignedBB bb = new AxisAlignedBB();
+
 	public AIAttackComponent(Mob attachedMob) {
 		super(attachedMob);
 	}
@@ -17,9 +20,10 @@ public class AIAttackComponent extends AIComponent {
 	public Mob getNearestMob(double radius) {
 		double x = attachedMob.x;
 		double y = attachedMob.y;
+		bb.set(x - radius, y - radius, x + radius, y + radius);
 
 		Mob result = null;
-		List<Entity> entities = attachedMob.getLevel().getEntities(x - radius, y - radius, x + radius, y + radius);
+		List<Entity> entities = attachedMob.getLevel().getEntities(bb);
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);

@@ -32,12 +32,10 @@ public class Mob extends Entity {
 	private void move(double xxa, double yya) {
 		if (isRemoved()) return;
 
-		lastWalkDist = walkDist;
-
-		double x0 = bb.x;
-		double y0 = bb.y;
-		double x1 = bb.x + bb.xSize;
-		double y1 = bb.y + bb.ySize;
+		double x0 = bb.xPos;
+		double y0 = bb.yPos;
+		double x1 = bb.xPos + bb.xSize;
+		double y1 = bb.yPos + bb.ySize;
 
 		if (x0 < 0 || y0 < 0 || x1 >= level.getWidth() || y1 >= level.getHeight()) {
 			collide(null, xxa, yya);
@@ -46,6 +44,7 @@ public class Mob extends Entity {
 
 		x = xxa;
 		y = yya;
+		lastWalkDist = walkDist;
 		walkDist++;
 		bb.set(x, y, xs, ys);
 	}
