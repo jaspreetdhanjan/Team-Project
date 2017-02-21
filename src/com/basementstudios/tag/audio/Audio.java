@@ -6,34 +6,39 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Audio implements Runnable{
 	
-	private Clip clip;
 	private AudioInputStream inputStream;
-	private Thread thread;
+	private Clip clip;
+	private String path;
 	
-	public Audio(String path) throws Exception{
-        	this.inputStream = AudioSystem.getAudioInputStream(
-        		this.getClass().getResourceAsStream(path));
+	public Audio(String path, boolean loop){
+		this.path = path;
+		setAudioInputStream(path, loop);
 	}
-	
-	public synchronized void play() {
-		this.thread = new Thread(this);
-		this.thread.setName(this.toString());
-		this.thread.start();
+
+	public void setAudioInputStream(String path, boolean loop){
+		try {
+			inputStream = AudioSystem.getAudioInputStream(this.getClass().getResourceAsStream(path));
+			clip = AudioSystem.getClip();
+			clip.open(inputStream);
+			if(loop) clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public void run() {
-		try {
-			this.clip = AudioSystem.getClip();
-			this.clip.open(this.inputStream);
-			clip.start(); 
-		} catch (LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
-		
+		clip.start();
 	}
 	
+	@Override
+	public String toString() {
+		return this.path;
+	}
+
 }
+
