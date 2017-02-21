@@ -5,7 +5,6 @@ import java.util.List;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
-import com.basementstudios.tag.projectile.Bullet;
 
 public class AIAttackComponent extends AIComponent {
 	private AxisAlignedBB bb = new AxisAlignedBB();
@@ -47,6 +46,6 @@ public class AIAttackComponent extends AIComponent {
 		double dx = target.x - x;
 		double dir = Math.atan2(dy, dx);
 
-		attachedMob.getLevel().add(new Bullet(attachedMob, x, y, dir));
+//		attachedMob.getLevel().add(new Bullet(attachedMob, x, y, dir));
 	}
 }
