@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = 300;
 	public static final int SCALE = 2;
 	public static final String TITLE = "The Adventurers' Guild";
-	public static final String VERSION = "Network Pre Alpha 1";
+	public static final String VERSION = "Gameplay alpha 1";
 
 	private boolean stop = false;
 	private String fpsString = "";
@@ -149,9 +149,5 @@ public class Game extends Canvas implements Runnable {
 		g.drawImage(screenImage, (w - wr) / 2, (h - hr) / 2, wr, hr, null);
 		g.dispose();
 		bs.show();
-	}
-
-	public static void main(String[] args) {
-		new Game(null);
 	}
 }

@@ -232,7 +232,7 @@ public class CharacterSelect {
 				chara.addStat();
 
 				name1.setText("Name: " + chara.getName());
-				health1.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
+				health1.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
 				List<Stat> stats = chara.getStats();
 
@@ -257,7 +257,7 @@ public class CharacterSelect {
 				chara.addStat();
 
 				name2.setText("Name: " + chara.getName());
-				health2.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
+				health2.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
 				List<Stat> stats = chara.getStats();
 
@@ -282,7 +282,7 @@ public class CharacterSelect {
 				chara.addStat();
 				
 				name3.setText("Name: " + chara.getName());
-				health3.setText("Health: " + String.valueOf(chara.getCurrentHelth()));
+				health3.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
 				List<Stat> stats = chara.getStats();
 

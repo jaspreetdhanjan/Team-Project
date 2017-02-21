@@ -42,6 +42,7 @@ public class Input implements KeyListener, FocusListener {
 	}
 
 	private boolean[] keys_ = new boolean[255];
+	private boolean[] locksKeys = new boolean[255];
 	public List<Key> keys = new ArrayList<Key>();
 	public List<Character> charsTyped = new ArrayList<Character>();
 
@@ -72,6 +73,7 @@ public class Input implements KeyListener, FocusListener {
 
 	public void keyReleased(KeyEvent e) {
 		keys_[e.getKeyCode()] = false;
+		locksKeys[e.getKeyCode()] = false;
 		toggle(e, false);
 	}
 
@@ -124,6 +126,14 @@ public class Input implements KeyListener, FocusListener {
 
 	public boolean isDown(int key) {
 		return keys_[key];
+	}
+	
+	public boolean pressedOnce(int key){
+		if(keys_[key]&&!locksKeys[key]){
+			locksKeys[key]=true;
+			return true;
+		}
+		return false;
 	}
 
 	public boolean hasFocus() {

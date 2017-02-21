@@ -1,6 +1,7 @@
 package com.basementstudios.tag.mob;
 
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.particle.TextParticle;
 
 /**
@@ -10,17 +11,25 @@ import com.basementstudios.tag.particle.TextParticle;
  */
 
 public class Mob extends Entity {
-	public int health = 10;
 	public int hitTime = 0;
 	public int lastWalkDist, walkDist;
-	public boolean hasGone=false;
+	public boolean hasGone = false;
+	protected int dmg, def, spd, spellDuration, wepponType, health, maxHealth;
+	protected int debuffDamage, debuffDuration;
+	protected String name;
+	public boolean isAttacking = false;
+	public boolean isRetracting = false;
+	public int maxAttackFrame;
+	protected Font font = Font.getInstance();
+	protected Mob targe = null;
+	protected boolean alive = true;
 
 	public Mob(double x, double y) {
 		this.x = x;
 		this.y = y;
-		
-		this.xStart=x;
-		this.yStart=y;
+
+		this.xStart = x;
+		this.yStart = y;
 	}
 
 	public void attemptMove() {
@@ -30,10 +39,11 @@ public class Mob extends Entity {
 	}
 
 	private void move(double xxa, double yya) {
-		if (isRemoved()) return;
+		if (isRemoved())
+			return;
 
 		lastWalkDist = walkDist;
-		
+
 		double x0 = bb.x;
 		double y0 = bb.y;
 		double x1 = bb.x + bb.xs;
@@ -49,7 +59,7 @@ public class Mob extends Entity {
 		walkDist++;
 		bb.set(x, y, xs, ys);
 	}
-	
+
 	public boolean isMoving() {
 		return walkDist != lastWalkDist;
 	}
@@ -58,12 +68,48 @@ public class Mob extends Entity {
 		return true;
 	}
 
+	public void startAttack(int maxAttackFrame, Mob enemy) {
+		isAttacking = true;
+		isRetracting = false;
+		this.maxAttackFrame = maxAttackFrame;
+		targe = enemy;
+	}
+
+	public void spellCast(int spellDamage, int speelDamageDuration) {
+		this.debuffDamage = spellDamage;
+		this.debuffDuration = speelDamageDuration;
+		System.out.println("Cast spell");
+	}
+
+	public void turnTick() {
+		spellHurt();
+	}
+
+	public void spellHurt() {
+		System.out.println("Spell Hurt");
+		int colour = 0x0f5b00;
+
+		if (debuffDuration > 0) {
+			health -= debuffDamage;
+			level.add(new TextParticle("-" + debuffDamage, x, y, 2, colour));
+			debuffDuration--;
+
+			if (health <= 0) {
+				onDied();
+			}
+		}
+	}
+
 	public void hurt(Entity hurtBy, int dmg) {
 		int colour = 0xff0000;
 
-		health -= dmg;
-		hitTime = 15;
-		knockback(dmg);
+		int damage = dmg - def;
+
+		if (damage < 0) {
+			damage = 0;
+		}
+
+		health -= damage;
 		level.add(new TextParticle("-" + dmg, x, y, 2, colour));
 
 		if (health <= 0) {
@@ -73,22 +119,62 @@ public class Mob extends Entity {
 
 	public void onDied() {
 		remove();
-	}
-
-	private void knockback(int dmg) {
-		double m = dmg * 15;
-
-		double xKnockback = (-xa * m);
-		double yKnockback = (-ya * m);
-		if (xKnockback != 0 || yKnockback != 0) {
-			xa = xKnockback * 15.0;
-			ya = yKnockback * 15.0;
-			attemptMove();
-		}
+		alive = false;
 	}
 
 	public void collide(Entity otherEntity, double xxa, double yya) {
-		if (xxa != 0) xa = -1*20;
-		if (yya != 0) ya = -1*20;
+		if (xxa != 0)
+			xa = -1 * 20;
+		if (yya != 0)
+			ya = -1 * 20;
 	}
+
+	public int getDmg() {
+		return dmg;
+	}
+
+	public int getDef() {
+		return def;
+	}
+
+	public int getSpd() {
+		return spd;
+	}
+
+	public int getSpellDuration() {
+		return spellDuration;
+	}
+
+	public int getWepponType() {
+		return wepponType;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public Mob getTarge() {
+		return targe;
+	}
+
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public int getDebuffDamage() {
+		return debuffDamage;
+	}
+
+	public int getDebuffDuration() {
+		return debuffDuration;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 }

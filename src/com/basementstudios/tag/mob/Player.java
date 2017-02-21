@@ -1,6 +1,5 @@
 package com.basementstudios.tag.mob;
 
-import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.network.*;
 
@@ -13,15 +12,17 @@ import com.basementstudios.network.*;
 public class Player extends Mob {
 	private final CharacterData characterData;
 
-	private AIAttackComponent attackComponent = new AIAttackComponent(this);
-	private int shootTime = 0;
-	public boolean isAttacking = false;
-	public boolean isRetracting = false;
-	public int maxAttackFrame;
-
 	public Player(double x, double y, CharacterData characterData) {
 		super(x, y);
 		this.characterData = characterData;
+		dmg=characterData.getDmg();
+		def=characterData.getDef();
+		spd=characterData.getSpd();
+		spellDuration=characterData.getSpellDuration();
+		wepponType=characterData.getWepponType();
+		health=characterData.getCurrentHealth();
+		maxHealth=characterData.getMaxHealth();
+		name=characterData.getName();
 
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
@@ -29,13 +30,17 @@ public class Player extends Mob {
 		xs = 13 + 16;
 		ys = 26 + 16;
 
-		addComponent(attackComponent);
 	}
 
 	public void tick() {
 		super.tick();
 	}
 
+
+	public CharacterData getCharacterData() {
+		return characterData;
+	}
+	
 	public void render(Bitmap bm) {
 		int colour = 0xffffff;
 		if (hitTime > 0) {
@@ -65,16 +70,8 @@ public class Player extends Mob {
 		int xp = (int) x;
 		int yp = (int) y;
 		bm.render(SpriteSheet.chars[xSpriteIndex][ySpriteIndex], xp, yp, colour);
-	}
-
-	public CharacterData getCharacterData() {
-		return characterData;
-	}
-
-	public void startAttack(int maxAttackFrame) {
-		isAttacking = true;
-		isRetracting = false;
-		this.maxAttackFrame = maxAttackFrame;
-
+		
+		font.draw(bm, health+"/"+maxHealth, xp, yp+32,  0xff0000);
+		font.draw(bm, name, xp, yp-5,  0x000000);
 	}
 }

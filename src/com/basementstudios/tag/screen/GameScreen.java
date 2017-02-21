@@ -1,16 +1,14 @@
 package com.basementstudios.tag.screen;
 
-import java.awt.event.KeyEvent;
-
 import java.util.List;
-import java.util.Random;
-
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.Item;
 import com.basementstudios.network.Stat;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.mob.Mob;
+import com.basementstudios.tag.mob.Player;
 
 /**
  * The main screen. Is a screen representation for the game.
@@ -21,10 +19,11 @@ import com.basementstudios.tag.level.*;
 public class GameScreen extends Screen {
 	private Level currentLevel;
 	private GameController gameController;
-	
-	public GameScreen(List<CharacterData> selectedCharas) {
+	private Font font = Font.getInstance();
+
+	public GameScreen(List<CharacterData> selectedCharas, Game game) {
 		currentLevel = new Level(Game.WIDTH, Game.HEIGHT);
-		gameController = new GameController(currentLevel);
+		gameController = new GameController(currentLevel, game);
 		gameController.addPlayers(selectedCharas);
 		gameController.addEnemys(1);
 		gameController.gameLoop();
@@ -44,24 +43,59 @@ public class GameScreen extends Screen {
 		currentLevel.render(bm);
 		gameController.getPlayerController().render(bm);
 		gameController.getEnemyController().render(bm);
+		font.draw(bm, "Turn " + gameController.getTurn(), bm.width - 50, 10, 0x000000);
 	}
 
 	public void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
-		if (gameController.getPlayerController().getSelected() == PlayerController.PLAYER_NONE) return;
-
 		super.renderHud(bm, font, xStart, yStart);
-		font.draw(bm, "Name: " + gameController.getPlayerController().getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
-		font.draw(bm, "Health: " + gameController.getPlayerController().getSelectedPlayer().getCharacterData().getCurrentHelth(), xStart, yStart + 1 * 12, 0xffffff);
+		if (gameController.isPlayerTurn()) {
+			Mob player = gameController.getPlayerController().getSelectedMob();
+			Mob enemy = gameController.getEnemyController().getAttackMob();
+			mobHud(bm, player, xStart, yStart);
+			mobHud(bm, enemy, xStart + 200, yStart);
 
-		int i = 0;
-		for (Stat stats : gameController.getPlayerController().getSelectedPlayer().getCharacterData().getStats()) {
-			font.draw(bm, stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
-			i++;
+			font.draw(bm, "Use to W and S to cycle though a character to attack.", xStart, yStart + 75, 0xffffff);
+			font.draw(bm, "Then use enter to do so.", xStart, yStart + 85, 0xffffff);
+		} else {
+			font.draw(bm, "Please wait while the enemy takes its turn.", xStart, yStart + 70, 0xffffff);
 		}
-		i = 0;
-		for(Item item: gameController.getPlayerController().getSelectedPlayer().getCharacterData().getItems()){
-			font.draw(bm, item.getName(), xStart, yStart + i+2 * 12, 0xffffff);
-			i++;
+	}
+
+	private void mobHud(Bitmap bm, Mob player, int xStart, int yStart) {
+		if (player != null) {
+			font.draw(bm, "Damage " + player.getDmg(), xStart, yStart, 0xffffff);
+			font.draw(bm, "Defence " + player.getDef(), xStart, yStart + 10, 0xffffff);
+			font.draw(bm, "Speed " + player.getSpd(), xStart, yStart + 20, 0xffffff);
+
+			String weponType;
+			switch (player.getWepponType()) {
+			case CharacterData.NO_WEPPON_ID:
+				weponType = "Fists";
+				break;
+			case CharacterData.MELLE_ID:
+				weponType = "Melle";
+				break;
+			case CharacterData.RANGED_ID:
+				weponType = "Ranged";
+				break;
+			case CharacterData.MAGIC_ID:
+				weponType = "Magic";
+				break;
+			default:
+				weponType = "Im not gonna ask";
+				break;
+			}
+
+			font.draw(bm, "Wepon Type " + weponType, xStart, yStart + 35, 0xffffff);
+			if (player.getSpellDuration() != 0) {
+				font.draw(bm, "Spell Duration " + player.getSpellDuration(), xStart, yStart + 45, 0xffffff);
+			}
+
+			if (player.getDebuffDuration() != 0) {
+				font.draw(bm, "Debuff", xStart, yStart + 55, 0x85d19b);
+				font.draw(bm, player.getDebuffDamage() + " damage for " + player.getDebuffDuration() + " turns", xStart,
+						yStart + 65, 0x85d19b);
+			}
 		}
 	}
 }

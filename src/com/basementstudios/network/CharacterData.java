@@ -43,10 +43,6 @@ public class CharacterData {
 		this.id = id;
 	}
 
-	public int getCurrentHelth() {
-		return currentHealth;
-	}
-
 	public void setCurrentHelth(int currentHealth) {
 		this.currentHealth = currentHealth;
 	}
@@ -108,7 +104,7 @@ public class CharacterData {
 	}
 
 	public String toString() {
-		return name + " " + Integer.toString(getCurrentHelth()) + "/" + Integer.toString(getMaxHealth());
+		return name + " " + Integer.toString(getCurrentHealth()) + "/" + Integer.toString(getMaxHealth());
 	}
 
 	public void addStat() {
@@ -179,27 +175,27 @@ public class CharacterData {
 			}
 
 			for (Stat stat : item.getStats()) {
-				switch (stat.getValue()) {
+				System.out.println(stat.getId()+stat.getName());
+				switch (stat.getId()) {
 				case 1:
 					spd -= stat.getValue();
 					break;
 				case 2:
-					dmg +=stat.getValue();
+					dmg += dmg * stat.getValue();
 					break;
 				case 4:
 					spellDuration += stat.getValue();
 					break;
 				case 5:
-					def+=stat.getValue();
+					def += stat.getValue();
 					break;
-				case 6:
-					spd+=stat.getValue();
+				case 8:
+					spd += stat.getValue();
 					break;
 				}
 			}
 
 		}
-		System.out.println(spd);
 		if (spd < 0)
 			spd = 1;
 	}

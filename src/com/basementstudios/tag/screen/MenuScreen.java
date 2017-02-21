@@ -32,7 +32,7 @@ public class MenuScreen extends Screen {
 		if ((input.up.clicked || input.left.clicked) && selected > 0) selected--;
 		if ((input.down.clicked || input.right.clicked) && selected < options.length - 1) selected++;
 
-		if (selected == 0 && (input.enter.clicked || input.space.clicked)) game.setScreen(new GameScreen(selectedCharas));
+		if (selected == 0 && (input.enter.clicked || input.space.clicked)) game.setScreen(new GameScreen(selectedCharas,game));
 		if (selected == 1 && (input.enter.clicked || input.space.clicked)) exit();
 	}
 
