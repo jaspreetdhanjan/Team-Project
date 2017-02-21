@@ -28,12 +28,12 @@ public class TitleScreen extends Screen {
 	public void init() {
 		overlayRenderer = new OverlayRenderer<String, Screen>(screenManager);
 		overlayRenderer.add("Play", new LevelScreen(selectedCharas));
+		overlayRenderer.add("Options", new OptionsScreen());
 		overlayRenderer.add("Exit", new ExitScreen());
 	}
 
 	public void tick(Input input) {
 		tickCount++;
-
 		overlayRenderer.inputTick(input);
 	}
 

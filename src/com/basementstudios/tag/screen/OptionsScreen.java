@@ -1,6 +1,6 @@
 package com.basementstudios.tag.screen;
 
 //TODO
-public class ExitScreen extends Screen {
+public class OptionsScreen extends Screen {
 
 }

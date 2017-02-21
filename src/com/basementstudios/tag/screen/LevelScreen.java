@@ -9,6 +9,7 @@ import com.basementstudios.tag.OverlayRenderer;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.Font;
 import com.basementstudios.tag.level.Level;
+import com.basementstudios.tag.level.TestLevel;
 
 /**
  * Chooses the level for a player, levels/ nodes are unlocked as the player progresses.
@@ -26,10 +27,10 @@ public class LevelScreen extends Screen {
 	}
 
 	public void init() {
-		overlayRenderer = new OverlayRenderer<Level, Screen>(screenManager);
+		Level testLevel = new TestLevel(Game.WIDTH - 50, Game.HEIGHT - 50);
 
-		Level level0 = new Level(Game.WIDTH - 50, Game.HEIGHT - 50);
-		overlayRenderer.add(level0, new GameScreen(selectedCharas, level0));
+		overlayRenderer = new OverlayRenderer<Level, Screen>(screenManager);
+		overlayRenderer.add(testLevel, new GameScreen(selectedCharas, testLevel));
 	}
 
 	public void tick(Input input) {
@@ -37,10 +38,7 @@ public class LevelScreen extends Screen {
 	}
 
 	public void renderScene(Bitmap bm) {
-		Font font = Font.getInstance();
-
 		bm.clear();
-
-		overlayRenderer.renderSelectables(font, bm);
+		overlayRenderer.renderSelectables(Font.getInstance(), bm);
 	}
 }

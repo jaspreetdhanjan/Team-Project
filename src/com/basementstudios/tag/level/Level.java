@@ -6,7 +6,7 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
-public class Level {
+public abstract class Level {
 	private final int width, height;
 
 	private int playTime;
@@ -86,8 +86,6 @@ public class Level {
 	public int getHeight() {
 		return height;
 	}
-	
-	public String toString() {
-		return "Level 1";
-	}
+
+	public abstract String toString();
 }
