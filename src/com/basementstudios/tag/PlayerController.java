@@ -8,25 +8,30 @@ import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Player;
 
+/**
+ * Controls the 3 players.
+ * 
+ * @author Jaspreet Dhanjan
+ * @author James Bray
+ */
+
 public class PlayerController {
-	public static final int PLAYER_NONE = 0;
-	public static final int PLAYER_1 = 1;
-	public static final int PLAYER_2 = 2;
-	public static final int PLAYER_3 = 3;
+	public static final int PLAYER_NONE = -1;
+	public static final int PLAYER_1 = 0;
+	public static final int PLAYER_2 = 1;
+	public static final int PLAYER_3 = 2;
 
 	private Player p0, p1, p2;
 	private Level level;
 
 	private Player selectedPlayer = null;
-	private int selectionIndex = PLAYER_NONE;
 
 	public void addPlayers(Level level, double x, double y, List<CharacterData> selectedCharas) {
 		this.level = level;
 
-		//TODO: remove the -1!
-		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1 - 1));
-		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2 - 1));
-		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3 - 1));
+		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1));
+		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2));
+		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3));
 
 		this.level.add(p0);
 		this.level.add(p1);
@@ -34,8 +39,6 @@ public class PlayerController {
 	}
 
 	public void select(int selectionIndex) {
-		this.selectionIndex = selectionIndex;
-
 		if (selectionIndex == PLAYER_NONE) selectedPlayer = null;
 		if (selectionIndex == PLAYER_1) selectedPlayer = p0;
 		if (selectionIndex == PLAYER_2) selectedPlayer = p1;
@@ -53,10 +56,6 @@ public class PlayerController {
 
 	public Player getSelectedPlayer() {
 		return selectedPlayer;
-	}
-
-	public int getSelected() {
-		return selectionIndex;
 	}
 
 	public boolean attemptMove(double xa, double ya) {

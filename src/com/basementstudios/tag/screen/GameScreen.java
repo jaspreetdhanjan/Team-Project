@@ -49,7 +49,7 @@ public class GameScreen extends Screen {
 	}
 
 	public void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
-		if (playerController.getSelected() == PlayerController.PLAYER_NONE) return;
+		if (playerController.getSelectedPlayer() == null) return;
 
 		super.renderHud(bm, font, xStart, yStart);
 		font.draw(bm, "Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
@@ -61,7 +61,7 @@ public class GameScreen extends Screen {
 			i++;
 		}
 	}
-	
+
 	public boolean isLive() {
 		return false;
 	}

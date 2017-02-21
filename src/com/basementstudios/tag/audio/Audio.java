@@ -7,6 +7,12 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 
+/**
+ * Basic audio player implementation.
+ * 
+ * @author Heston Sanctis
+ */
+
 public class Audio implements Runnable {
 	private AudioInputStream inputStream;
 

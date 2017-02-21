@@ -18,9 +18,8 @@ import com.basementstudios.tag.level.TestLevel;
  */
 
 public class LevelScreen extends Screen {
-	private OverlayRenderer<Level, Screen> overlayRenderer;
-
 	private List<CharacterData> selectedCharas;
+	private OverlayRenderer<Level, Screen> overlayRenderer;
 
 	public LevelScreen(List<CharacterData> selectedCharas) {
 		this.selectedCharas = selectedCharas;
