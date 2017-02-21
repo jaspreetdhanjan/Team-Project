@@ -3,10 +3,10 @@ package com.basementstudios.tag;
 import java.util.List;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
+import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Player;
+import com.basementstudios.tag.particle.Explosion;
 
 /**
  * Controls the 3 players.
@@ -43,6 +43,10 @@ public class PlayerController {
 		if (selectionIndex == PLAYER_1) selectedPlayer = p0;
 		if (selectionIndex == PLAYER_2) selectedPlayer = p1;
 		if (selectionIndex == PLAYER_3) selectedPlayer = p2;
+
+		for(int i=0; i<50;i++) {
+			level.add(new Explosion(selectedPlayer.x, selectedPlayer.y, 10));
+		}
 	}
 
 	public void render(Bitmap bm) {

@@ -2,7 +2,6 @@ package com.basementstudios.tag.mob;
 
 import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
-import com.basementstudios.tag.particle.Explosion;
 import com.basementstudios.network.*;
 
 /**
@@ -33,10 +32,6 @@ public class Player extends Mob {
 		if (shootTime > 0) {
 			shootTime--;
 		}
-
-//		if (random.nextInt(100) == 0) {
-//			level.add(new Explosion(x, y, 10));
-//		}
 	}
 
 	public void attemptShoot() {

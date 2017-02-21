@@ -12,6 +12,9 @@ public abstract class Level {
 
 	private List<Entity> entities = new ArrayList<Entity>();
 
+	private List<Entity> toAdd = new ArrayList<Entity>();
+	private List<Entity> toRemove = new ArrayList<Entity>();
+
 	public Level(String levelName, int width, int height) {
 		this.levelName = levelName;
 		this.width = width;
@@ -19,36 +22,41 @@ public abstract class Level {
 	}
 
 	public void add(Entity e) {
-		entities.add(e);
-		e.init(this);
+		toAdd.add(e);
 	}
 
 	public void remove(Entity e) {
-		e.onRemoved();
-		entities.remove(e);
+		toRemove.remove(e);
 	}
 
 	public void render(Bitmap bm) {
 		bm.fill(0, 0, width, height, 0xe4cda2);
-
-		renderEntities(bm);
-	}
-
-	private void renderEntities(Bitmap bm) {
-		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).render(bm);
-		}
+		entities.forEach(e -> e.render(bm));
 	}
 
 	public void tick() {
-		Iterator<Entity> it = entities.iterator();
-		while (it.hasNext()) {
-			Entity e = it.next();
-			if (e.isRemoved()) {
-				it.remove();
-			}
-
+		for (Entity e : entities) {
 			e.tick();
+
+			if (e.isRemoved()) {
+				toRemove.add(e);
+			}
+		}
+
+		if (!toAdd.isEmpty()) {
+			for (Entity e : toAdd) {
+				entities.add(e);
+				e.init(this);
+			}
+			toAdd.clear();
+		}
+
+		if (!toRemove.isEmpty()) {
+			for (Entity e : toRemove) {
+				e.onRemoved();
+				entities.remove(e);
+			}
+			toRemove.clear();
 		}
 	}
 

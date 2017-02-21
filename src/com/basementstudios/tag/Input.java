@@ -64,6 +64,7 @@ public class Input implements KeyListener, FocusListener {
 	public Key num1 = new Key(KeyEvent.VK_1);
 	public Key num2 = new Key(KeyEvent.VK_2);
 	public Key num3 = new Key(KeyEvent.VK_3);
+	public Key esc = new Key(KeyEvent.VK_ESCAPE);
 
 	public Input(Game game) {
 		game.addKeyListener(this);

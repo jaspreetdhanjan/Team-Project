@@ -27,6 +27,10 @@ public class GameScreen extends Screen {
 	}
 
 	public void tick(Input input) {
+		if (input.esc.isClicked()) {
+			screenManager.setScreen(new PauseScreen());
+		}
+
 		level.tick();
 
 		double xa = 0;

@@ -12,17 +12,17 @@ import com.basementstudios.tag.graphics.Bitmap;
 
 public class PauseScreen extends Screen {
 	public void tick(Input input) {
-		if (input.hasFocus()) {
+		if (input.space.isClicked()) {
 			screenManager.toLastScreen();
 		}
 	}
 
 	public void renderScene(Bitmap bm) {
-		bm.fill(0, 0, bm.width, bm.height, 0xffffff);
-
-		String m = "Paused";
+		bm.clear();
+		String m = "Press space to resume!";
 		int xo = (Game.WIDTH - bm.getCharWidth(m)) / 2;
 		int yo = (Game.HEIGHT - 8) / 2;
+
 		bm.drawString(m, xo, yo, 0xff);
 	}
 }
