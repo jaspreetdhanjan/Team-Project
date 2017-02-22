@@ -10,6 +10,11 @@ import com.basementstudios.tag.mob.Player;
 import com.basementstudios.tag.screen.EndScreen;
 import com.basementstudios.network.*;
 
+/**
+ * Controls the game flow
+ * @author James Bray
+ *
+ */
 public class GameController {
 
 	private int turn = 0;
@@ -29,6 +34,10 @@ public class GameController {
 		this.game = game;
 	}
 
+	/**
+	 * Handles input and processing and handles mob attack completion
+	 * @param input
+	 */
 	public void tick(Input input) {
 		playerController.tick();
 		enemyController.tick();
@@ -55,6 +64,9 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Starts the game
+	 */
 	public void gameLoop() {
 		for (Mob player : playerController.getCharaList()) {
 			if (player.getSpd() > maxSpd)
@@ -70,6 +82,9 @@ public class GameController {
 		getNext();
 	}
 
+	/**
+	 * Gets the next action to be performed
+	 */
 	public void getNext() {
 		if (playerController.getCharaList().size() == 0)
 			game.setScreen(new EndScreen(false,null));
@@ -90,6 +105,9 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Resets an entity at the end of a turn
+	 */
 	public void resetEntity() {
 		for (Mob player : playerController.getCharaList()) {
 			player.hasGone = false;
@@ -100,6 +118,10 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * Gets the next player and starts there attack
+	 * @return
+	 */
 	public Player nextPlayer() {
 		int i = 0;
 		for (Mob player : playerController.getCharaList()) {
@@ -117,6 +139,10 @@ public class GameController {
 		return null;
 	}
 
+	/**
+	 * Gets the next enemy and starts there attack
+	 * @return
+	 */
 	public Mob nextEnemy() {
 		int i = 0;
 		for (Mob enemy : enemyController.getCharaList()) {
@@ -135,10 +161,18 @@ public class GameController {
 		return null;
 	}
 
+	/**
+	 * Adds players
+	 * @param selectedCharas
+	 */
 	public void addPlayers(List<CharacterData> selectedCharas) {
 		playerController.addPlayers(level, 50, 50, selectedCharas);
 	}
 
+	/**
+	 * Adds enemys
+	 * @param seed
+	 */
 	public void addEnemys(int seed) {
 		enemyController.addEnemy(level, 200, 50, seed);
 	}

@@ -7,6 +7,10 @@ import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
 
+/**
+ * @author James Bray
+ *
+ */
 public class ObjectControler {
 
 	protected Level level;
@@ -17,16 +21,27 @@ public class ObjectControler {
 	private int atackIndex = 0;
 	private boolean atacking = false;
 
+	
+	/**
+	 * Select the mob to do the attacking
+	 * @param selectionIndex
+	 */
 	public void select(int selectionIndex) {
 		selectedMob = charaList.get(selectionIndex);
 	}
 
+	/**
+	 * Sets the controller up for attack mode
+	 */
 	public void atack() {
 		atacking = true;
 		atackIndex = 0;
 		attackMob = charaList.get(0);
 	}
 
+	/**
+	 * Sets the controller to be attacked
+	 */
 	public void defending() {
 		atacking = false;
 		atackIndex = 0;
@@ -34,11 +49,19 @@ public class ObjectControler {
 
 	}
 
-	public void turnTick(){
-		for (Mob mob: charaList){
+	/**
+	 * Happens at the end of ever turn, updates all attached mobs
+	 */
+	public void turnTick() {
+		for (Mob mob : charaList) {
 			mob.turnTick();
 		}
 	}
+
+	/**
+	 * Renders the arrows above mobs heads, colour depended on the mode the controler is in
+	 * @param bm
+	 */
 	public void render(Bitmap bm) {
 		if (selectedMob != null && atacking) {
 			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
@@ -55,16 +78,28 @@ public class ObjectControler {
 		}
 	}
 
+	/**
+	 * Returns the mob to do the attacking
+	 * @return
+	 */
 	public Mob getSelectedMob() {
 		return selectedMob;
 	}
 
+	/**
+	 * Sets the Mob to be attacked
+	 * @param idDelta
+	 */
 	public void selectAtack(int idDelta) {
 		atackIndex += idDelta;
 		System.out.println(atackIndex);
 		attackMob = charaList.get(Math.abs(atackIndex % charaList.size()));
 	}
 
+	/**
+	 * Returns the Mob to be attacked
+	 * @return
+	 */
 	public Mob getAttackMob() {
 		return attackMob;
 	}
