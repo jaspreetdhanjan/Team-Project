@@ -9,6 +9,7 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 public abstract class Level {
 	private final String levelName;
 	private final int width, height;
+	public AxisAlignedBB bb = new AxisAlignedBB();
 
 	private List<Entity> entities = new ArrayList<Entity>();
 
@@ -19,6 +20,7 @@ public abstract class Level {
 		this.levelName = levelName;
 		this.width = width;
 		this.height = height;
+		bb.set(0, 0, width, height);
 	}
 
 	public void add(Entity e) {
@@ -60,20 +62,22 @@ public abstract class Level {
 		}
 	}
 
-	private List<Entity> tmpResult = new ArrayList<Entity>();
-
-	public List<Entity> getEntities(AxisAlignedBB bb) {
-		tmpResult.clear();
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-
-			AxisAlignedBB otherBB = e.getBB();
-			if (bb.contains(otherBB)) {
-				tmpResult.add(e);
+	// TODO: Fix this!
+	/*
+		private List<Entity> tmpResult = new ArrayList<Entity>();
+	
+		public List<Entity> getEntities(AxisAlignedBB bb) {
+			tmpResult.clear();
+			for (int i = 0; i < entities.size(); i++) {
+				Entity e = entities.get(i);
+	
+				AxisAlignedBB otherBB = e.getBB();
+				if (bb.contains(otherBB)) {
+					tmpResult.add(e);
+				}
 			}
-		}
-		return tmpResult;
-	}
+			return tmpResult;
+		}*/
 
 	public int getWidth() {
 		return width;

@@ -2,91 +2,75 @@ package com.basementstudios.tag.mob;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Entity;
-import com.basementstudios.tag.particle.TextParticle;
+import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.phys.AxisAlignedBB;
 
 /**
  * A moving and dynamic character within the game.
  * 
+ * @since Version 1.0 combat removed.
+ * 
  * @author Jaspreet Dhanjan
  */
 
-// Combat will eventually be replaced and fix, these are some placeholder classes for when Nick is finished...
 public class Mob extends Entity {
 	private final CharacterData characterData;
 
-	public int hitTime = 0;
-	public int lastWalkDist, walkDist;
+	protected AxisAlignedBB bb = new AxisAlignedBB();
+	protected int lastWalkDist, walkDist;
+	public double xa, ya;
 
-	public Mob(double x, double y, CharacterData characterData) {
-		this.x = x;
-		this.y = y;
+	public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
+		bb.set(x, y, xSize, ySize);
 		this.characterData = characterData;
 	}
 
 	public void attemptMove() {
-		double xxa = x + xa;
-		double yya = y + ya;
-		move(xxa, yya);
+		double xxa = bb.xPos + xa;
+		double yya = bb.yPos + ya;
+		AxisAlignedBB newBB = new AxisAlignedBB(xxa, yya, bb.xSize, bb.ySize);
+
+		move(newBB);
 	}
 
-	private void move(double xxa, double yya) {
+	private void move(AxisAlignedBB newBB) {
 		if (isRemoved()) return;
 
-		double x0 = bb.xPos;
-		double y0 = bb.yPos;
-		double x1 = bb.xPos + bb.xSize;
-		double y1 = bb.yPos + bb.ySize;
-
-		if (x0 < 0 || y0 < 0 || x1 >= level.getWidth() || y1 >= level.getHeight()) {
-			collide(null, xxa, yya);
+		if (!level.bb.contains(newBB)) {
+			collide(null, newBB);
 			return;
 		}
 
-		x = xxa;
-		y = yya;
 		lastWalkDist = walkDist;
 		walkDist++;
-		bb.set(x, y, xs, ys);
+		bb.set(newBB);
+	}
+
+	private void collide(Entity cause, AxisAlignedBB newBB) {
+		xa = 0;
+		ya = 0;
 	}
 
 	public boolean isMoving() {
 		return walkDist != lastWalkDist;
 	}
 
-	public boolean blocks(Entity e) {
-		return true;
-	}
-
-	public void hurt(Entity hurtBy, int dmg) {
-		int colour = 0xff0000;
-
-		hitTime = 15;
-		knockback(dmg);
-		level.add(new TextParticle("-" + dmg, x, y, 2, colour));
-	}
-
-	public void onDied() {
-		remove();
-	}
-
-	private void knockback(int dmg) {
-		double m = dmg * 15;
-
-		double xKnockback = (-xa * m);
-		double yKnockback = (-ya * m);
-		if (xKnockback != 0 || yKnockback != 0) {
-			xa = xKnockback * 15.0;
-			ya = yKnockback * 15.0;
-			attemptMove();
-		}
-	}
-
 	public void collide(Entity otherEntity, double xxa, double yya) {
-		if (xxa != 0) xa = 0;
-		if (yya != 0) ya = 0;
+		if (xxa != 0) xa *= -10;
+		if (yya != 0) ya *= -10;
+	}
+
+	public void render(Bitmap bm) {
+		int xp = (int) bb.xPos;
+		int yp = (int) bb.yPos;
+		bm.render(getBitmap(), xp, yp, colour);
 	}
 
 	public CharacterData getCharacterData() {
 		return characterData;
+	}
+
+	public AxisAlignedBB getBB() {
+		return bb;
 	}
 }

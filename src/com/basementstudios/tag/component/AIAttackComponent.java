@@ -17,12 +17,13 @@ public class AIAttackComponent extends AIComponent {
 	}
 
 	public Mob getNearestMob(double radius) {
-		double x = attachedMob.x;
-		double y = attachedMob.y;
+		double x = attachedMob.getBB().xPos;
+		double y = attachedMob.getBB().yPos;
 		bb.set(x - radius, y - radius, x + radius, y + radius);
 
 		Mob result = null;
-		List<Entity> entities = attachedMob.getLevel().getEntities(bb);
+		// List<Entity> entities = attachedMob.getLevel().getEntities(bb);
+		List<Entity> entities = null;
 
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
@@ -36,16 +37,16 @@ public class AIAttackComponent extends AIComponent {
 	}
 
 	public void tryAttack(double radius) {
-		double x = attachedMob.x;
-		double y = attachedMob.y;
+		double x = attachedMob.getBB().xPos;
+		double y = attachedMob.getBB().yPos;
 
 		Mob target = getNearestMob(radius);
 		if (target == null) return;
 
-		double dy = target.y - y;
-		double dx = target.x - x;
+		double dy = target.getBB().yPos - y;
+		double dx = target.getBB().xPos - x;
 		double dir = Math.atan2(dy, dx);
 
-//		attachedMob.getLevel().add(new Bullet(attachedMob, x, y, dir));
+		// attachedMob.getLevel().add(new Bullet(attachedMob, x, y, dir));
 	}
 }

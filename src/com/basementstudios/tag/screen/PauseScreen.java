@@ -7,6 +7,8 @@ import com.basementstudios.tag.graphics.Bitmap;
 /**
  * Screen representation for when the game is in a paused state.
  * 
+ * ESC enters the paused state, Space will exit.
+ * 
  * @author Jaspreet Dhanjan
  */
 

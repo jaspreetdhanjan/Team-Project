@@ -11,7 +11,8 @@ import com.basementstudios.tag.graphics.SpriteSheet;
  */
 
 public class Particle extends Entity {
-	public double z, za;
+	public double x, y, z;
+	public double xa, ya, za;
 	public int life;
 	public double bounce = 0.6;
 	public double gravity = 0.15;

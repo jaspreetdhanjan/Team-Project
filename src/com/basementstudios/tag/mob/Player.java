@@ -15,13 +15,10 @@ public class Player extends Mob {
 	private int shootTime = 0;
 
 	public Player(double x, double y, CharacterData characterData) {
-		super(x, y, characterData);
+		super(x, y, 13+16, 26+16, characterData);
 
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
-
-		xs = 13 + 16;
-		ys = 26 + 16;
 
 		addComponent(attackComponent);
 	}
@@ -41,12 +38,6 @@ public class Player extends Mob {
 	}
 
 	public void render(Bitmap bm) {
-		int colour = 0xffffff;
-		if (hitTime > 0) {
-			hitTime--;
-			colour = 0xcc0000;
-		}
-
 		if (xa == 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 0;
@@ -66,11 +57,9 @@ public class Player extends Mob {
 			}
 		}
 
-		int xp = (int) x;
-		int yp = (int) y;
-		bm.render(getBitmap(), xp, yp, colour);
+		super.render(bm);
 	}
-	
+
 	public Bitmap getBitmap() {
 		return SpriteSheet.chars[xSpriteIndex][ySpriteIndex];
 	}

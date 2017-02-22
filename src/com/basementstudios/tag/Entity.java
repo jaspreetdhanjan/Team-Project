@@ -6,7 +6,6 @@ import com.basementstudios.tag.component.Component;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
-import com.basementstudios.tag.phys.AxisAlignedBB;
 
 /**
  * A base class for all entities in the game. These are tracked by Level.java
@@ -20,12 +19,8 @@ public abstract class Entity {
 	private boolean removed = false;
 
 	protected Level level;
-	protected AxisAlignedBB bb = new AxisAlignedBB();
-
-	public double x, y;
-	public double xa, ya;
-	public double xs, ys;
-	public int xSpriteIndex, ySpriteIndex;
+	protected int xSpriteIndex, ySpriteIndex;
+	protected int colour = 0xffffff;
 
 	private List<Component> components = new ArrayList<Component>();
 
@@ -43,11 +38,7 @@ public abstract class Entity {
 		}
 	}
 
-	public void render(Bitmap bm) {
-		int xp = (int) x;
-		int yp = (int) y;
-		bm.render(getBitmap(), xp, yp, 0xffffff);
-	}
+	public abstract void render(Bitmap bm);
 
 	public Bitmap getBitmap() {
 		return SpriteSheet.entities[xSpriteIndex][ySpriteIndex];
@@ -64,15 +55,7 @@ public abstract class Entity {
 		return removed;
 	}
 
-	public boolean blocks(Entity e) {
-		return false;
-	}
-
 	public Level getLevel() {
 		return level;
-	}
-
-	public AxisAlignedBB getBB() {
-		return bb;
 	}
 }

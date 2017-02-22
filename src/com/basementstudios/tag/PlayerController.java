@@ -6,7 +6,6 @@ import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Player;
-import com.basementstudios.tag.particle.Explosion;
 
 /**
  * Controls the 3 players.
@@ -43,17 +42,13 @@ public class PlayerController {
 		if (selectionIndex == PLAYER_1) selectedPlayer = p0;
 		if (selectionIndex == PLAYER_2) selectedPlayer = p1;
 		if (selectionIndex == PLAYER_3) selectedPlayer = p2;
-
-		for(int i=0; i<50;i++) {
-			level.add(new Explosion(selectedPlayer.x, selectedPlayer.y, 10));
-		}
 	}
 
 	public void render(Bitmap bm) {
 		if (selectedPlayer != null) {
 			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-			int xp = (int) (selectedPlayer.x + 8);
-			int yp = (int) (selectedPlayer.y - 20) + yOffs;
+			int xp = (int) (selectedPlayer.getBB().xPos + 8);
+			int yp = (int) (selectedPlayer.getBB().yPos - 20) + yOffs;
 			bm.render(SpriteSheet.entities[0][0], xp, yp, 0xffffff);
 		}
 	}

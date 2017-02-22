@@ -6,17 +6,32 @@ package com.basementstudios.tag.phys;
  * @author Jaspreet Dhanjan
  */
 
-// TODO: Needs to be completed!
-
 public class AxisAlignedBB {
 	public double xPos, yPos;
 	public double xSize, ySize;
+
+	public AxisAlignedBB() {
+	}
+	
+	public AxisAlignedBB(double xPos, double yPos, double xSize, double ySize) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.xSize = xSize;
+		this.ySize = ySize;
+	}
 
 	public void set(double xPos, double yPos, double xSize, double ySize) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xSize = xSize;
 		this.ySize = ySize;
+	}
+	
+	public void set(AxisAlignedBB bb) {
+		this.xPos = bb.xPos;
+		this.yPos = bb.yPos;
+		this.xSize = bb.xSize;
+		this.ySize = bb.ySize;
 	}
 
 	public boolean contains(AxisAlignedBB bb) {

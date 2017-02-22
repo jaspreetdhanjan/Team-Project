@@ -1,6 +1,7 @@
 package com.basementstudios.tag.particle;
 
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.graphics.Bitmap;
 
 /**
  * Creates an explosion effect within the game with use of other particles.
@@ -9,7 +10,7 @@ import com.basementstudios.tag.Entity;
  */
 
 public class Explosion extends Entity {
-	public double z;
+	public double x, y, z;
 	public int life, maxLife;
 
 	public Explosion(double x, double y, double z) {
@@ -46,5 +47,8 @@ public class Explosion extends Entity {
 			fd.gravity = -0.10;
 			level.add(fd);
 		}
+	}
+
+	public void render(Bitmap bm) {
 	}
 }
