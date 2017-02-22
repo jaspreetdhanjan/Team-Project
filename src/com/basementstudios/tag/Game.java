@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
 	public static final int HEIGHT = 300;
 	public static final int SCALE = 2;
 	public static final String TITLE = "The Adventurers' Guild";
-	public static final String VERSION = "Gameplay alpha 1";
+	public static final String VERSION = "James Build 3";
 
 	private boolean stop = false;
 	private String fpsString = "";

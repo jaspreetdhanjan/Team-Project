@@ -162,16 +162,20 @@ public class CharacterData {
 	public void calculateBattleStats() {
 		spd += stats.get(4).getValue();
 		dmg += stats.get(2).getValue();
+		int damageMultiplier = 1;
 		for (Item item : items) {
 			switch (item.getTypeID()) {
 			case 1:
 				wepponType = MELLE_ID;
+				damageMultiplier = stats.get(2).getValue();
 				break;
 			case 2:
 				wepponType = RANGED_ID;
+				damageMultiplier = stats.get(3).getValue();
 				break;
 			case 3:
 				wepponType = MAGIC_ID;
+				damageMultiplier = stats.get(5).getValue();
 			}
 
 			for (Stat stat : item.getStats()) {
@@ -181,7 +185,7 @@ public class CharacterData {
 					spd -= stat.getValue();
 					break;
 				case 2:
-					dmg += dmg * stat.getValue();
+					dmg += stat.getValue()*damageMultiplier;
 					break;
 				case 4:
 					spellDuration += stat.getValue();
