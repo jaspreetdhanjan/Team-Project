@@ -3,12 +3,10 @@ package com.basementstudios.tag.screen;
 import java.util.List;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.Game;
-import com.basementstudios.tag.Input;
-import com.basementstudios.tag.OverlayRenderer;
+import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.level.Level;
-import com.basementstudios.tag.level.TestLevel;
+import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.ui.OptionsInterface;
 
 /**
  * Chooses the level for a player, levels/ nodes are unlocked as the player progresses.
@@ -18,7 +16,7 @@ import com.basementstudios.tag.level.TestLevel;
 
 public class LevelScreen extends Screen {
 	private List<CharacterData> selectedCharas;
-	private OverlayRenderer<Level, Screen> overlayRenderer;
+	private OptionsInterface<Level, Screen> options;
 
 	public LevelScreen(List<CharacterData> selectedCharas) {
 		this.selectedCharas = selectedCharas;
@@ -27,16 +25,16 @@ public class LevelScreen extends Screen {
 	public void init() {
 		Level testLevel = new TestLevel(Game.WIDTH - 50, Game.HEIGHT - 50);
 
-		overlayRenderer = new OverlayRenderer<Level, Screen>(screenManager);
-		overlayRenderer.add(testLevel, new GameScreen(selectedCharas, testLevel));
+		options = new OptionsInterface<Level, Screen>(screenManager);
+		options.add(testLevel, new GameScreen(selectedCharas, testLevel));
 	}
 
 	public void tick(Input input) {
-		overlayRenderer.inputTick(input);
+		options.inputTick(input);
 	}
 
 	public void renderScene(Bitmap bm) {
 		bm.clear();
-		overlayRenderer.renderSelectables(bm);
+		options.renderSelectables(bm);
 	}
 }

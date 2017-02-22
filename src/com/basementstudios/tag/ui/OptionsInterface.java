@@ -1,12 +1,15 @@
-package com.basementstudios.tag;
+package com.basementstudios.tag.ui;
 
 import java.util.*;
 
+import com.basementstudios.tag.Game;
+import com.basementstudios.tag.Input;
+import com.basementstudios.tag.ScreenManager;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.screen.Screen;
 
 /**
- * Basically a GUI renderer.
+ * A basic interface that shows a number of selectables.
  * 
  * @author Jaspreet Dhanjan
  *
@@ -16,15 +19,13 @@ import com.basementstudios.tag.screen.Screen;
  *            the destination String if option is chosen.
  */
 
-public class OverlayRenderer<S, T extends Screen> {
-	private ScreenManager manager;
-
+public class OptionsInterface<S, T extends Screen> extends Interface {
 	private Map<S, T> stateDirectory = new HashMap<S, T>();
 	private T selected;
 	private int selectedIndex = 0;
 
-	public OverlayRenderer(ScreenManager manager) {
-		this.manager = manager;
+	public OptionsInterface(ScreenManager manager) {
+		super(manager);
 	}
 
 	public void inputTick(Input input) {
@@ -51,21 +52,20 @@ public class OverlayRenderer<S, T extends Screen> {
 		}
 	}
 
-	int i = 0;
-
 	public void renderSelectables(Bitmap bm) {
-		i = 0;
-		stateDirectory.entrySet().forEach((e) -> {
-			S op = e.getKey();
+		int i = 0;
+		for (Map.Entry<S, T> entry : stateDirectory.entrySet()) {
+			S op = entry.getKey();
+			T ss = entry.getValue();
 
 			String option = op.toString();
-			if (i == selectedIndex) option = "-> " + option;
+			if (ss == selected) option = "-> " + option;
 
 			int xo = (Game.WIDTH - bm.getCharWidth(option)) / 2;
 			int yo = 128 + i * 20;
 			bm.drawString(option, xo, yo, 0xffffff);
 			i++;
-		});
+		}
 	}
 
 	public void add(S param, T screen) {

@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 public class Token {
+	private static final String AUTH_URL = "http://tag.yarbsemaj.com/api/login/auth.php";
 
 	private FileReader tokenFile;
 	private String tokenText;
@@ -24,7 +25,7 @@ public class Token {
 		arguments.put("Token", tokenText);
 		JSONObject loginData = null;
 		try {
-			loginData = new PostRequest().send("http://tag.yarbsemaj.com/api/login/auth.php", arguments);
+			loginData = new PostRequest().send(AUTH_URL, arguments);
 			return (boolean) loginData.get("success");
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();

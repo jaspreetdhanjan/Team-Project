@@ -139,7 +139,6 @@ public class CharacterData {
 			JSONObject charaData;
 			try {
 				charaData = poster.send(ITEM_URL, arguments);
-				System.out.println(charaData);
 				if ((boolean) charaData.get("success")) {
 					JSONObject charaData1 = (JSONObject) charaData.get("items");
 					JSONArray charaArray = (JSONArray) charaData1.get("item");
