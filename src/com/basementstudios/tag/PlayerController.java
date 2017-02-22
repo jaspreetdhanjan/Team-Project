@@ -21,15 +21,13 @@ public class PlayerController extends ObjectControler {
 		attackMob=charaList.get(0);
 	}
 
-	public boolean tick() {
-		boolean finished = false;
+	public void tick() {
 		for (int i=0; i< charaList.size(); i++) {
 			Mob player = charaList.get(i);
 			if (player.isAttacking) {
 				if (player.x - player.xStart == 0 && player.isRetracting) {
 					player.isAttacking = false;
 					player.xa = 0;
-					finished = true;
 				} else if (player.x - player.xStart == player.maxAttackFrame){
 					player.isRetracting = true;
 					player.getTarge().hurt(player, player.getDmg());
@@ -45,7 +43,6 @@ public class PlayerController extends ObjectControler {
 				charaList.remove(player);
 			}
 		}
-		return finished;
 	}
 
 	public ArrayList<Mob> getCharaList() {

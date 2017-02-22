@@ -25,7 +25,7 @@ public class GameController {
 	private boolean playerAtack = false;
 	private boolean playerFinished = true;
 
-	private boolean enemyFinished = true;
+	private boolean enemyAtacking = false;
 	private Random rand = new Random();
 	private Game game;
 
@@ -58,8 +58,8 @@ public class GameController {
 			}
 		}
 
-		if (!enemyFinished && !enemyController.getSelectedMob().isAttacking) {
-			enemyFinished = true;
+		if (enemyAtacking && !enemyController.getSelectedMob().isAttacking) {
+			enemyAtacking = false;
 			getNext();
 		}
 	}
@@ -67,7 +67,7 @@ public class GameController {
 	/**
 	 * Starts the game
 	 */
-	public void gameLoop() {
+	public void startGame() {
 		for (Mob player : playerController.getCharaList()) {
 			if (player.getSpd() > maxSpd)
 				maxSpd = player.getSpd();
@@ -91,15 +91,15 @@ public class GameController {
 		else if (enemyController.getCharaList().size() == 0)
 			game.setScreen(new EndScreen(true,playerController.getCharaList()));
 		else {
-			Player nextPlayer = nextPlayer();
+			Mob nextPlayer = nextPlayer();
 			if (nextPlayer == null) {
 				Mob nextEnemy = nextEnemy();
 				if (nextEnemy == null) {
 					turn++;
 					resetEntity();
-					getNext();
 					playerController.turnTick();
 					enemyController.turnTick();
+					getNext();
 				}
 			}
 		}
@@ -122,7 +122,7 @@ public class GameController {
 	 * Gets the next player and starts there attack
 	 * @return
 	 */
-	public Player nextPlayer() {
+	public Mob nextPlayer() {
 		int i = 0;
 		for (Mob player : playerController.getCharaList()) {
 			System.out.println(turn % (maxSpd - ((Player) player).getCharacterData().getSpd()));
@@ -132,7 +132,7 @@ public class GameController {
 				playerController.select(i);
 				enemyController.defending();
 				playerController.atack();
-				return (Player) player;
+				return  player;
 			}
 			i++;
 		}
@@ -148,7 +148,7 @@ public class GameController {
 		for (Mob enemy : enemyController.getCharaList()) {
 			if (turn % (maxSpd - enemy.getSpd()) == 0 && !enemy.hasGone) {
 				enemy.hasGone = true;
-				enemyFinished = false;
+				enemyAtacking = true;
 				enemyController.select(i);
 				enemyController.atack();
 				playerController.defending();
@@ -170,7 +170,7 @@ public class GameController {
 	}
 
 	/**
-	 * Adds enemys
+	 * Adds enemy
 	 * @param seed
 	 */
 	public void addEnemys(int seed) {

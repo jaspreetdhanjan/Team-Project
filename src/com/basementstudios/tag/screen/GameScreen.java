@@ -26,7 +26,7 @@ public class GameScreen extends Screen {
 		gameController = new GameController(currentLevel, game);
 		gameController.addPlayers(selectedCharas);
 		gameController.addEnemys(1);
-		gameController.gameLoop();
+		gameController.startGame();
 	}
 
 	public void init() {
