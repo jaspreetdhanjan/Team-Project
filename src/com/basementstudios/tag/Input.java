@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles and updates input received from the keyboard.
- * Additionally, clears input when focus is lost.
+ * Handles and updates input received from the keyboard. Additionally, clears input when focus is lost.
  * 
  * @author Jaspreet Dhanjan
  */
@@ -92,9 +91,7 @@ public class Input implements KeyListener, FocusListener {
 	}
 
 	public void tick() {
-		for (int i = 0; i < keys.size(); i++) {
-			keys.get(i).tick();
-		}
+		keys.forEach(key -> key.tick());
 	}
 
 	private void toggle(KeyEvent ke, boolean pressed) {
@@ -108,9 +105,7 @@ public class Input implements KeyListener, FocusListener {
 	}
 
 	private void releaseAll() {
-		for (int i = 0; i < keys.size(); i++) {
-			keys.get(i).release();
-		}
+		keys.forEach(key -> key.release());
 	}
 
 	public boolean hasFocus() {

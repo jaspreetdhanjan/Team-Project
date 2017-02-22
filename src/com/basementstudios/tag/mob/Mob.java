@@ -18,6 +18,7 @@ public class Mob extends Entity {
 
 	protected AxisAlignedBB bb = new AxisAlignedBB();
 	protected int lastWalkDist, walkDist;
+
 	public double xa, ya;
 
 	public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
@@ -33,17 +34,18 @@ public class Mob extends Entity {
 		move(newBB);
 	}
 
-	private void move(AxisAlignedBB newBB) {
-		if (isRemoved()) return;
+	private boolean move(AxisAlignedBB newBB) {
+		if (isRemoved()) return false;
 
-		if (!level.bb.contains(newBB)) {
+		if (!level.getBB().contains(newBB)) {
 			collide(null, newBB);
-			return;
+			return false;
 		}
 
 		lastWalkDist = walkDist;
 		walkDist++;
 		bb.set(newBB);
+		return true;
 	}
 
 	private void collide(Entity cause, AxisAlignedBB newBB) {
@@ -53,11 +55,6 @@ public class Mob extends Entity {
 
 	public boolean isMoving() {
 		return walkDist != lastWalkDist;
-	}
-
-	public void collide(Entity otherEntity, double xxa, double yya) {
-		if (xxa != 0) xa *= -10;
-		if (yya != 0) ya *= -10;
 	}
 
 	public void render(Bitmap bm) {

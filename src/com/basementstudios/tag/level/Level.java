@@ -9,7 +9,7 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 public abstract class Level {
 	private final String levelName;
 	private final int width, height;
-	public AxisAlignedBB bb = new AxisAlignedBB();
+	private AxisAlignedBB bb = new AxisAlignedBB();
 
 	private List<Entity> entities = new ArrayList<Entity>();
 
@@ -89,5 +89,9 @@ public abstract class Level {
 
 	public String toString() {
 		return levelName;
+	}
+	
+	public AxisAlignedBB getBB() {
+		return bb;
 	}
 }
