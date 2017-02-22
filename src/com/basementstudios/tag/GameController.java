@@ -76,7 +76,6 @@ public class GameController {
 			if (enemy.getSpd() > maxSpd)
 				maxSpd = enemy.getSpd();
 		}
-
 		maxSpd++;
 		turn++;
 		getNext();
@@ -91,20 +90,21 @@ public class GameController {
 		else if (enemyController.getCharaList().size() == 0)
 			game.setScreen(new EndScreen(true,playerController.getCharaList()));
 		else {
-			Mob nextPlayer = nextPlayer();
-			if (nextPlayer == null) {
-				Mob nextEnemy = nextEnemy();
-				if (nextEnemy == null) {
-					turn++;
-					resetEntity();
-					playerController.turnTick();
-					enemyController.turnTick();
-					getNext();
+			if (nextPlayer() == null) {
+				if (nextEnemy() == null) {
+					nextTurn();
 				}
 			}
 		}
 	}
-
+	
+	public void nextTurn(){
+		turn++;
+		resetEntity();
+		playerController.turnTick();
+		enemyController.turnTick();
+		getNext();
+	}
 	/**
 	 * Resets an entity at the end of a turn
 	 */
@@ -125,7 +125,6 @@ public class GameController {
 	public Mob nextPlayer() {
 		int i = 0;
 		for (Mob player : playerController.getCharaList()) {
-			System.out.println(turn % (maxSpd - ((Player) player).getCharacterData().getSpd()));
 			if (turn % (maxSpd - player.getSpd()) == 0 && !player.hasGone) {
 				player.hasGone = true;
 				playerAtack = true;
@@ -160,7 +159,7 @@ public class GameController {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Adds players
 	 * @param selectedCharas

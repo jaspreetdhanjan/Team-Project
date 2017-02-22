@@ -22,7 +22,6 @@ public class Mob extends Entity {
 	public int maxAttackFrame;
 	protected Font font = Font.getInstance();
 	protected Mob targe = null;
-	protected boolean alive = true;
 
 	public Mob(double x, double y) {
 		this.x = x;
@@ -78,7 +77,6 @@ public class Mob extends Entity {
 	public void spellCast(int spellDamage, int speelDamageDuration) {
 		this.debuffDamage = spellDamage;
 		this.debuffDuration = speelDamageDuration;
-		System.out.println("Cast spell");
 	}
 
 	public void turnTick() {
@@ -93,10 +91,6 @@ public class Mob extends Entity {
 			health -= debuffDamage;
 			level.add(new TextParticle("-" + debuffDamage, x, y, 2, colour));
 			debuffDuration--;
-
-			if (health <= 0) {
-				onDied();
-			}
 		}
 	}
 
@@ -104,6 +98,7 @@ public class Mob extends Entity {
 		int colour = 0xff0000;
 
 		int damage = dmg - def;
+		spellCast(dmg,spellDuration);
 
 		if (damage < 0) {
 			damage = 0;
@@ -111,15 +106,10 @@ public class Mob extends Entity {
 
 		health -= damage;
 		level.add(new TextParticle("-" + dmg, x, y, 2, colour));
-
-		if (health <= 0) {
-			onDied();
-		}
 	}
 
 	public void onDied() {
 		remove();
-		alive = false;
 	}
 
 	public void collide(Entity otherEntity, double xxa, double yya) {
@@ -159,10 +149,6 @@ public class Mob extends Entity {
 
 	public Mob getTarge() {
 		return targe;
-	}
-
-	public boolean isAlive() {
-		return alive;
 	}
 
 	public int getDebuffDamage() {

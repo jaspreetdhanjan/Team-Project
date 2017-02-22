@@ -66,21 +66,13 @@ public class EnemyController extends ObjectControler {
 				} else if (player.xStart - player.x == player.maxAttackFrame) {
 					player.isRetracting = true;
 					player.getTarge().hurt(player, player.getDmg());
-					player.getTarge().spellCast(player.getDmg(), player.getSpellDuration());
 				} else if (player.isRetracting)
 					player.xa = 1;
 				else
 					player.xa = -1;
 				player.attemptMove();
 			}
-			if (!player.isAlive()) {
-				charaList.remove(player);
-			}
+			removeDeadMob(player);
 		}
 	}
-
-	public ArrayList<Mob> getCharaList() {
-		return charaList;
-	}
-
 }

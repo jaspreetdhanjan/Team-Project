@@ -21,9 +21,9 @@ public class ObjectControler {
 	private int atackIndex = 0;
 	private boolean atacking = false;
 
-	
 	/**
 	 * Select the mob to do the attacking
+	 * 
 	 * @param selectionIndex
 	 */
 	public void select(int selectionIndex) {
@@ -59,7 +59,9 @@ public class ObjectControler {
 	}
 
 	/**
-	 * Renders the arrows above mobs heads, colour depended on the mode the controler is in
+	 * Renders the arrows above mobs heads, colour depended on the mode the
+	 * Controller is in
+	 * 
 	 * @param bm
 	 */
 	public void render(Bitmap bm) {
@@ -80,14 +82,23 @@ public class ObjectControler {
 
 	/**
 	 * Returns the mob to do the attacking
+	 * 
 	 * @return
 	 */
 	public Mob getSelectedMob() {
 		return selectedMob;
 	}
 
+	public void removeDeadMob(Mob mob) {
+		if (mob.getHealth() <= 0) {
+			mob.onDied();
+			charaList.remove(mob);
+		}
+	}
+
 	/**
 	 * Sets the Mob to be attacked
+	 * 
 	 * @param idDelta
 	 */
 	public void selectAtack(int idDelta) {
@@ -98,9 +109,14 @@ public class ObjectControler {
 
 	/**
 	 * Returns the Mob to be attacked
+	 * 
 	 * @return
 	 */
 	public Mob getAttackMob() {
 		return attackMob;
+	}
+
+	public ArrayList<Mob> getCharaList() {
+		return charaList;
 	}
 }
