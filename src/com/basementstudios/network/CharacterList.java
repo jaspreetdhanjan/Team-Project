@@ -3,12 +3,7 @@ package com.basementstudios.network;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;

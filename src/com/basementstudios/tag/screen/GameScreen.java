@@ -3,7 +3,6 @@ package com.basementstudios.tag.screen;
 import java.util.List;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.network.CharacterStat;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
@@ -16,11 +15,11 @@ import com.basementstudios.tag.level.*;
 
 public class GameScreen extends Screen {
 	private Level level;
-	private PlayerController playerController = new PlayerController();
+	private PlayerController playerController;
 
 	public GameScreen(List<CharacterData> selectedCharas, Level level) {
 		this.level = level;
-		playerController.addPlayers(level, 50, 100, selectedCharas);
+		playerController = new PlayerController(level, 50, 100, selectedCharas);
 	}
 
 	public void init() {
@@ -52,7 +51,7 @@ public class GameScreen extends Screen {
 	}
 
 	public void renderHud(Bitmap bm, int xStart, int yStart) {
-		if (playerController.getSelectedPlayer() == null) return;
+	/*	if (playerController.getSelectedPlayer() == null) return;
 
 		super.renderHud(bm, xStart, yStart);
 		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
@@ -62,10 +61,10 @@ public class GameScreen extends Screen {
 		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
 			bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
 			i++;
-		}
+		}*/
 	}
 
 	public boolean isLive() {
-		return false;
+		return true;
 	}
 }

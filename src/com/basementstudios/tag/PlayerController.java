@@ -20,21 +20,18 @@ public class PlayerController {
 	public static final int PLAYER_2 = 1;
 	public static final int PLAYER_3 = 2;
 
-	private Player p0, p1, p2;
-	private Level level;
+	private final Player p0, p1, p2;
 
 	private Player selectedPlayer = null;
 
-	public void addPlayers(Level level, double x, double y, List<CharacterData> selectedCharas) {
-		this.level = level;
-
+	public PlayerController(Level level, double x, double y, List<CharacterData> selectedCharas) {
 		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1));
 		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2));
 		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3));
 
-		this.level.add(p0);
-		this.level.add(p1);
-		this.level.add(p2);
+		level.add(p0);
+		level.add(p1);
+		level.add(p2);
 	}
 
 	public void select(int selectionIndex) {

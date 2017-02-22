@@ -1,11 +1,11 @@
 package com.basementstudios.network;
 
-public class CharacterStat {
+public class Stat {
 	private final int id;
 	private int value;
 	private String name;
 
-	public CharacterStat(int id, int value, String name) {
+	public Stat(int id, int value, String name) {
 		this.id = id;
 		this.name = name;
 		this.value = value;

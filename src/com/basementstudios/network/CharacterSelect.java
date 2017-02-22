@@ -20,17 +20,16 @@ import java.awt.event.ActionEvent;
 
 public class CharacterSelect {
 	private JFrame frame = new JFrame();
-
 	private boolean chara1, chara2, chara3;
 	private CharaViewControler charaViewControler;
-	private DefaultListModel<CharacterData> model;
+	private DefaultListModel<CharacterData> modal;
 
 	public CharacterSelect() {
 		charaViewControler = new CharaViewControler();
-		model = charaViewControler.getModel();
+		modal = charaViewControler.getModal();
 
-		if (model.getSize() >= 3) {
-			init();
+		if (modal.getSize() >= 3) {
+			initialize();
 		} else {
 			JOptionPane.showMessageDialog(frame.getContentPane(), "You need at least 3 characters to play the game go online to add more", "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -39,7 +38,7 @@ public class CharacterSelect {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void init() {
+	private void initialize() {
 		List<CharacterData> selectedCharas = new ArrayList<CharacterData>();
 		for (int i = 0; i < 3; i++) {
 			selectedCharas.add(null);
@@ -226,23 +225,23 @@ public class CharacterSelect {
 			public void actionPerformed(ActionEvent arg0) {
 				chara1 = true;
 				if (selectedCharas.get(0) != null) {
-					model.addElement(selectedCharas.get(0));
+					modal.addElement(selectedCharas.get(0));
 				}
-				CharacterList charaList = new CharacterList(model);
+				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
 				name1.setText("Name: " + chara.getName());
 				health1.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
-				List<CharacterStat> stats = chara.getStats();
+				List<Stat> stats = chara.getStats();
 
 				strength1.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility1.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
 				stamina1.setText("Stamina: " + String.valueOf(stats.get(4).getValue()));
 				magic1.setText("Magic: " + String.valueOf(stats.get(5).getValue()));
 
-				model.removeElement(chara);
+				modal.removeElement(chara);
 				selectedCharas.set(0, chara);
 			}
 		});
@@ -251,23 +250,23 @@ public class CharacterSelect {
 			public void actionPerformed(ActionEvent arg0) {
 				chara2 = true;
 				if (selectedCharas.get(1) != null) {
-					model.addElement(selectedCharas.get(1));
+					modal.addElement(selectedCharas.get(1));
 				}
-				CharacterList charaList = new CharacterList(model);
+				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
 
 				name2.setText("Name: " + chara.getName());
 				health2.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
-				List<CharacterStat> stats = chara.getStats();
+				List<Stat> stats = chara.getStats();
 
 				strength2.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility2.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
 				stamina2.setText("Stamina: " + String.valueOf(stats.get(4).getValue()));
 				magic2.setText("Magic: " + String.valueOf(stats.get(5).getValue()));
 
-				model.removeElement(chara);
+				modal.removeElement(chara);
 				selectedCharas.set(1, chara);
 			}
 		});
@@ -276,23 +275,23 @@ public class CharacterSelect {
 			public void actionPerformed(ActionEvent e) {
 				chara3 = true;
 				if (selectedCharas.get(2) != null) {
-					model.addElement(selectedCharas.get(2));
+					modal.addElement(selectedCharas.get(2));
 				}
-				CharacterList charaList = new CharacterList(model);
+				CharacterList charaList = new CharacterList(modal);
 				CharacterData chara = (CharacterData) charaList.showDialog();
 				chara.addStat();
-
+				
 				name3.setText("Name: " + chara.getName());
 				health3.setText("Health: " + String.valueOf(chara.getCurrentHealth()));
 
-				List<CharacterStat> stats = chara.getStats();
+				List<Stat> stats = chara.getStats();
 
 				strength3.setText("Strength: " + String.valueOf(stats.get(2).getValue()));
 				agility3.setText("Agility: " + String.valueOf(stats.get(3).getValue()));
 				stamina3.setText("Stamina: " + String.valueOf(stats.get(4).getValue()));
 				magic3.setText("Magic: " + String.valueOf(stats.get(5).getValue()));
 
-				model.removeElement(chara);
+				modal.removeElement(chara);
 				selectedCharas.set(2, chara);
 			}
 		});
@@ -300,11 +299,16 @@ public class CharacterSelect {
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (chara1 && chara2 && chara3) {
+					for(CharacterData chara : selectedCharas){
+						chara.addItems();
+						chara.calculateBattleStats();
+					}
 					new Game(selectedCharas);
 					frame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(frame.getContentPane(), "Please select three characters", "Error", JOptionPane.ERROR_MESSAGE);
 				}
+
 			}
 		});
 

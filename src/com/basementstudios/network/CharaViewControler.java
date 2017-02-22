@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
 public class CharaViewControler {
+	private static final String URL = "http://tag.yarbsemaj.com/api/chara/list.php";
+	
 	private String token;
 
 	public CharaViewControler() {
@@ -22,14 +24,14 @@ public class CharaViewControler {
 		}
 	}
 
-	public DefaultListModel<CharacterData> getModel() {
+	public DefaultListModel<CharacterData> getModal() {
 		DefaultListModel<CharacterData> model = new DefaultListModel<CharacterData>();
 		PostRequest poster = new PostRequest();
 		Map<String, String> arguments = new HashMap<String, String>();
 		arguments.put("Token", token);
 		JSONObject charaData;
 		try {
-			charaData = poster.send("http://tag.yarbsemaj.com/api/chara/list.php", arguments);
+			charaData = poster.send(URL, arguments);
 			if ((boolean) charaData.get("success")) {
 				JSONObject charaData1 = (JSONObject) charaData.get("char");
 				JSONArray charaArray = (JSONArray) charaData1.get("char");
