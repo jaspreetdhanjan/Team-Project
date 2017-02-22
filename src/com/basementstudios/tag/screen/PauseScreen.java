@@ -13,7 +13,10 @@ import com.basementstudios.tag.graphics.Bitmap;
  */
 
 public class PauseScreen extends Screen {
+	private int tickCount;
+
 	public void tick(Input input) {
+		tickCount++;
 		if (input.space.isClicked()) {
 			screenManager.toLastScreen();
 		}
@@ -21,10 +24,22 @@ public class PauseScreen extends Screen {
 
 	public void renderScene(Bitmap bm) {
 		bm.clear();
-		String m = "Press space to resume!";
-		int xo = (Game.WIDTH - bm.getCharWidth(m)) / 2;
-		int yo = (Game.HEIGHT - 8) / 2;
+		for (int i = 0; i < bm.pixels.length; i++) {
+			bm.pixels[i] = ((i + tickCount) % 256);
+		}
 
-		bm.drawString(m, xo, yo, 0xff);
+		int scale = 2;
+		int xBob = (int) ((Math.sin(tickCount / 10.0) * 20.0) % 50.0);
+		int yBob = (int) ((Math.cos(tickCount / 10.0) * 20.0) % 50.0);
+		
+		String m = "Press space to resume!";
+		int xo = ((Game.WIDTH - bm.getCharWidth(m)) / 2) / scale;
+		int yo = Game.HEIGHT / 2;
+		xo += xBob;
+		yo += yBob;
+
+		bm.setScale(scale, scale);
+		bm.drawString(m, xo, yo, 0xffffff);
+		bm.setScale(1, 1);
 	}
 }

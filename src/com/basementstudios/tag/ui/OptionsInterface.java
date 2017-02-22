@@ -56,10 +56,10 @@ public class OptionsInterface<S, T extends Screen> extends Interface {
 		int i = 0;
 		for (Map.Entry<S, T> entry : stateDirectory.entrySet()) {
 			S op = entry.getKey();
-			T ss = entry.getValue();
-
 			String option = op.toString();
-			if (ss == selected) option = "-> " + option;
+			if (selectedIndex == i) {
+				option = "-> " + option;
+			}
 
 			int xo = (Game.WIDTH - bm.getCharWidth(option)) / 2;
 			int yo = 128 + i * 20;
