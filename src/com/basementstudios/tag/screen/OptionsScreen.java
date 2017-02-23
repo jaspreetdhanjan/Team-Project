@@ -31,8 +31,11 @@ public class OptionsScreen extends Screen {
 		options.inputTick(input);
 	}
 
-	public void renderScene(Bitmap bm) {
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
 		options.render(bm);
+	}
+
+	public void renderHud(Bitmap bm) {
 	}
 }

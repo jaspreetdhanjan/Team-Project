@@ -43,21 +43,21 @@ public class GameScreen extends Screen {
 		if (input.num3.isDown()) playerController.select(PlayerController.PLAYER_3);
 	}
 
-	public void renderScene(Bitmap bm) {
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
 
 		level.render(bm);
 		playerController.render(bm);
 	}
 
-	public void renderHud(Bitmap bm, int xStart, int yStart) {
-	/*	if (playerController.getSelectedPlayer() == null) return;
+	public void renderHud(Bitmap bm) {
+		if (playerController.getSelectedPlayer() == null) return;
 
-		super.renderHud(bm, xStart, yStart);
-		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
-		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), xStart, yStart + 1 * 12, 0xffffff);
+//		super.renderHud(bm, xStart, yStart);
+		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), 0, 0 + 0 * 12, 0xffffff);
+		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), 0, 0 + 1 * 12, 0xffffff);
 
-		int i = 0;
+	/*	int i = 0;
 		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
 			bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
 			i++;

@@ -44,7 +44,7 @@ public class PauseScreen extends Screen {
 		options.inputTick(input);
 	}
 
-	public void renderScene(Bitmap bm) {
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
 
 		// Effects render, leave this.
@@ -69,4 +69,8 @@ public class PauseScreen extends Screen {
 
 		options.render(bm);
 	}
+	
+	public void renderHud(Bitmap bm) {
+	}
+
 }

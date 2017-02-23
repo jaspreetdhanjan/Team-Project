@@ -32,9 +32,12 @@ public class TitleScreen extends Screen {
 	public void tick(Input input) {
 		options.inputTick(input);
 	}
-
-	public void renderScene(Bitmap bm) {
+	
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
 		options.render(bm);
+	}
+	
+	public void renderHud(Bitmap bm) {
 	}
 }

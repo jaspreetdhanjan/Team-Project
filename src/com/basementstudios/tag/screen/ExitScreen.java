@@ -17,7 +17,7 @@ public class ExitScreen extends Screen {
 		}
 	}
 
-	public void renderScene(Bitmap bm) {
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
 
 		String title = "Exiting in " + (time / 5) + "...";
