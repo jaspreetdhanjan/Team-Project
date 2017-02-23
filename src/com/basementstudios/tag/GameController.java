@@ -23,10 +23,6 @@ public class GameController {
 	private Level level = null;
 	private PlayerController playerController = new PlayerController();
 	private EnemyController enemyController = new EnemyController();
-	private boolean playerAtack = false;
-	private boolean playerFinished = true;
-
-	private boolean enemyAtacking = false;
 	private Random rand = new Random();
 	private Game game;
 	private int gameState = 0;
@@ -69,7 +65,6 @@ public class GameController {
 			break;
 		case STATE_ENEMY_ATACK:
 			if (!enemyController.getSelectedMob().isAttacking) {
-				enemyAtacking = false;
 				gameState = STATE_NULL;
 				getNext();
 			}
@@ -204,10 +199,6 @@ public class GameController {
 
 	public EnemyController getEnemyController() {
 		return enemyController;
-	}
-
-	public boolean isPlayerTurn() {
-		return playerAtack;
 	}
 
 	public int getGameState() {

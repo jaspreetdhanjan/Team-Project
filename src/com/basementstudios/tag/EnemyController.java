@@ -66,6 +66,7 @@ public class EnemyController extends ObjectControler {
 				} else if (player.xStart - player.x == player.maxAttackFrame && !player.isRetracting) {
 					player.isRetracting = true;
 					player.getTarge().hit(player.getDmg());
+					player.getTarge().spellCast(player.getDmg() , player.getSpellDuration());
 				} else if (player.isRetracting)
 					player.xa = 1;
 				else

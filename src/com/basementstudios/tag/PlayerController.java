@@ -31,6 +31,7 @@ public class PlayerController extends ObjectControler {
 				} else if (player.x - player.xStart == player.maxAttackFrame && !player.isRetracting){
 					player.isRetracting = true;
 					player.getTarge().hit(player.getDmg());
+					player.getTarge().spellCast(player.getDmg() , player.getSpellDuration());
 				}
 				else if (player.isRetracting)
 					player.xa = -1;

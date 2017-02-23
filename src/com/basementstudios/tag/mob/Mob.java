@@ -21,7 +21,7 @@ public class Mob extends Entity {
 	public boolean isRetracting = false;
 	public int maxAttackFrame;
 	protected Font font = Font.getInstance();
-	protected Mob targe = null;
+	protected Mob target = null;
 
 	public Mob(double x, double y) {
 		this.x = x;
@@ -71,7 +71,7 @@ public class Mob extends Entity {
 		isAttacking = true;
 		isRetracting = false;
 		this.maxAttackFrame = maxAttackFrame;
-		targe = enemy;
+		target = enemy;
 	}
 
 	public void spellCast(int spellDamage, int speelDamageDuration) {
@@ -104,8 +104,6 @@ public class Mob extends Entity {
 		if (damage < 0) {
 			damage = 0;
 		}
-		
-		spellCast(damage, spellDuration);
 		health -= damage;
 		
 		hurt(damage);
@@ -158,7 +156,7 @@ public class Mob extends Entity {
 	}
 
 	public Mob getTarge() {
-		return targe;
+		return target;
 	}
 
 	public int getDebuffDamage() {
