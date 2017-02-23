@@ -24,6 +24,9 @@ public class OptionsScreen extends Screen {
 			public void onClick() {
 				screenManager.toLastScreen();
 			}
+
+			public void onHovered() {
+			}
 		});
 	}
 

@@ -149,14 +149,11 @@ public class Game extends Canvas implements Runnable {
 
 	// Draws the actual screen
 	private void screenRender() {
-		// Draw the "screen" – i.e. Game Screen
 		screenManager.renderScreen(screenBitmap);
 
-		// Overlay debug info – FPS, ticks
 		screenBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
 		screenBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
 
-		// Pass to the BufferedImage
 		for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
 			for (int x = 0; x < VIEWPORT_WIDTH; x++) {
 				screenPixels[x + y * VIEWPORT_WIDTH] = screenBitmap.pixels[x + y * VIEWPORT_WIDTH];
@@ -168,10 +165,15 @@ public class Game extends Canvas implements Runnable {
 	private void hudRender() {
 		screenManager.renderHud(hudBitmap);
 
-		// Pass to the BufferedImage
+		for (int i = 0; i < selectedCharas.size(); i++) {
+			CharacterData data = selectedCharas.get(i);
+			hudBitmap.renderCharacter(data, i * 128, 0);
+		}
+
 		for (int y = 0; y < HUD_HEIGHT; y++) {
 			for (int x = 0; x < HUD_WIDTH; x++) {
 				hudPixels[x + y * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
+				hudBitmap.pixels[x + y * HUD_WIDTH] = 0xffffff;
 			}
 		}
 	}

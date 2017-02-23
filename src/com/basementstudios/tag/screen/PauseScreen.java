@@ -23,10 +23,16 @@ public class PauseScreen extends Screen {
 			public void onClick() {
 				screenManager.toLastScreen();
 			}
+
+			public void onHovered() {
+			}
 		});
 		options.add("Return to Title", new Action() {
 			public void onClick() {
 				screenManager.setScreen(new TitleScreen(null));
+			}
+
+			public void onHovered() {
 			}
 		});
 	}

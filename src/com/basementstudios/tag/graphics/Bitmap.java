@@ -3,6 +3,8 @@ package com.basementstudios.tag.graphics;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+import com.basementstudios.network.CharacterData;
+
 /**
  * A fast drawing tool used to draw directly to the screen buffer.
  * 
@@ -102,5 +104,12 @@ public class Bitmap {
 		if (yScale < 1) yScale = 1;
 		this.xScale = xScale;
 		this.yScale = yScale;
+	}
+
+	public void renderCharacter(CharacterData data, int x, int y) {
+		setScale(2, 2);
+		render(SpriteSheet.chars[1][0], x, y, 0xffffff);
+		setScale(1, 1);
+		drawString(data.getName(), x+6, y+64, 0);
 	}
 }

@@ -36,8 +36,12 @@ public class ActionInterface<S, T extends Action> extends Interface {
 		S key = nodes.get(selectedIndex);
 		selected = stateDirectory.get(key);
 
-		if (clicked && selected != null) {
-			selected.onClick();
+		if (selected != null) {
+			selected.onHovered();
+			
+			if (clicked) {
+				selected.onClick();
+			}
 		}
 	}
 
