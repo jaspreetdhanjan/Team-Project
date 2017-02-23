@@ -37,7 +37,6 @@ public class Enemy extends Mob {
 		super.tick();
 	}
 
-
 	public void render(Bitmap bm) {
 		int colour = 0xffffff;
 		if (hitTime > 0) {

@@ -48,7 +48,7 @@ public class GameScreen extends Screen {
 
 	public void renderHud(Bitmap bm, Font font, int xStart, int yStart) {
 		super.renderHud(bm, font, xStart, yStart);
-		if (gameController.isPlayerTurn()) {
+		if (gameController.getGameState()==GameController.STATE_PLAYER_ATACK||gameController.getGameState()==GameController.STATE_PLAYER_ATACKING) {
 			Mob player = gameController.getPlayerController().getSelectedMob();
 			Mob enemy = gameController.getEnemyController().getAttackMob();
 			mobHud(bm, player, xStart, yStart);

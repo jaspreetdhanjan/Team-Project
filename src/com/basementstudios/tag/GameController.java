@@ -12,6 +12,7 @@ import com.basementstudios.network.*;
 
 /**
  * Controls the game flow
+ * 
  * @author James Bray
  *
  */
@@ -28,6 +29,12 @@ public class GameController {
 	private boolean enemyAtacking = false;
 	private Random rand = new Random();
 	private Game game;
+	private int gameState = 0;
+
+	public static final int STATE_NULL = 0;
+	public static final int STATE_PLAYER_ATACK = 1;
+	public static final int STATE_PLAYER_ATACKING = 2;
+	public static final int STATE_ENEMY_ATACK = 3;
 
 	public GameController(Level level, Game game) {
 		this.level = level;
@@ -36,12 +43,14 @@ public class GameController {
 
 	/**
 	 * Handles input and processing and handles mob attack completion
+	 * 
 	 * @param input
 	 */
 	public void tick(Input input) {
 		playerController.tick();
 		enemyController.tick();
-		if (playerAtack) {
+		switch (gameState) {
+		case STATE_PLAYER_ATACK:
 			if (input.pressedOnce(KeyEvent.VK_W))
 				enemyController.selectAtack(1);
 			if (input.pressedOnce(KeyEvent.VK_S))
@@ -49,18 +58,22 @@ public class GameController {
 
 			if (input.pressedOnce(KeyEvent.VK_ENTER) && !playerController.getSelectedMob().isAttacking) {
 				playerController.getSelectedMob().startAttack(60, enemyController.attackMob);
-				playerFinished = false;
+				gameState = STATE_PLAYER_ATACKING;
 			}
-			if (!playerController.getSelectedMob().isAttacking && !playerFinished) {
-				playerAtack = false;
-				playerFinished = true;
+			break;
+		case STATE_PLAYER_ATACKING:
+			if (!playerController.getSelectedMob().isAttacking) {
+				gameState = STATE_NULL;
 				getNext();
 			}
-		}
-
-		if (enemyAtacking && !enemyController.getSelectedMob().isAttacking) {
-			enemyAtacking = false;
-			getNext();
+			break;
+		case STATE_ENEMY_ATACK:
+			if (!enemyController.getSelectedMob().isAttacking) {
+				enemyAtacking = false;
+				gameState = STATE_NULL;
+				getNext();
+			}
+			break;
 		}
 	}
 
@@ -86,9 +99,9 @@ public class GameController {
 	 */
 	public void getNext() {
 		if (playerController.getCharaList().size() == 0)
-			game.setScreen(new EndScreen(false,null));
+			game.setScreen(new EndScreen(false, null));
 		else if (enemyController.getCharaList().size() == 0)
-			game.setScreen(new EndScreen(true,playerController.getCharaList()));
+			game.setScreen(new EndScreen(true, playerController.getCharaList()));
 		else {
 			if (nextPlayer() == null) {
 				if (nextEnemy() == null) {
@@ -97,14 +110,15 @@ public class GameController {
 			}
 		}
 	}
-	
-	public void nextTurn(){
+
+	public void nextTurn() {
 		turn++;
 		resetEntity();
 		playerController.turnTick();
 		enemyController.turnTick();
 		getNext();
 	}
+
 	/**
 	 * Resets an entity at the end of a turn
 	 */
@@ -120,6 +134,7 @@ public class GameController {
 
 	/**
 	 * Gets the next player and starts there attack
+	 * 
 	 * @return
 	 */
 	public Mob nextPlayer() {
@@ -127,11 +142,11 @@ public class GameController {
 		for (Mob player : playerController.getCharaList()) {
 			if (turn % (maxSpd - player.getSpd()) == 0 && !player.hasGone) {
 				player.hasGone = true;
-				playerAtack = true;
+				gameState=STATE_PLAYER_ATACK;
 				playerController.select(i);
 				enemyController.defending();
 				playerController.atack();
-				return  player;
+				return player;
 			}
 			i++;
 		}
@@ -140,6 +155,7 @@ public class GameController {
 
 	/**
 	 * Gets the next enemy and starts there attack
+	 * 
 	 * @return
 	 */
 	public Mob nextEnemy() {
@@ -147,7 +163,7 @@ public class GameController {
 		for (Mob enemy : enemyController.getCharaList()) {
 			if (turn % (maxSpd - enemy.getSpd()) == 0 && !enemy.hasGone) {
 				enemy.hasGone = true;
-				enemyAtacking = true;
+				gameState=STATE_ENEMY_ATACK;
 				enemyController.select(i);
 				enemyController.atack();
 				playerController.defending();
@@ -159,9 +175,10 @@ public class GameController {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Adds players
+	 * 
 	 * @param selectedCharas
 	 */
 	public void addPlayers(List<CharacterData> selectedCharas) {
@@ -170,6 +187,7 @@ public class GameController {
 
 	/**
 	 * Adds enemy
+	 * 
 	 * @param seed
 	 */
 	public void addEnemys(int seed) {
@@ -188,7 +206,11 @@ public class GameController {
 		return enemyController;
 	}
 
-	public boolean isPlayerTurn(){
+	public boolean isPlayerTurn() {
 		return playerAtack;
+	}
+
+	public int getGameState() {
+		return gameState;
 	};
 }

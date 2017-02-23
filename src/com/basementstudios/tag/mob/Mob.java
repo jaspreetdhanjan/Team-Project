@@ -83,6 +83,10 @@ public class Mob extends Entity {
 		spellHurt();
 	}
 
+	public void tick() {
+
+	}
+
 	public void spellHurt() {
 		System.out.println("Spell Hurt");
 		int colour = 0x0f5b00;
@@ -93,18 +97,24 @@ public class Mob extends Entity {
 			debuffDuration--;
 		}
 	}
-
-	public void hurt(Entity hurtBy, int dmg) {
-		int colour = 0xff0000;
-
+	
+	public void hit(int dmg){
 		int damage = dmg - def;
-		spellCast(dmg,spellDuration);
 
 		if (damage < 0) {
 			damage = 0;
 		}
-
+		
+		spellCast(damage, spellDuration);
 		health -= damage;
+		
+		hurt(damage);
+	}
+
+	public void hurt(int dmg) {
+		int colour = 0xff0000;
+		
+		System.out.println(health);
 		level.add(new TextParticle("-" + dmg, x, y, 2, colour));
 	}
 
