@@ -6,15 +6,10 @@ import com.basementstudios.tag.graphics.*;
  * The player representation within the game.
  * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class Enemy extends Mob {
-
-	public boolean isAttacking = false;
-	public boolean isRetracting = false;
-	public int maxAttackFrame;
-	private Font font =Font.getInstance();
-
 	public Enemy(double x, double y, int dmg, int def,int spd, int spellDuration,int wepponType, int health, String name) {
 		super(x, y);
 		super.dmg=dmg;
@@ -37,6 +32,23 @@ public class Enemy extends Mob {
 		super.tick();
 	}
 
+	public void movePlayer() {
+		if (isAttacking) {
+			if (xStart - x == 0 && isRetracting) {
+				isAttacking = false;
+				xa = 0;
+			} else if (xStart - x == maxAttackFrame && !isRetracting) {
+				isRetracting = true;
+				getTarge().hit(getDmg());
+				getTarge().spellCast(getDmg(), getSpellDuration());
+			} else if (isRetracting)
+				xa = 1;
+			else
+				xa = -1;
+			attemptMove();
+		}
+	}
+	
 	public void render(Bitmap bm) {
 		int colour = 0xffffff;
 		if (hitTime > 0) {

@@ -8,6 +8,7 @@ import com.basementstudios.tag.particle.TextParticle;
  * A moving and dynamic character within the game.
  * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class Mob extends Entity {
@@ -128,20 +129,7 @@ public class Mob extends Entity {
 	}
 
 	public void movePlayer() {
-		if (isAttacking) {
-			if (xStart - x == 0 && isRetracting) {
-				isAttacking = false;
-				xa = 0;
-			} else if (xStart - x == maxAttackFrame && !isRetracting) {
-				isRetracting = true;
-				getTarge().hit(getDmg());
-				getTarge().spellCast(getDmg(), getSpellDuration());
-			} else if (isRetracting)
-				xa = 1;
-			else
-				xa = -1;
-			attemptMove();
-		}
+		
 	}
 
 	public int getDmg() {

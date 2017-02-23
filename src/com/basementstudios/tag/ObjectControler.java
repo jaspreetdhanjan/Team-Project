@@ -127,10 +127,11 @@ public class ObjectControler<T extends Mob> {
 		return charaList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void tick() {
 		for (int i = 0; i < charaList.size(); i++) {
 			Mob player = charaList.get(i);
-			player.movePlayer();
+			((T)player).movePlayer();
 			removeDeadMob(player);
 		}
 	}

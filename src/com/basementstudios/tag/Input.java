@@ -11,6 +11,7 @@ import java.util.List;
  * Handles and updates input received from the keyboard.
  * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class Input implements KeyListener, FocusListener {

@@ -7,6 +7,7 @@ import java.util.Arrays;
  * A fast drawing tool used to draw directly to the screen buffer.
  * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class Bitmap {

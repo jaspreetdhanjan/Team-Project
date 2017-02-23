@@ -14,6 +14,7 @@ import com.basementstudios.tag.mob.Player;
  * The main screen. Is a screen representation for the game.
  * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class GameScreen extends Screen {

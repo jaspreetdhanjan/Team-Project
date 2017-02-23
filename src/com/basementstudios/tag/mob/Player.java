@@ -7,6 +7,7 @@ import com.basementstudios.network.*;
  * The player representation within the game.
  * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class Player extends Mob {
