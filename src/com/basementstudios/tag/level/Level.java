@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
 public abstract class Level {
@@ -62,22 +63,22 @@ public abstract class Level {
 		}
 	}
 
-	// TODO: Fix this!
-	/*
-		private List<Entity> tmpResult = new ArrayList<Entity>();
-	
-		public List<Entity> getEntities(AxisAlignedBB bb) {
-			tmpResult.clear();
-			for (int i = 0; i < entities.size(); i++) {
-				Entity e = entities.get(i);
-	
-				AxisAlignedBB otherBB = e.getBB();
-				if (bb.contains(otherBB)) {
-					tmpResult.add(e);
+	private List<Mob> tmpResult = new ArrayList<Mob>();
+
+	public List<Mob> getMobs(AxisAlignedBB bb) {
+		tmpResult.clear();
+		for (int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			if (e instanceof Mob) {
+				Mob m = (Mob) e;
+				if (bb.contains(m.getBB())) {
+					tmpResult.add(m);
+					continue;
 				}
 			}
-			return tmpResult;
-		}*/
+		}
+		return tmpResult;
+	}
 
 	public int getWidth() {
 		return width;
@@ -90,7 +91,7 @@ public abstract class Level {
 	public String toString() {
 		return levelName;
 	}
-	
+
 	public AxisAlignedBB getBB() {
 		return bb;
 	}

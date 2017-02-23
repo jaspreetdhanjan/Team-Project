@@ -6,11 +6,12 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
-public class AIAttackComponent extends AIComponent {
+public class AttackComponent implements Component {
+	private Mob attachedMob;
 	private AxisAlignedBB bb = new AxisAlignedBB();
 
-	public AIAttackComponent(Mob attachedMob) {
-		super(attachedMob);
+	public AttackComponent(Mob attachedMob) {
+		this.attachedMob = attachedMob;
 	}
 
 	public void tick() {
@@ -22,11 +23,10 @@ public class AIAttackComponent extends AIComponent {
 		bb.set(x - radius, y - radius, x + radius, y + radius);
 
 		Mob result = null;
-		// List<Entity> entities = attachedMob.getLevel().getEntities(bb);
-		List<Entity> entities = null;
+		List<Mob> mobs = attachedMob.getLevel().getMobs(bb);
 
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
+		for (int i = 0; i < mobs.size(); i++) {
+			Entity e = mobs.get(i);
 			if (e == attachedMob) continue;
 			if (e instanceof Mob) {
 				result = (Mob) e;

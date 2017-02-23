@@ -14,9 +14,15 @@ import com.basementstudios.tag.graphics.Bitmap;
 
 public class PauseScreen extends Screen {
 	private int tickCount;
+	private boolean releaseAll;
 
 	public void tick(Input input) {
 		tickCount++;
+		if (!releaseAll) {
+			input.releaseAll();
+			releaseAll = true;
+		}
+
 		if (input.space.isClicked()) {
 			screenManager.toLastScreen();
 		}
@@ -29,9 +35,9 @@ public class PauseScreen extends Screen {
 		}
 
 		int scale = 2;
-		int xBob = (int) ((Math.sin(tickCount / 10.0) * 20.0) % 50.0);
-		int yBob = (int) ((Math.cos(tickCount / 10.0) * 20.0) % 50.0);
-		
+		int xBob = (int) ((Math.sin(tickCount / 10.0) * 10.0) % 50.0);
+		int yBob = (int) ((Math.cos(tickCount / 10.0) * 10.0) % 50.0);
+
 		String m = "Press space to resume!";
 		int xo = ((Game.WIDTH - bm.getCharWidth(m)) / 2) / scale;
 		int yo = Game.HEIGHT / 2;
