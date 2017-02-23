@@ -27,7 +27,7 @@ public class PauseScreen extends Screen {
 			public void onHovered() {
 			}
 		});
-		options.add("Quit to Title", new Action() {
+		options.add("Exit to Title", new Action() {
 			public void onClick() {
 				screenManager.setScreen(new TitleScreen());
 			}
@@ -47,7 +47,7 @@ public class PauseScreen extends Screen {
 			screenManager.toLastScreen();
 		}
 
-		options.inputTick(input);
+		options.tick(input);
 	}
 
 	public void renderScreen(Bitmap bm) {

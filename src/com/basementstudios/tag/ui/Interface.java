@@ -10,7 +10,7 @@ public abstract class Interface {
 	protected int paddingFromTitle = 36; 
 	protected int paddingBetweenButtons = 18; 
 	
-	public final void inputTick(Input input) {
+	public void tick(Input input) {
 		boolean moveUp = input.up.isClicked() || input.left.isClicked();
 		boolean moveDown = input.down.isClicked() || input.right.isClicked();
 		boolean clicked = input.enter.isClicked() || input.space.isClicked();

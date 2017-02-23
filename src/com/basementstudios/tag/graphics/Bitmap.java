@@ -109,11 +109,4 @@ public class Bitmap {
 		this.xScale = xScale;
 		this.yScale = yScale;
 	}
-
-	public void renderCharacter(CharacterData data, int x, int y) {
-		setScale(2, 2);
-		render(SpriteSheet.character[1][0], x, y, 0xffffff);
-		setScale(1, 1);
-		drawString(data.getName(), x+6, y+64, 0);
-	}
 }

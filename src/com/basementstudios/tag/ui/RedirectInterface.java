@@ -23,12 +23,14 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 	private String title;
 
 	private Map<S, T> stateDirectory = new HashMap<S, T>();
-	private T selected;
+	private S selectedKey;
+	private T selectedValue;
 	private int selectedIndex = 0;
 
 	public RedirectInterface(ScreenManager manager, String title) {
 		this.manager = manager;
 		this.title = title;
+		//onChanged(false, false, false);
 	}
 
 	protected void onChanged(boolean moveUp, boolean moveDown, boolean clicked) {
@@ -38,14 +40,16 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 
 		List<S> nodes = new ArrayList<S>(stateDirectory.keySet());
 
-		if (moveUp && selectedIndex >= 1) selectedIndex--;
-		if (moveDown && selectedIndex < nodes.size() - 1) selectedIndex++;
+		if (moveUp) selectedIndex--;
+		if (moveDown) selectedIndex++;
+		if (selectedIndex < 0) selectedIndex = 0;
+		if (selectedIndex >= nodes.size()) selectedIndex = nodes.size() - 1;
 
-		S key = nodes.get(selectedIndex);
-		selected = stateDirectory.get(key);
+		selectedKey = nodes.get(selectedIndex);
+		selectedValue = stateDirectory.get(selectedKey);
 
-		if (clicked && selected != null) {
-			manager.setScreen(selected);
+		if (clicked && selectedValue != null) {
+			manager.setScreen(selectedValue);
 		}
 	}
 
@@ -62,5 +66,9 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 
 	public void add(S param, T screen) {
 		stateDirectory.put(param, screen);
+	}
+
+	public S getHovered() {
+		return selectedKey;
 	}
 }

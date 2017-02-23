@@ -22,14 +22,26 @@ public class LevelScreen extends Screen {
 	}
 
 	public void tick(Input input) {
-		options.inputTick(input);
+		options.tick(input);
 	}
 
 	public void renderScreen(Bitmap bm) {
 		bm.clear();
 		options.render(bm);
 	}
-	
+
 	public void renderHud(Bitmap bm) {
+		bm.clear();
 	}
+/*
+	private void renderLevelStats(Level level, Bitmap bm) {
+		int xStart = 8;
+		int yStart = 8;
+		int pad = 12;
+		int pp = 0;
+		bm.drawString(level.toString(), xStart, yStart + pad * pp++, 0xffffff);
+		bm.drawString("Width: " + level.getWidth(), xStart, yStart + pad * pp++, 0xffffff);
+		bm.drawString("Height: " + level.getHeight(), xStart, yStart + pad * pp++, 0xffffff);
+		bm.drawString("Difficulty: " + level.getDifficulty(), xStart, yStart + pad * pp++, 0xffffff);
+	}*/
 }

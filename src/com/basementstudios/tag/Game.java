@@ -132,16 +132,11 @@ public class Game extends Canvas implements Runnable {
 		screenRender();
 		hudRender();
 
-		int x = 0;
-		int y = 0;
-		int w = getWidth();
-		int h = getHeight();
-
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, w, h);
-		g.drawImage(viewportImg, 0, y, VIEWPORT_WIDTH * SCALE, VIEWPORT_HEIGHT * SCALE, null);
-		g.drawImage(hudImg, x, VIEWPORT_HEIGHT * SCALE, HUD_WIDTH * SCALE, HUD_HEIGHT * SCALE, null);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		g.drawImage(viewportImg, 0, 0, VIEWPORT_WIDTH * SCALE, VIEWPORT_HEIGHT * SCALE, null);
+		g.drawImage(hudImg, 0, VIEWPORT_HEIGHT * SCALE, HUD_WIDTH * SCALE, HUD_HEIGHT * SCALE, null);
 		g.dispose();
 		bs.show();
 	}
@@ -167,20 +162,10 @@ public class Game extends Canvas implements Runnable {
 	private void hudRender() {
 		screenManager.renderHud(hudBitmap);
 
-		renderToHud();
 		for (int y = 0; y < HUD_HEIGHT; y++) {
 			for (int x = 0; x < HUD_WIDTH; x++) {
 				hudPixels[x + y * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
-				hudBitmap.pixels[x + y * HUD_WIDTH] = 0xffffff;
 			}
 		}
-	}
-
-	private void renderToHud() {
-		/*
-		for (int i = 0; i < selectedCharas.size(); i++) {
-			CharacterData data = selectedCharas.get(i);
-			hudBitmap.renderCharacter(data, i * 128, 0);
-		}*/
 	}
 }

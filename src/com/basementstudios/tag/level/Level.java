@@ -101,4 +101,6 @@ public abstract class Level {
 	public AxisAlignedBB getBB() {
 		return bb;
 	}
+
+	public abstract int getDifficulty();
 }

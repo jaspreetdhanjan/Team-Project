@@ -33,7 +33,7 @@ public class OptionsScreen extends Screen {
 				screenManager.setScreen(new CharacterSelectionScreen());
 			}
 		});
-		options.add("Quit", new Action() {
+		options.add("Exit to Title", new Action() {
 			public void onClick() {
 				screenManager.setScreen(titleScreen);
 			}
@@ -44,7 +44,7 @@ public class OptionsScreen extends Screen {
 	}
 
 	public void tick(Input input) {
-		options.inputTick(input);
+		options.tick(input);
 	}
 
 	public void renderScreen(Bitmap bm) {

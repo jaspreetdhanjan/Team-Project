@@ -51,7 +51,7 @@ public class CharacterSelectionScreen extends Screen {
 	}
 
 	public void tick(Input input) {
-		options.inputTick(input);
+		options.tick(input);
 	}
 
 	public void renderScreen(Bitmap bm) {
