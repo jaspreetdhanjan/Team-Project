@@ -61,6 +61,6 @@ public class Player extends Mob {
 	}
 
 	public Bitmap getBitmap() {
-		return SpriteSheet.chars[xSpriteIndex][ySpriteIndex];
+		return SpriteSheet.character[xSpriteIndex][ySpriteIndex];
 	}
 }

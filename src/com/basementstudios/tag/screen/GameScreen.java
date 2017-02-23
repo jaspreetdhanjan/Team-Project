@@ -1,8 +1,5 @@
 package com.basementstudios.tag.screen;
 
-import java.util.List;
-
-import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
@@ -17,9 +14,9 @@ public class GameScreen extends Screen {
 	private Level level;
 	private PlayerController playerController;
 
-	public GameScreen(List<CharacterData> selectedCharas, Level level) {
+	public GameScreen(Level level) {
 		this.level = level;
-		playerController = new PlayerController(level, 50, 100, selectedCharas);
+		playerController = new PlayerController(level, 50, 100);
 	}
 
 	public void init() {

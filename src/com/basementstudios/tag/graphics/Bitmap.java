@@ -51,9 +51,13 @@ public class Bitmap {
 			}
 		}
 	}
+	
+	public void clear(int colour) {
+		Arrays.fill(pixels, colour);
+	}
 
 	public void clear() {
-		Arrays.fill(pixels, 0);
+		clear(0);
 	}
 
 	public void fill(int x0, int y0, int x1, int y1, int colour) {
@@ -108,7 +112,7 @@ public class Bitmap {
 
 	public void renderCharacter(CharacterData data, int x, int y) {
 		setScale(2, 2);
-		render(SpriteSheet.chars[1][0], x, y, 0xffffff);
+		render(SpriteSheet.character[1][0], x, y, 0xffffff);
 		setScale(1, 1);
 		drawString(data.getName(), x+6, y+64, 0);
 	}

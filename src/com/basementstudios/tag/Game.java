@@ -36,16 +36,15 @@ public class Game extends Canvas implements Runnable {
 	private boolean stop = false;
 	private String fpsString = "";
 
-	private BufferedImage screenImage, hudImage;
-	private int[] screenPixels, hudPixels;
-	private Bitmap screenBitmap, hudBitmap;
+	private BufferedImage viewportImg, hudImg;
+	private int[] viewportPixels, hudPixels;
+	private Bitmap viewportBitmap, hudBitmap;
 	private Input input;
 
-	private List<CharacterData> selectedCharas;
 	private ScreenManager screenManager;
 
 	public Game(List<CharacterData> selectedCharas) {
-		this.selectedCharas = selectedCharas;
+		PlayerController.selectedCharas = selectedCharas;
 
 		Dimension d = new Dimension(SCALED_WIDTH, SCALED_HEIGHT);
 		setMinimumSize(d);
@@ -104,18 +103,18 @@ public class Game extends Canvas implements Runnable {
 	private void init() {
 		requestFocus();
 
-		screenImage = new BufferedImage(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, BufferedImage.TYPE_INT_RGB);
-		hudImage = new BufferedImage(HUD_WIDTH, HUD_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		viewportImg = new BufferedImage(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		hudImg = new BufferedImage(HUD_WIDTH, HUD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-		screenPixels = ((DataBufferInt) screenImage.getRaster().getDataBuffer()).getData();
-		hudPixels = ((DataBufferInt) hudImage.getRaster().getDataBuffer()).getData();
+		viewportPixels = ((DataBufferInt) viewportImg.getRaster().getDataBuffer()).getData();
+		hudPixels = ((DataBufferInt) hudImg.getRaster().getDataBuffer()).getData();
 
-		screenBitmap = new Bitmap(screenImage);
-		hudBitmap = new Bitmap(hudImage);
+		viewportBitmap = new Bitmap(viewportImg);
+		hudBitmap = new Bitmap(hudImg);
 
 		input = new Input(this);
 
-		screenManager = new ScreenManager(input, new TitleScreen(selectedCharas));
+		screenManager = new ScreenManager(input, new TitleScreen());
 	}
 
 	private void tick() {
@@ -141,40 +140,47 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, w, h);
-		g.drawImage(screenImage, 0, y, VIEWPORT_WIDTH * SCALE, VIEWPORT_HEIGHT * SCALE, null);
-		g.drawImage(hudImage, x, VIEWPORT_HEIGHT * SCALE, HUD_WIDTH * SCALE, HUD_HEIGHT * SCALE, null);
+		g.drawImage(viewportImg, 0, y, VIEWPORT_WIDTH * SCALE, VIEWPORT_HEIGHT * SCALE, null);
+		g.drawImage(hudImg, x, VIEWPORT_HEIGHT * SCALE, HUD_WIDTH * SCALE, HUD_HEIGHT * SCALE, null);
 		g.dispose();
 		bs.show();
 	}
 
 	// Draws the actual screen
 	private void screenRender() {
-		screenManager.renderScreen(screenBitmap);
+		screenManager.renderScreen(viewportBitmap);
 
-		screenBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
-		screenBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
-
+		renderToScreen();
 		for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
 			for (int x = 0; x < VIEWPORT_WIDTH; x++) {
-				screenPixels[x + y * VIEWPORT_WIDTH] = screenBitmap.pixels[x + y * VIEWPORT_WIDTH];
+				viewportPixels[x + y * VIEWPORT_WIDTH] = viewportBitmap.pixels[x + y * VIEWPORT_WIDTH];
 			}
 		}
+	}
+
+	private void renderToScreen() {
+		viewportBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
+		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
 	}
 
 	// Draws the heads up display
 	private void hudRender() {
 		screenManager.renderHud(hudBitmap);
 
-		for (int i = 0; i < selectedCharas.size(); i++) {
-			CharacterData data = selectedCharas.get(i);
-			hudBitmap.renderCharacter(data, i * 128, 0);
-		}
-
+		renderToHud();
 		for (int y = 0; y < HUD_HEIGHT; y++) {
 			for (int x = 0; x < HUD_WIDTH; x++) {
 				hudPixels[x + y * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
 				hudBitmap.pixels[x + y * HUD_WIDTH] = 0xffffff;
 			}
 		}
+	}
+
+	private void renderToHud() {
+		/*
+		for (int i = 0; i < selectedCharas.size(); i++) {
+			CharacterData data = selectedCharas.get(i);
+			hudBitmap.renderCharacter(data, i * 128, 0);
+		}*/
 	}
 }

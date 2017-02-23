@@ -20,11 +20,15 @@ public class PlayerController {
 	public static final int PLAYER_2 = 1;
 	public static final int PLAYER_3 = 2;
 
+	public static List<CharacterData> selectedCharas;
+
 	private final Player p0, p1, p2;
 
 	private Player selectedPlayer = null;
 
-	public PlayerController(Level level, double x, double y, List<CharacterData> selectedCharas) {
+	public PlayerController(Level level, double x, double y) {
+		if (selectedCharas == null) throw new RuntimeException("Characters not loaded!");
+
 		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1));
 		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2));
 		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3));

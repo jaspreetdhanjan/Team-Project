@@ -29,7 +29,7 @@ public class PauseScreen extends Screen {
 		});
 		options.add("Return to Title", new Action() {
 			public void onClick() {
-				screenManager.setScreen(new TitleScreen(null));
+				screenManager.setScreen(new TitleScreen());
 			}
 
 			public void onHovered() {
@@ -75,7 +75,7 @@ public class PauseScreen extends Screen {
 
 		options.render(bm);
 	}
-	
+
 	public void renderHud(Bitmap bm) {
 	}
 

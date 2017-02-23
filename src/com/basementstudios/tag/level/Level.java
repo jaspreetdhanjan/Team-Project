@@ -10,10 +10,9 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 public abstract class Level {
 	private final String levelName;
 	private final int width, height;
+
 	private AxisAlignedBB bb = new AxisAlignedBB();
-
 	private List<Entity> entities = new ArrayList<Entity>();
-
 	private List<Entity> toAdd = new ArrayList<Entity>();
 	private List<Entity> toRemove = new ArrayList<Entity>();
 
@@ -21,6 +20,7 @@ public abstract class Level {
 		this.levelName = levelName;
 		this.width = width;
 		this.height = height;
+		
 		bb.set(0, 0, width, height);
 	}
 

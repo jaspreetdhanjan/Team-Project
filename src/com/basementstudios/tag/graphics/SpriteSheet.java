@@ -9,7 +9,7 @@ public class SpriteSheet {
 	public static final Bitmap[][] font = loadBitmap("/font.png", 6, 8);
 	public static final Bitmap[][] particles = loadBitmap("/particles.png", 8, 8);
 	public static final Bitmap[][] entities = loadBitmap("/entities.png", 16, 16);
-	public static final Bitmap[][] chars = loadBitmap("/chars.png", 32, 32);
+	public static final Bitmap[][] character = loadBitmap("/character.png", 32, 32);
 
 	public static Bitmap[][] loadBitmap(String path, final int spriteWidth, final int spriteHeight) {
 		BufferedImage img = null;

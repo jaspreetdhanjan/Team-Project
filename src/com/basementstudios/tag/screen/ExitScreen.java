@@ -4,7 +4,7 @@ import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 
 public class ExitScreen extends Screen {
-	private int time = 5 * 60;
+	private int time = 1 * 60;
 	private int exitCode = 0;
 
 	public void setExitCode(int exitCode) {
