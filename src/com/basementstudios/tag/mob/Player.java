@@ -15,14 +15,14 @@ public class Player extends Mob {
 	public Player(double x, double y, CharacterData characterData) {
 		super(x, y);
 		this.characterData = characterData;
-		dmg=characterData.getDmg();
-		def=characterData.getDef();
-		spd=characterData.getSpd();
-		spellDuration=characterData.getSpellDuration();
-		wepponType=characterData.getWepponType();
-		health=characterData.getCurrentHealth();
-		maxHealth=characterData.getMaxHealth();
-		name=characterData.getName();
+		dmg = characterData.getDmg();
+		def = characterData.getDef();
+		spd = characterData.getSpd();
+		spellDuration = characterData.getSpellDuration();
+		wepponType = characterData.getWepponType();
+		health = characterData.getCurrentHealth();
+		maxHealth = characterData.getMaxHealth();
+		name = characterData.getName();
 
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
@@ -36,11 +36,27 @@ public class Player extends Mob {
 		super.tick();
 	}
 
-
 	public CharacterData getCharacterData() {
 		return characterData;
 	}
-	
+
+	public void movePlayer() {
+		if (isAttacking) {
+			if (x - xStart == 0 && isRetracting) {
+				isAttacking = false;
+				xa = 0;
+			} else if (x - xStart == maxAttackFrame && !isRetracting) {
+				isRetracting = true;
+				getTarge().hit(getDmg());
+				getTarge().spellCast(getDmg(), getSpellDuration());
+			} else if (isRetracting)
+				xa = -1;
+			else
+				xa = 1;
+			attemptMove();
+		}
+	}
+
 	public void render(Bitmap bm) {
 		int colour = 0xffffff;
 		if (hitTime > 0) {
@@ -70,8 +86,8 @@ public class Player extends Mob {
 		int xp = (int) x;
 		int yp = (int) y;
 		bm.render(SpriteSheet.chars[xSpriteIndex][ySpriteIndex], xp, yp, colour);
-		
-		font.draw(bm, health+"/"+maxHealth, xp, yp+32,  0xff0000);
-		font.draw(bm, name, xp, yp-5,  0x000000);
+
+		font.draw(bm, health + "/" + maxHealth, xp, yp + 32, 0xff0000);
+		font.draw(bm, name, xp, yp - 5, 0x000000);
 	}
 }

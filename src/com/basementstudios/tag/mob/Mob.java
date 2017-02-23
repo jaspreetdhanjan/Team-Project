@@ -97,21 +97,21 @@ public class Mob extends Entity {
 			debuffDuration--;
 		}
 	}
-	
-	public void hit(int dmg){
+
+	public void hit(int dmg) {
 		int damage = dmg - def;
 
 		if (damage < 0) {
 			damage = 0;
 		}
 		health -= damage;
-		
+
 		hurt(damage);
 	}
 
 	public void hurt(int dmg) {
 		int colour = 0xff0000;
-		
+
 		System.out.println(health);
 		level.add(new TextParticle("-" + dmg, x, y, 2, colour));
 	}
@@ -125,6 +125,23 @@ public class Mob extends Entity {
 			xa = -1 * 20;
 		if (yya != 0)
 			ya = -1 * 20;
+	}
+
+	public void movePlayer() {
+		if (isAttacking) {
+			if (xStart - x == 0 && isRetracting) {
+				isAttacking = false;
+				xa = 0;
+			} else if (xStart - x == maxAttackFrame && !isRetracting) {
+				isRetracting = true;
+				getTarge().hit(getDmg());
+				getTarge().spellCast(getDmg(), getSpellDuration());
+			} else if (isRetracting)
+				xa = 1;
+			else
+				xa = -1;
+			attemptMove();
+		}
 	}
 
 	public int getDmg() {

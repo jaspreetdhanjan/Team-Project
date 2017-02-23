@@ -1,14 +1,17 @@
 package com.basementstudios.tag;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import com.basementstudios.tag.level.Level;
+import com.basementstudios.tag.mob.Enemy;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.mob.Player;
 import com.basementstudios.tag.screen.EndScreen;
 import com.basementstudios.network.*;
+import com.basementstudios.network.CharacterData;
 
 /**
  * Controls the game flow
@@ -21,8 +24,8 @@ public class GameController {
 	private int turn = 0;
 	private int maxSpd = 0;
 	private Level level = null;
-	private PlayerController playerController = new PlayerController();
-	private EnemyController enemyController = new EnemyController();
+	private ObjectControler<Player> playerController;
+	private ObjectControler<Enemy> enemyController;
 	private Random rand = new Random();
 	private Game game;
 	private int gameState = 0;
@@ -35,6 +38,8 @@ public class GameController {
 	public GameController(Level level, Game game) {
 		this.level = level;
 		this.game = game;
+		playerController = new ObjectControler<Player>(level);
+		enemyController = new ObjectControler<Enemy>(level);
 	}
 
 	/**
@@ -177,7 +182,12 @@ public class GameController {
 	 * @param selectedCharas
 	 */
 	public void addPlayers(List<CharacterData> selectedCharas) {
-		playerController.addPlayers(level, 50, 50, selectedCharas);
+		int x = 50;
+		int y = 50;
+		for (int i = 0; i < 3; i++) {
+			Player player = new Player(x, y + 50 * i, selectedCharas.get(i));
+			playerController.addMob(player);
+		}
 	}
 
 	/**
@@ -186,18 +196,55 @@ public class GameController {
 	 * @param seed
 	 */
 	public void addEnemys(int seed) {
-		enemyController.addEnemy(level, 200, 50, seed);
+		int x= 200;
+		int y = 50;
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("Bret");
+		names.add("Geff");
+		names.add("Simon");
+		names.add("Alex");
+		names.add("Sam");
+		for (int i = 0; i < 3; i++) {
+			int dmg = (1 + rand.nextInt(3)) * seed;
+			int def = (1 + rand.nextInt(3)) * seed;
+			int spd = (0 + rand.nextInt(4)) * seed;
+			int spellDuration = 0;
+			int health = 50 * seed;
+			int weponType = CharacterData.NO_WEPPON_ID;
+
+			int wT = (0 + rand.nextInt(4)) * seed;
+
+			switch (wT) {
+			case 0:
+				weponType = CharacterData.NO_WEPPON_ID;
+				break;
+			case 1:
+				weponType = CharacterData.MELLE_ID;
+				break;
+			case 2:
+				weponType = CharacterData.RANGED_ID;
+				break;
+			case 3:
+				dmg = dmg / 2;
+				spellDuration = (1 + rand.nextInt(2)) * seed;
+				weponType = CharacterData.MAGIC_ID;
+			}
+			String name = names.get(rand.nextInt(names.size()));
+			Enemy enemy = new Enemy(x, y + 50 * i, dmg, def, spd, spellDuration, weponType, health, name);
+			enemyController.addMob(enemy);
+		}
+		enemyController.selectAtack(0);
 	}
 
 	public int getTurn() {
 		return turn;
 	}
 
-	public PlayerController getPlayerController() {
+	public ObjectControler<Player> getPlayerController() {
 		return playerController;
 	}
 
-	public EnemyController getEnemyController() {
+	public ObjectControler<Enemy> getEnemyController() {
 		return enemyController;
 	}
 

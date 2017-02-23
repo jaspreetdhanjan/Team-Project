@@ -6,12 +6,13 @@ import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
+import com.basementstudios.tag.mob.Player;
 
 /**
  * @author James Bray
  *
  */
-public class ObjectControler {
+public class ObjectControler<T extends Mob> {
 
 	protected Level level;
 	protected ArrayList<Mob> charaList = new ArrayList<Mob>();
@@ -26,6 +27,12 @@ public class ObjectControler {
 	 * 
 	 * @param selectionIndex
 	 */
+
+	public ObjectControler(Level level) {
+		this.level = level;
+
+	}
+
 	public void select(int selectionIndex) {
 		selectedMob = charaList.get(selectionIndex);
 	}
@@ -118,5 +125,18 @@ public class ObjectControler {
 
 	public ArrayList<Mob> getCharaList() {
 		return charaList;
+	}
+
+	public void tick() {
+		for (int i = 0; i < charaList.size(); i++) {
+			Mob player = charaList.get(i);
+			player.movePlayer();
+			removeDeadMob(player);
+		}
+	}
+
+	public void addMob(T mob) {
+		level.add(mob);
+		charaList.add(mob);
 	}
 }
