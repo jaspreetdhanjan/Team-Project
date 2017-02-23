@@ -5,6 +5,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * SpriteSheets for fast image loading and drawing. Note: add res folder to as a class folder.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class SpriteSheet {
 	public static final Bitmap[][] font = loadBitmap("/font.png", 6, 8);
 	public static final Bitmap[][] particles = loadBitmap("/particles.png", 8, 8);

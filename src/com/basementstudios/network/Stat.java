@@ -1,5 +1,11 @@
 package com.basementstudios.network;
 
+/**
+ * Defines a character's stat.
+ * 
+ * @author James Bray
+ */
+
 public class Stat {
 	private final int id;
 	private int value;

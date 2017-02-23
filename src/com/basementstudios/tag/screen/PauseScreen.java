@@ -27,7 +27,7 @@ public class PauseScreen extends Screen {
 			public void onHovered() {
 			}
 		});
-		options.add("Return to Title", new Action() {
+		options.add("Quit to Title", new Action() {
 			public void onClick() {
 				screenManager.setScreen(new TitleScreen());
 			}

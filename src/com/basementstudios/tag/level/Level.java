@@ -7,6 +7,12 @@ import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
+/**
+ * Tracks the entities within a level, also produces the level environment.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public abstract class Level {
 	private final String levelName;
 	private final int width, height;
@@ -20,7 +26,7 @@ public abstract class Level {
 		this.levelName = levelName;
 		this.width = width;
 		this.height = height;
-		
+
 		bb.set(0, 0, width, height);
 	}
 

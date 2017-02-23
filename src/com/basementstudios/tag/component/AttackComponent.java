@@ -6,6 +6,12 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
+/**
+ * AI attack commands that control a mob.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class AttackComponent implements Component {
 	private Mob attachedMob;
 	private AxisAlignedBB bb = new AxisAlignedBB();

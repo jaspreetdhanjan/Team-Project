@@ -6,6 +6,10 @@ import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
 
 public abstract class Interface {
+	protected int xStart = 44;
+	protected int paddingFromTitle = 36; 
+	protected int paddingBetweenButtons = 18; 
+	
 	public final void inputTick(Input input) {
 		boolean moveUp = input.up.isClicked() || input.left.isClicked();
 		boolean moveDown = input.down.isClicked() || input.right.isClicked();
@@ -41,7 +45,7 @@ public abstract class Interface {
 			}
 
 			int xo = (Game.WIDTH - bm.getCharWidth(option)) / 2;
-			int yo = 128 + i * 20;
+			int yo = xStart + paddingFromTitle + i * paddingBetweenButtons;
 			bm.drawString(option, xo, yo, col);
 			i++;
 		}

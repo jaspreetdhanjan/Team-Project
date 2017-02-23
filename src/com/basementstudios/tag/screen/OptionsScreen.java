@@ -16,13 +16,26 @@ import com.basementstudios.tag.ui.*;
  */
 
 public class OptionsScreen extends Screen {
+	private TitleScreen titleScreen;
 	private ActionInterface<String, Action> options;
 
+	public OptionsScreen(TitleScreen titleScreen) {
+		this.titleScreen = titleScreen;
+	}
+	
 	public void init() {
 		options = new ActionInterface<String, Action>("Options");
-		options.add("Return", new Action() {
+		options.add("Select Characters", new Action() {
+			public void onHovered() {
+			}
+
 			public void onClick() {
-				screenManager.toLastScreen();
+				screenManager.setScreen(new CharacterSelectionScreen());
+			}
+		});
+		options.add("Quit", new Action() {
+			public void onClick() {
+				screenManager.setScreen(titleScreen);
 			}
 
 			public void onHovered() {

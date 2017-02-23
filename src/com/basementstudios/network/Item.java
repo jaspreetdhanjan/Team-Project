@@ -7,6 +7,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Defines a character's item.
+ * 
+ * @author James Bray
+ */
+
 public class Item {
 	private static final String STAT_URL = "http://tag.yarbsemaj.com/api/item/getStat.php";
 

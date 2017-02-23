@@ -7,6 +7,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Defines the character attributes.
+ * 
+ * @author James Bray
+ */
+
 public class CharacterData {
 	private static final String STAT_URL = "http://tag.yarbsemaj.com/api/chara/getStat.php";
 	private static final String ITEM_URL = "http://tag.yarbsemaj.com/api/chara/getItems.php";
@@ -204,7 +210,6 @@ public class CharacterData {
 					}
 				}
 			}
-
 		}
 
 		if (spd < 0) {

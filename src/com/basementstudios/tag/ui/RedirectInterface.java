@@ -54,7 +54,7 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 		int yScale = 2;
 		int xom = (Game.WIDTH - bm.getCharWidth(title) * xScale) / 2;
 		bm.setScale(xScale, yScale);
-		bm.drawString(title, xom, 84, 0xffffff);
+		bm.drawString(title, xom, xStart, 0xffffff);
 		bm.setScale(1, 1);
 
 		drawSelectables(bm, selectedIndex, stateDirectory);

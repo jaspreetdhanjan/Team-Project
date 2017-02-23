@@ -6,6 +6,12 @@ import java.util.HashMap;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
+/**
+ * A login token.
+ * 
+ * @author James Bray
+ */
+
 public class Token {
 	private static final String AUTH_URL = "http://tag.yarbsemaj.com/api/login/auth.php";
 
@@ -42,7 +48,6 @@ public class Token {
 			if (!isValid()) {
 				throw new InvalidTokenException();
 			}
-
 		} catch (IOException e) {
 			throw new InvalidTokenException();
 		}

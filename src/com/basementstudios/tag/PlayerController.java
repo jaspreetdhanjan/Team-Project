@@ -1,6 +1,6 @@
 package com.basementstudios.tag;
 
-import java.util.List;
+import java.util.*;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.graphics.*;
@@ -20,18 +20,22 @@ public class PlayerController {
 	public static final int PLAYER_2 = 1;
 	public static final int PLAYER_3 = 2;
 
-	public static List<CharacterData> selectedCharas;
+	public static List<CharacterData> availableCharacters;
+	public static CharacterData[] selectedCharacters = new CharacterData[3];
 
 	private final Player p0, p1, p2;
 
 	private Player selectedPlayer = null;
 
 	public PlayerController(Level level, double x, double y) {
-		if (selectedCharas == null) throw new RuntimeException("Characters not loaded!");
+		if (availableCharacters == null) throw new RuntimeException("Characters not loaded!");
+		for (int i = 0; i < 3; i++) {
+			selectedCharacters[i] = availableCharacters.get(i);
+		}
 
-		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1));
-		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2));
-		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3));
+		p0 = new Player(x, y + 30 * 0, selectedCharacters[PLAYER_1]);
+		p1 = new Player(x, y + 30 * 1, selectedCharacters[PLAYER_2]);
+		p2 = new Player(x, y + 30 * 2, selectedCharacters[PLAYER_3]);
 
 		level.add(p0);
 		level.add(p1);

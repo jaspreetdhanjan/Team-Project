@@ -7,10 +7,18 @@ import javax.swing.*;
 
 import org.json.simple.JSONObject;
 
-import com.basementstudios.network.CharacterSelect;
+import com.basementstudios.network.CharacterRetriever;
 import com.basementstudios.network.Token;
+import com.basementstudios.tag.Game;
 
-public class Launcher {
+/**
+ * A login authenticator for the game.
+ * 
+ * @author James Bray
+ * @author Jaspreet Dhanjan
+ */
+
+public class LoginLauncher {
 	public static final String TITLE = "The Adventurers' Guild Launcher";
 
 	private JFrame frame = new JFrame(TITLE);
@@ -22,13 +30,16 @@ public class Launcher {
 	private JTextField usernameField = new JTextField("");
 	private JPasswordField passwordField = new JPasswordField("");
 	private JButton loginButton = new JButton("Login");
-	private final JLabel lblLogin = new JLabel("Login");
-	private final JLabel lblUsername = new JLabel("Username");
-	private final JLabel lblPassword = new JLabel("Password");
+	private JLabel lblLogin = new JLabel("Login");
+	private JLabel lblUsername = new JLabel("Username");
+	private JLabel lblPassword = new JLabel("Password");
 
-	public Launcher() {
+	// TODO: James – Make sure that the launcher only proceeds if the user has made 3 characters on the site.
+
+	public LoginLauncher() {
 		lblUsername.setLabelFor(lblUsername);
 		lblPassword.setLabelFor(passwordField);
+
 		Dimension dimension = new Dimension(300, 200);
 		frame.setMinimumSize(dimension);
 		frame.setMaximumSize(dimension);
@@ -47,19 +58,19 @@ public class Launcher {
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		addActionListeners(loginButton);
-		GridBagLayout gbl_centerPanel = new GridBagLayout();
-		gbl_centerPanel.columnWidths = new int[] { 294, 0 };
-		gbl_centerPanel.rowHeights = new int[] { 20, 20, 20, 20, 0 };
-		gbl_centerPanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
-		gbl_centerPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		centerPanel.setLayout(gbl_centerPanel);
+		GridBagLayout center = new GridBagLayout();
+		center.columnWidths = new int[] { 294, 0 };
+		center.rowHeights = new int[] { 20, 20, 20, 20, 0 };
+		center.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
+		center.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		centerPanel.setLayout(center);
 
-		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
-		gbc_lblUsername.fill = GridBagConstraints.VERTICAL;
-		gbc_lblUsername.insets = new Insets(0, 0, 5, 0);
-		gbc_lblUsername.gridx = 0;
-		gbc_lblUsername.gridy = 0;
-		centerPanel.add(lblUsername, gbc_lblUsername);
+		GridBagConstraints username = new GridBagConstraints();
+		username.fill = GridBagConstraints.VERTICAL;
+		username.insets = new Insets(0, 0, 5, 0);
+		username.gridx = 0;
+		username.gridy = 0;
+		centerPanel.add(lblUsername, username);
 
 		GridBagConstraints gbc_usernameField = new GridBagConstraints();
 		gbc_usernameField.insets = new Insets(0, 0, 5, 0);
@@ -68,11 +79,12 @@ public class Launcher {
 		usernameField.setColumns(20);
 		centerPanel.add(usernameField, gbc_usernameField);
 
-		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
-		gbc_lblPassword.insets = new Insets(0, 0, 5, 0);
-		gbc_lblPassword.gridx = 0;
-		gbc_lblPassword.gridy = 2;
-		centerPanel.add(lblPassword, gbc_lblPassword);
+		GridBagConstraints password = new GridBagConstraints();
+		password.insets = new Insets(0, 0, 5, 0);
+		password.gridx = 0;
+		password.gridy = 2;
+		centerPanel.add(lblPassword, password);
+
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
 		gbc_passwordField.gridx = 0;
 		gbc_passwordField.gridy = 3;
@@ -80,10 +92,9 @@ public class Launcher {
 		centerPanel.add(passwordField, gbc_passwordField);
 		southPanel.add(loginButton);
 
-		frame.getContentPane().add(northPanel, BorderLayout.NORTH);
-		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 15));
-
 		northPanel.add(lblLogin);
+
+		frame.getContentPane().add(northPanel, BorderLayout.NORTH);
 		frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
 	}
@@ -99,9 +110,7 @@ public class Launcher {
 
 				if ((boolean) loginData.get("success")) {
 					new Token((String) loginData.get("token"));
-					System.out.println((String) loginData.get("token"));
-					new CharacterSelect();
-					frame.dispose();
+					new Game(new CharacterRetriever().getCharacters());
 				} else {
 					JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);
 				}
