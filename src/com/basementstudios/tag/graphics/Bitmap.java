@@ -98,6 +98,8 @@ public class Bitmap {
 	}
 
 	public void setScale(int xScale, int yScale) {
+		if (xScale < 1) xScale = 1;
+		if (yScale < 1) yScale = 1;
 		this.xScale = xScale;
 		this.yScale = yScale;
 	}

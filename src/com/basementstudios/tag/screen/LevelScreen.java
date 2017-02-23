@@ -6,7 +6,7 @@ import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.*;
-import com.basementstudios.tag.ui.OptionsInterface;
+import com.basementstudios.tag.ui.RedirectInterface;
 
 /**
  * Chooses the level for a player, levels/ nodes are unlocked as the player progresses.
@@ -16,7 +16,7 @@ import com.basementstudios.tag.ui.OptionsInterface;
 
 public class LevelScreen extends Screen {
 	private List<CharacterData> selectedCharas;
-	private OptionsInterface<Level, Screen> options;
+	private RedirectInterface<Level, Screen> options;
 
 	public LevelScreen(List<CharacterData> selectedCharas) {
 		this.selectedCharas = selectedCharas;
@@ -25,7 +25,7 @@ public class LevelScreen extends Screen {
 	public void init() {
 		Level testLevel = new TestLevel(Game.WIDTH - 50, Game.HEIGHT - 50);
 
-		options = new OptionsInterface<Level, Screen>(screenManager);
+		options = new RedirectInterface<Level, Screen>(screenManager, "Level Selector");
 		options.add(testLevel, new GameScreen(selectedCharas, testLevel));
 	}
 
@@ -35,6 +35,6 @@ public class LevelScreen extends Screen {
 
 	public void renderScene(Bitmap bm) {
 		bm.clear();
-		options.renderSelectables(bm);
+		options.render(bm);
 	}
 }

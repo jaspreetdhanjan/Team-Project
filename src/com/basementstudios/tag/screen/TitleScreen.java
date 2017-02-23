@@ -5,7 +5,7 @@ import java.util.List;
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.ui.OptionsInterface;
+import com.basementstudios.tag.ui.RedirectInterface;
 
 /**
  * Screen representation for when the game is in the menu state.
@@ -14,8 +14,7 @@ import com.basementstudios.tag.ui.OptionsInterface;
  */
 
 public class TitleScreen extends Screen {
-	private OptionsInterface<String, Screen> options;
-	private int tickCount = 0;
+	private RedirectInterface<String, Screen> options;
 
 	private List<CharacterData> selectedCharas;
 
@@ -24,26 +23,18 @@ public class TitleScreen extends Screen {
 	}
 
 	public void init() {
-		options = new OptionsInterface<String, Screen>(screenManager);
+		options = new RedirectInterface<String, Screen>(screenManager, Game.TITLE);
 		options.add("Play", new LevelScreen(selectedCharas));
-		options.add("Settings", new SettingsScreen());
+		options.add("Options", new OptionsScreen());
 		options.add("Exit", new ExitScreen());
 	}
 
 	public void tick(Input input) {
-		tickCount++;
 		options.inputTick(input);
 	}
 
 	public void renderScene(Bitmap bm) {
 		bm.clear();
-		for (int i = 0; i < bm.pixels.length; i++) {
-			bm.pixels[i] = i + tickCount;
-		}
-
-		int xom = (Game.WIDTH - bm.getCharWidth(Game.TITLE)) / 2;
-		bm.drawString(Game.TITLE, xom, 84, 0xffffff);
-
-		options.renderSelectables(bm);
+		options.render(bm);
 	}
 }
