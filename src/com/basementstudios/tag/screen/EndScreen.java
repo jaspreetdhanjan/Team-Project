@@ -29,10 +29,10 @@ import com.basementstudios.tag.mob.Player;
 public class EndScreen extends Screen {
 
 	private boolean win;
-	private ArrayList<Mob> mobs;
+	private ArrayList<Player> mobs;
 	private ArrayList<String> winData = new ArrayList<String>();
 
-	public EndScreen(boolean win, ArrayList<Mob> mobs) {
+	public EndScreen(boolean win, ArrayList<Player> mobs) {
 		this.win = win;
 		this.mobs = mobs;
 
@@ -68,7 +68,7 @@ public class EndScreen extends Screen {
 		}
 	}
 
-	public void getWinData(ArrayList<Mob> mobs, int XP,int gold) {
+	public void getWinData(ArrayList<Player> mobs, int XP,int gold) {
 		try {
 			Token token = new Token();
 			Map<String, String> arguments = new HashMap<String, String>();
@@ -81,8 +81,7 @@ public class EndScreen extends Screen {
 			if ((boolean) charaData.get("success")) {
 				System.out.println("added gold");
 			}
-			for (Mob mob : mobs) {
-				Player player = (Player) mob;
+			for (Player player : mobs) {
 				int id = player.getCharacterData().getId();
 				Map<String, String> arguments1 = new HashMap<String, String>();
 				arguments1.put("CharID", String.valueOf(id));

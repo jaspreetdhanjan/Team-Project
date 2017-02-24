@@ -15,7 +15,7 @@ import com.basementstudios.tag.mob.Player;
 public class ObjectControler<T extends Mob> {
 
 	protected Level level;
-	protected ArrayList<Mob> charaList = new ArrayList<Mob>();
+	protected ArrayList<T> charaList = new ArrayList<T>();
 
 	protected Mob selectedMob = null;
 	protected Mob attackMob = null;
@@ -60,7 +60,7 @@ public class ObjectControler<T extends Mob> {
 	 * Happens at the end of ever turn, updates all attached mobs
 	 */
 	public void turnTick() {
-		for (Mob mob : charaList) {
+		for (T mob : charaList) {
 			mob.turnTick();
 		}
 	}
@@ -123,7 +123,7 @@ public class ObjectControler<T extends Mob> {
 		return attackMob;
 	}
 
-	public ArrayList<Mob> getCharaList() {
+	public ArrayList<T> getCharaList() {
 		return charaList;
 	}
 
@@ -131,7 +131,7 @@ public class ObjectControler<T extends Mob> {
 	public void tick() {
 		for (int i = 0; i < charaList.size(); i++) {
 			Mob player = charaList.get(i);
-			((T)player).movePlayer();
+			player.movePlayer();
 			removeDeadMob(player);
 		}
 	}
