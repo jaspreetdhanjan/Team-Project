@@ -21,9 +21,13 @@ public class ExitScreen extends Screen {
 		bm.clear();
 
 		String title = "Exiting in " + (time / 5) + "...";
-		int xOffs = (Game.WIDTH - bm.getCharWidth(title)) / 2;
+		int xOffs = (bm.width - bm.getCharWidth(title)) / 2;
 		int yOffs = 80;
 
 		bm.drawString(title, xOffs, yOffs, 0xffffff);
+	}
+
+	public void renderHud(Bitmap bm) {
+		bm.clear();
 	}
 }

@@ -2,7 +2,6 @@ package com.basementstudios.tag.ui;
 
 import java.util.*;
 
-import com.basementstudios.tag.Game;
 import com.basementstudios.tag.graphics.Bitmap;
 
 /**
@@ -48,7 +47,7 @@ public class ActionInterface<S, T extends Action> extends Interface {
 	public void render(Bitmap bm) {
 		int xScale = 2;
 		int yScale = 2;
-		int xom = (Game.WIDTH - bm.getCharWidth(title) * xScale) / 2;
+		int xom = (bm.width - bm.getCharWidth(title) * xScale) / 2;
 		bm.setScale(xScale, yScale);
 		bm.drawString(title, xom, xStart, 0xffffff);
 		bm.setScale(1, 1);

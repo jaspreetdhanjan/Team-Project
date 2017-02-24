@@ -48,17 +48,18 @@ public class GameScreen extends Screen {
 	}
 
 	public void renderHud(Bitmap bm) {
+		bm.clear();
 		if (playerController.getSelectedPlayer() == null) return;
 
-//		super.renderHud(bm, xStart, yStart);
+		// super.renderHud(bm, xStart, yStart);
 		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), 0, 0 + 0 * 12, 0xffffff);
 		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), 0, 0 + 1 * 12, 0xffffff);
 
-	/*	int i = 0;
-		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
-			bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
-			i++;
-		}*/
+		/*	int i = 0;
+			for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
+				bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
+				i++;
+			}*/
 	}
 
 	public boolean isLive() {

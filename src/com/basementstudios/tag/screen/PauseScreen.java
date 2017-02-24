@@ -77,6 +77,6 @@ public class PauseScreen extends Screen {
 	}
 
 	public void renderHud(Bitmap bm) {
+		bm.clear();
 	}
-
 }

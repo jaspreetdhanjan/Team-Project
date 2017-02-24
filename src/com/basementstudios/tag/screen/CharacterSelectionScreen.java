@@ -60,6 +60,7 @@ public class CharacterSelectionScreen extends Screen {
 	}
 
 	public void renderHud(Bitmap bm) {
+		bm.clear();
 		for (int i = 0; i < newCharacters.length; i++) {
 			CharacterData data = newCharacters[i];
 			if (data == null) {

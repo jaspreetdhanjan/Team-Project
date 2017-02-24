@@ -22,7 +22,7 @@ public class OptionsScreen extends Screen {
 	public OptionsScreen(TitleScreen titleScreen) {
 		this.titleScreen = titleScreen;
 	}
-	
+
 	public void init() {
 		options = new ActionInterface<String, Action>("Options");
 		options.add("Select Characters", new Action() {
@@ -53,5 +53,6 @@ public class OptionsScreen extends Screen {
 	}
 
 	public void renderHud(Bitmap bm) {
+		bm.clear();
 	}
 }

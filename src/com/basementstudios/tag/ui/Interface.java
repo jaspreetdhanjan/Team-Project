@@ -44,7 +44,7 @@ public abstract class Interface {
 				option = la + option + ra;
 			}
 
-			int xo = (Game.WIDTH - bm.getCharWidth(option)) / 2;
+			int xo = (bm.width- bm.getCharWidth(option)) / 2;
 			int yo = xStart + paddingFromTitle + i * paddingBetweenButtons;
 			bm.drawString(option, xo, yo, col);
 			i++;
