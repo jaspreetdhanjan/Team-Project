@@ -39,10 +39,6 @@ public class PauseScreen extends Screen {
 			releaseAll = true;
 		}
 
-		if (input.space.isClicked()) {
-			screenManager.toLastScreen();
-		}
-
 		options.tick(input);
 	}
 
