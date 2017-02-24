@@ -58,13 +58,13 @@ public class PlayerController {
 		}
 	}
 
-	public Player getSelectedPlayer() {
+	public Player getSelected() {
 		return selectedPlayer;
 	}
 
 	public boolean attemptMove(double xa, double ya) {
 		if (selectedPlayer == null) return false;
-
+		
 		selectedPlayer.xa = xa;
 		selectedPlayer.ya = ya;
 		selectedPlayer.attemptMove();

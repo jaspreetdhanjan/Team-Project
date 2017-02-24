@@ -29,8 +29,10 @@ public class ActionInterface<S, T extends Action> extends Interface {
 	protected void onChanged(boolean moveUp, boolean moveDown, boolean clicked) {
 		List<S> nodes = new ArrayList<S>(stateDirectory.keySet());
 
-		if (moveUp && selectedIndex >= 1) selectedIndex--;
-		if (moveDown && selectedIndex < nodes.size() - 1) selectedIndex++;
+		if (moveUp) selectedIndex--;
+		if (moveDown) selectedIndex++;
+		if (selectedIndex < 0) selectedIndex = 0;
+		if (selectedIndex >= nodes.size()) selectedIndex = nodes.size() - 1;
 
 		S key = nodes.get(selectedIndex);
 		selected = stateDirectory.get(key);

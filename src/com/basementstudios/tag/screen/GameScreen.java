@@ -31,9 +31,14 @@ public class GameScreen extends Screen {
 
 		double xa = 0;
 		double ya = 0;
+
 		if (input.left.isDown()) xa--;
 		if (input.right.isDown()) xa++;
-		playerController.attemptMove(xa, ya);
+		if (input.up.isDown()) ya--;
+		if (input.down.isDown()) ya++;
+		if (xa != 0 || ya != 0) {
+			playerController.attemptMove(xa, ya);
+		}
 
 		if (input.num1.isDown()) playerController.select(PlayerController.PLAYER_1);
 		if (input.num2.isDown()) playerController.select(PlayerController.PLAYER_2);
@@ -50,12 +55,12 @@ public class GameScreen extends Screen {
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 
-		if (playerController.getSelectedPlayer() == null) return;
-		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), 0, 0 + 0 * 12, 0xffffff);
-		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), 0, 0 + 1 * 12, 0xffffff);
+		if (playerController.getSelected() == null) return;
+		bm.drawString("Name: " + playerController.getSelected().getCharacterData().getName(), 8, 8 + 0 * 12, 0xffffff);
+		bm.drawString("Health: " + playerController.getSelected().getCharacterData().getCurrentHealth(), 8, 8 + 1 * 12, 0xffffff);
 
 		/*	int i = 0;
-			for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
+			for (CharacterStat stats : playerController.getSelected().getCharacterData().getStats()) {
 				bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
 				i++;
 			}*/

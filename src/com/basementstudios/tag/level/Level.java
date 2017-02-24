@@ -15,19 +15,26 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 
 public abstract class Level {
 	private final String levelName;
-	private final int width, height;
+	private final Bitmap levelImage;
 
 	private AxisAlignedBB bb = new AxisAlignedBB();
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> toAdd = new ArrayList<Entity>();
 	private List<Entity> toRemove = new ArrayList<Entity>();
 
-	public Level(String levelName, int width, int height) {
+	/**
+	 * Constructs a new level.
+	 * 
+	 * @param levelName
+	 *            the name of the level, used to identify on the LevelSelection screen
+	 * @param levelImage
+	 *            the image of the level, MUST be the viewport dimensions
+	 */
+	public Level(String levelName, Bitmap levelImage) {
 		this.levelName = levelName;
-		this.width = width;
-		this.height = height;
-
-		bb.set(0, 0, width, height);
+		this.levelImage = levelImage;
+		bb.set(0, 0, levelImage.width, levelImage.height);
+		System.out.println("Created " + levelName + " with dimensions: " + bb.xSize + ", " + bb.ySize);
 	}
 
 	public void add(Entity e) {
@@ -39,7 +46,7 @@ public abstract class Level {
 	}
 
 	public void render(Bitmap bm) {
-		bm.fill(0, 0, width, height, 0xe4cda2);
+		bm.render(levelImage, 0, 0, 0xffffff);
 		entities.forEach(e -> e.render(bm));
 	}
 
@@ -84,14 +91,6 @@ public abstract class Level {
 			}
 		}
 		return tmpResult;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
 	}
 
 	public String toString() {

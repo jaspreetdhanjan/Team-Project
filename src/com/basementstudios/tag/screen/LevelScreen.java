@@ -15,8 +15,7 @@ public class LevelScreen extends Screen {
 	private RedirectInterface<Level, Screen> options;
 
 	public void init() {
-		int s = 2;
-		Level testLevel = new TestLevel(128 * s, 128 * s);
+		Level testLevel = new TestLevel();
 
 		options = new RedirectInterface<Level, Screen>(screenManager, "Level Selector");
 		options.add(testLevel, new GameScreen(testLevel));

@@ -12,10 +12,24 @@ import javax.imageio.ImageIO;
  */
 
 public class SpriteSheet {
-	public static final Bitmap[][] font = loadBitmap("/font.png", 6, 8);
-	public static final Bitmap[][] particles = loadBitmap("/particles.png", 8, 8);
-	public static final Bitmap[][] entities = loadBitmap("/entities.png", 16, 16);
-	public static final Bitmap[][] character = loadBitmap("/character.png", 32, 32);
+	public static final Bitmap[][] font = loadBitmap("/spritesheet/font.png", 6, 8);
+	public static final Bitmap[][] particles = loadBitmap("/spritesheet/particles.png", 8, 8);
+	public static final Bitmap[][] entities = loadBitmap("/spritesheet/entities.png", 16, 16);
+	public static final Bitmap[][] character = loadBitmap("/spritesheet/character.png", 32, 32);
+
+	public static Bitmap testLevelImg = loadBitmap("/level/testLevel.png");
+
+	public static Bitmap loadBitmap(String path) {
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(SpriteSheet.class.getResourceAsStream(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		int w = img.getWidth();
+		int h = img.getHeight();
+		return new Bitmap(w, h, img.getRGB(0, 0, w, h, null, 0, w));
+	}
 
 	public static Bitmap[][] loadBitmap(String path, final int spriteWidth, final int spriteHeight) {
 		BufferedImage img = null;
