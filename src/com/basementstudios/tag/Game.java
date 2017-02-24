@@ -23,6 +23,9 @@ public class Game extends Canvas implements Runnable {
 	private static final int HEIGHT = 300;
 	private static final int SCALE = 2;
 
+	private static final int SCALED_WIDTH = WIDTH * SCALE;
+	private static final int SCALED_HEIGHT = HEIGHT * SCALE;
+
 	private static final int HUD_WIDTH = WIDTH;
 	private static final int HUD_HEIGHT = 100;
 	private static final int VIEWPORT_WIDTH = WIDTH;
@@ -34,8 +37,8 @@ public class Game extends Canvas implements Runnable {
 	private boolean stop = false;
 	private String fpsString = "";
 
-	private BufferedImage viewportImg, hudImg;
-	private int[] viewportPixels, hudPixels;
+	private BufferedImage screenImg;
+	private int[] pixels;
 	private Bitmap viewportBitmap, hudBitmap;
 	private Input input;
 
@@ -44,7 +47,7 @@ public class Game extends Canvas implements Runnable {
 	public Game(List<CharacterData> availableCharacters) {
 		PlayerController.availableCharacters = availableCharacters;
 
-		Dimension d = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
+		Dimension d = new Dimension(SCALED_WIDTH, SCALED_HEIGHT);
 		setMinimumSize(d);
 		setMaximumSize(d);
 		setPreferredSize(d);
@@ -101,14 +104,17 @@ public class Game extends Canvas implements Runnable {
 	private void init() {
 		requestFocus();
 
-		viewportImg = new BufferedImage(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, BufferedImage.TYPE_INT_RGB);
-		hudImg = new BufferedImage(HUD_WIDTH, HUD_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		// viewportImg = new BufferedImage(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		// hudImg = new BufferedImage(HUD_WIDTH, HUD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
-		viewportPixels = ((DataBufferInt) viewportImg.getRaster().getDataBuffer()).getData();
-		hudPixels = ((DataBufferInt) hudImg.getRaster().getDataBuffer()).getData();
+		// viewportPixels = ((DataBufferInt) viewportImg.getRaster().getDataBuffer()).getData();
+		// hudPixels = ((DataBufferInt) hudImg.getRaster().getDataBuffer()).getData();
 
-		viewportBitmap = new Bitmap(viewportImg);
-		hudBitmap = new Bitmap(hudImg);
+		screenImg = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		pixels = ((DataBufferInt) screenImg.getRaster().getDataBuffer()).getData();
+
+		viewportBitmap = new Bitmap(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
 		input = new Input(this);
 
@@ -133,8 +139,7 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.drawImage(viewportImg, 0, 0, VIEWPORT_WIDTH * SCALE, VIEWPORT_HEIGHT * SCALE, null);
-		g.drawImage(hudImg, 0, VIEWPORT_HEIGHT * SCALE, HUD_WIDTH * SCALE, HUD_HEIGHT * SCALE, null);
+		g.drawImage(screenImg, 0, 0, SCALED_WIDTH, SCALED_HEIGHT, null);
 		g.dispose();
 		bs.show();
 	}
@@ -146,7 +151,7 @@ public class Game extends Canvas implements Runnable {
 		renderToScreen();
 		for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
 			for (int x = 0; x < VIEWPORT_WIDTH; x++) {
-				viewportPixels[x + y * VIEWPORT_WIDTH] = viewportBitmap.pixels[x + y * VIEWPORT_WIDTH];
+				pixels[x + y * VIEWPORT_WIDTH] = viewportBitmap.pixels[x + y * VIEWPORT_WIDTH];
 			}
 		}
 	}
@@ -161,8 +166,9 @@ public class Game extends Canvas implements Runnable {
 		screenManager.renderHud(hudBitmap);
 
 		for (int y = 0; y < HUD_HEIGHT; y++) {
+			int toffs = y + VIEWPORT_HEIGHT;
 			for (int x = 0; x < HUD_WIDTH; x++) {
-				hudPixels[x + y * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
+				pixels[x + toffs * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
 			}
 		}
 	}
