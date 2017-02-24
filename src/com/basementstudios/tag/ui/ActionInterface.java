@@ -36,8 +36,6 @@ public class ActionInterface<S, T extends Action> extends Interface {
 		selected = stateDirectory.get(key);
 
 		if (selected != null) {
-			selected.onHovered();
-			
 			if (clicked) {
 				selected.onClick();
 			}

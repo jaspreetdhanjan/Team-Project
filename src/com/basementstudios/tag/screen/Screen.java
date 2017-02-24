@@ -24,16 +24,6 @@ public class Screen {
 	public void tick(Input input) {
 	}
 
-	// public final void renderScene(Bitmap bm) {
-	// renderScene(bm);
-	//
-	// if (this instanceof GameScreen) {
-	// int yOffs = Game.HEIGHT - HUD_HEIGHT;
-	// bm.fill(0, yOffs, bm.width, bm.height, 0);
-	// renderHud(bm, 8, yOffs + 8);
-	// }
-	// }
-
 	public void renderScreen(Bitmap bm) {
 	}
 
@@ -47,5 +37,4 @@ public class Screen {
 	public boolean isLive() {
 		return false;
 	}
-
 }

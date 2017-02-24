@@ -31,9 +31,5 @@ public class TitleScreen extends Screen {
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
-		bm.fill(0, 0, bm.width, 5, 0x333333);
-
-		bm.drawString("Visit theadventurersguild.co.uk for the latest updates!", 8, 8, 0xffffff);
-		bm.drawString("Random text 1234", 8, 8 + 12, 0xffffff);
 	}
 }

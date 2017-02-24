@@ -26,9 +26,6 @@ public class OptionsScreen extends Screen {
 	public void init() {
 		options = new ActionInterface<String, Action>("Options");
 		options.add("Select Characters", new Action() {
-			public void onHovered() {
-			}
-
 			public void onClick() {
 				screenManager.setScreen(new CharacterSelectionScreen());
 			}
@@ -36,9 +33,6 @@ public class OptionsScreen extends Screen {
 		options.add("Exit to Title", new Action() {
 			public void onClick() {
 				screenManager.setScreen(titleScreen);
-			}
-
-			public void onHovered() {
 			}
 		});
 	}

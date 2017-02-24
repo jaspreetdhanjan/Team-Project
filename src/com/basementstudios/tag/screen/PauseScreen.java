@@ -19,20 +19,16 @@ public class PauseScreen extends Screen {
 
 	public void init() {
 		options = new ActionInterface<String, Action>("Paused");
+
 		options.add("Return to Game", new Action() {
 			public void onClick() {
 				screenManager.toLastScreen();
 			}
-
-			public void onHovered() {
-			}
 		});
+
 		options.add("Exit to Title", new Action() {
 			public void onClick() {
 				screenManager.setScreen(new TitleScreen());
-			}
-
-			public void onHovered() {
 			}
 		});
 	}
