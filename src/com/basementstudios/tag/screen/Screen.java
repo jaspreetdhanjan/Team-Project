@@ -10,7 +10,7 @@ import com.basementstudios.tag.graphics.Bitmap;
  * @author Jaspreet Dhanjan
  */
 
-public class Screen {
+public abstract class Screen {
 	protected ScreenManager screenManager;
 
 	public final void init(ScreenManager screenManager) {

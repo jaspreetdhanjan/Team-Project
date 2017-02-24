@@ -49,7 +49,7 @@ public class GameScreen extends Screen {
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
-		
+
 		if (playerController.getSelectedPlayer() == null) return;
 		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), 0, 0 + 0 * 12, 0xffffff);
 		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), 0, 0 + 1 * 12, 0xffffff);

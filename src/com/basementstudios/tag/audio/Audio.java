@@ -2,40 +2,45 @@ package com.basementstudios.tag.audio;
 
 import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.*;
 
 /**
- * Basic audio player implementation.
+ * Loads and stores an audio file in the game. Uses a singleton pattern for each sound.
  * 
  * @author Heston Sanctis
+ * @author Jaspreet Dhanjan
  */
 
 public class Audio implements Runnable {
-	private AudioInputStream inputStream;
-
+	private final String path;
 	private Clip clip;
-	private Thread thread;
+	private Thread runnable = new Thread(this);
 
-	public Audio(String path) throws Exception {
-		inputStream = AudioSystem.getAudioInputStream(this.getClass().getResourceAsStream(path));
-	}
+	public Audio(String path, boolean loop) {
+		this.path = path;
 
-	public synchronized void play() {
-		thread = new Thread(this);
-		thread.setName(this.toString());
-		thread.start();
+		try {
+			AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getResourceAsStream(path));
+			clip = AudioSystem.getClip();
+			clip.open(inputStream);
+
+			if (loop) {
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			}
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {
-		try {
-			clip = AudioSystem.getClip();
-			clip.open(inputStream);
-			clip.start();
-		} catch (LineUnavailableException | IOException e) {
-			e.printStackTrace();
-		}
+		clip.start();
+	}
+
+	public String toString() {
+		return path;
+	}
+
+	public Thread getRunnable() {
+		return runnable;
 	}
 }

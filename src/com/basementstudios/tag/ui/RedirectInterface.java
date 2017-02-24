@@ -29,7 +29,6 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 	public RedirectInterface(ScreenManager manager, String title) {
 		this.manager = manager;
 		this.title = title;
-		//onChanged(false, false, false);
 	}
 
 	protected void onChanged(boolean moveUp, boolean moveDown, boolean clicked) {
