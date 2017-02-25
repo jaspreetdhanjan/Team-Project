@@ -103,12 +103,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void init() {
 		requestFocus();
-
-		// viewportImg = new BufferedImage(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, BufferedImage.TYPE_INT_RGB);
-		// hudImg = new BufferedImage(HUD_WIDTH, HUD_HEIGHT, BufferedImage.TYPE_INT_RGB);
-
-		// viewportPixels = ((DataBufferInt) viewportImg.getRaster().getDataBuffer()).getData();
-		// hudPixels = ((DataBufferInt) hudImg.getRaster().getDataBuffer()).getData();
+		ResourceManager.i.loadAll();
 
 		screenImg = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) screenImg.getRaster().getDataBuffer()).getData();
@@ -117,7 +112,6 @@ public class Game extends Canvas implements Runnable {
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
 		input = new Input(this);
-		ResourceManager.i.loadAll();
 		screenManager = new ScreenManager(input, new TitleScreen());
 	}
 

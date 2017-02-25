@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
 
 /**
@@ -21,8 +22,8 @@ public class LevelData extends Resource {
 
 	private Bitmap levelImage;
 
-	public LevelData(String levelName, String path) {
-		super(ResourceType.LEVEL_DATA);
+	public LevelData(ResourceManager resourceManager, String levelName, String path) {
+		super(ResourceType.LEVEL_DATA, resourceManager);
 		this.levelName = levelName;
 		this.path = "/level/" + path;
 	}
@@ -35,7 +36,7 @@ public class LevelData extends Resource {
 			e.printStackTrace();
 		}
 		int w = img.getWidth();
-		int h = img.getWidth();
+		int h = img.getHeight();
 		levelImage = new Bitmap(w, h, img.getRGB(0, 0, w, h, null, 0, w));
 	}
 

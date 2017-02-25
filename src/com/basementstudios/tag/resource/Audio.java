@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import javax.sound.sampled.*;
 
+import com.basementstudios.tag.ResourceManager;
+
 /**
  * Keeps data and plays an audio file.
  * 
@@ -18,8 +20,8 @@ public class Audio extends Resource implements Runnable {
 	private Clip clip;
 	private Thread runnable = new Thread(this);
 
-	public Audio(String path, boolean loop) {
-		super(ResourceType.AUDIO);
+	public Audio(ResourceManager resourceManager, String path, boolean loop) {
+		super(ResourceType.AUDIO, resourceManager);
 		this.path = path;
 		this.loop = loop;
 	}

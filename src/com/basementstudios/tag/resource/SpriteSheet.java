@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
 
 /**
@@ -20,8 +21,8 @@ public class SpriteSheet extends Resource {
 	private int width, height;
 	private Bitmap[][] sprites;
 
-	public SpriteSheet(String path, int spriteWidth, int spriteHeight) {
-		super(ResourceType.SPRITE_SHEET);
+	public SpriteSheet(ResourceManager resourceManager, String path, int spriteWidth, int spriteHeight) {
+		super(ResourceType.SPRITE_SHEET, resourceManager);
 		this.path = "/spritesheet/" + path;
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;

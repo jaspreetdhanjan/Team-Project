@@ -82,7 +82,11 @@ public class Bitmap {
 
 			int xx = ch % 42;
 			int yy = ch / 42;
-			render(fontBitmap.getBitmap()[xx][yy], xp + i * fontBitmap.getCharWidth() * xScale, yp, colour);
+			
+			Bitmap bm = fontBitmap.getBitmap()[xx][yy];
+			if(bm!=null) {
+			render(bm, xp + i * fontBitmap.getCharWidth() * xScale, yp, colour);
+			}
 		}
 	}
 
