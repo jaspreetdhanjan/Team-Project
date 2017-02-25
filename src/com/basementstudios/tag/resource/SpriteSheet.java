@@ -52,15 +52,20 @@ public class SpriteSheet extends Resource {
 		}
 	}
 
-	public void delete() {
-	}
-
 	public int getWidth() {
 		return width;
 	}
 
 	public int getHeight() {
 		return height;
+	}
+
+	public int getSpriteWidth() {
+		return spriteWidth;
+	}
+
+	public int getSpriteHeight() {
+		return spriteHeight;
 	}
 
 	public Bitmap[][] getSprites() {

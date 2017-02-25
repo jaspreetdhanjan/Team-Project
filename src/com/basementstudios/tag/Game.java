@@ -40,7 +40,6 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage screenImg;
 	private int[] pixels;
 	private Bitmap viewportBitmap, hudBitmap;
-	private Input input;
 
 	private ScreenManager screenManager;
 
@@ -93,7 +92,6 @@ public class Game extends Canvas implements Runnable {
 
 			if (System.currentTimeMillis() - lastTimer > 1000) {
 				lastTimer += 1000;
-				// System.out.println(ticks + " ticks, " + frames + " fps");
 				fpsString = ticks + " ticks, " + frames + " fps";
 				ticks = 0;
 				frames = 0;
@@ -102,21 +100,19 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
-		requestFocus();
 		ResourceManager.i.loadAll();
 
 		screenImg = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) screenImg.getRaster().getDataBuffer()).getData();
-
 		viewportBitmap = new Bitmap(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
-		input = new Input(this);
-		screenManager = new ScreenManager(input, new TitleScreen());
+		screenManager = new ScreenManager(new Input(this), new TitleScreen());
+
+		requestFocus();
 	}
 
 	private void tick() {
-		input.tick();
 		screenManager.tick();
 	}
 
