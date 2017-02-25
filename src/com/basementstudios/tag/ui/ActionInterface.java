@@ -2,6 +2,8 @@ package com.basementstudios.tag.ui;
 
 import java.util.*;
 
+import com.basementstudios.tag.ResourceManager;
+import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.Bitmap;
 
 /**
@@ -31,11 +33,19 @@ public class ActionInterface<S, T extends Action> extends Interface {
 
 		if (moveUp) selectedIndex--;
 		if (moveDown) selectedIndex++;
-		if (selectedIndex < 0) selectedIndex = 0;
-		if (selectedIndex >= nodes.size()) selectedIndex = nodes.size() - 1;
+		if (selectedIndex < 0) {
+			selectedIndex = 0;
+			return;
+		}
+		if (selectedIndex >= nodes.size()) {
+			selectedIndex = nodes.size() - 1;
+			return;
+		}
 
 		S key = nodes.get(selectedIndex);
 		selected = stateDirectory.get(key);
+
+		AudioPlayer.play(ResourceManager.i.selectionSound);
 
 		if (selected != null) {
 			if (clicked) {

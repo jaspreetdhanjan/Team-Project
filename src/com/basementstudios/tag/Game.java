@@ -100,15 +100,18 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
-		ResourceManager.i.loadAll();
-
 		screenImg = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) screenImg.getRaster().getDataBuffer()).getData();
 		viewportBitmap = new Bitmap(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
-		screenManager = new ScreenManager(new Input(this), new TitleScreen());
+		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
+			public void run() {
+				ResourceManager.i.loadAll();
+			}
+		});
 
+		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
 	}
 
@@ -123,8 +126,12 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		screenRender();
-		hudRender();
+		if (!screenManager.getCurrentScreen().fullscreenDraw()) {
+			screenRender(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+			hudRender(HUD_WIDTH, HUD_HEIGHT);
+		} else {
+			screenRender(WIDTH, HEIGHT);
+		}
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
@@ -135,13 +142,15 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	// Draws the actual screen
-	private void screenRender() {
+	private void screenRender(int w, int h) {
 		screenManager.renderScreen(viewportBitmap);
 
 		renderToScreen();
-		for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
-			for (int x = 0; x < VIEWPORT_WIDTH; x++) {
-				pixels[x + y * VIEWPORT_WIDTH] = viewportBitmap.pixels[x + y * VIEWPORT_WIDTH];
+		for (int y = 0; y < h; y++) {
+			if (y >= viewportBitmap.height) continue;
+			for (int x = 0; x < w; x++) {
+				if (x >= viewportBitmap.width) continue;
+				pixels[x + y * w] = viewportBitmap.pixels[x + y * w];
 			}
 		}
 	}
@@ -152,13 +161,13 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	// Draws the heads up display
-	private void hudRender() {
+	private void hudRender(int w, int h) {
 		screenManager.renderHud(hudBitmap);
 
-		for (int y = 0; y < HUD_HEIGHT; y++) {
+		for (int y = 0; y < h; y++) {
 			int toffs = y + VIEWPORT_HEIGHT;
-			for (int x = 0; x < HUD_WIDTH; x++) {
-				pixels[x + toffs * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
+			for (int x = 0; x < w; x++) {
+				pixels[x + toffs * w] = hudBitmap.pixels[x + y * w];
 			}
 		}
 	}

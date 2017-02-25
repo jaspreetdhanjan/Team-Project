@@ -96,4 +96,8 @@ public abstract class Level {
 	public AxisAlignedBB getBB() {
 		return bb;
 	}
+	
+	public String toString() {
+		return levelData.getLevelName();
+	}
 }

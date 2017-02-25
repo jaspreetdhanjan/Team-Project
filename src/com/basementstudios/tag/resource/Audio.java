@@ -18,20 +18,18 @@ public class Audio extends Resource implements Runnable {
 	private final boolean loop;
 
 	private Clip clip;
-	private Thread runnable = new Thread(this);
 
 	public Audio(ResourceManager resourceManager, String path, boolean loop) {
 		super(ResourceType.AUDIO, resourceManager);
-		this.path = path;
+		this.path = "/audio/" + path;
 		this.loop = loop;
 	}
 
 	public void create() {
 		try {
-			AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getResourceAsStream(path));
 			clip = AudioSystem.getClip();
-			clip.open(inputStream);
-
+			AudioInputStream ais = AudioSystem.getAudioInputStream(Audio.class.getResourceAsStream(path));
+			clip.open(ais);
 			if (loop) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}
@@ -45,10 +43,7 @@ public class Audio extends Resource implements Runnable {
 	}
 
 	public void run() {
+		clip.setFramePosition(0);
 		clip.start();
-	}
-
-	public Thread getRunnable() {
-		return runnable;
 	}
 }
