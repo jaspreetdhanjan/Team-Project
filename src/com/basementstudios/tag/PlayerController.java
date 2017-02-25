@@ -54,7 +54,7 @@ public class PlayerController {
 			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
 			int xp = (int) (selectedPlayer.getBB().xPos + 8);
 			int yp = (int) (selectedPlayer.getBB().yPos - 20) + yOffs;
-			bm.render(SpriteSheet.entities[0][0], xp, yp, 0xffffff);
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
 		}
 	}
 
@@ -64,7 +64,7 @@ public class PlayerController {
 
 	public boolean attemptMove(double xa, double ya) {
 		if (selectedPlayer == null) return false;
-		
+
 		selectedPlayer.xa = xa;
 		selectedPlayer.ya = ya;
 		selectedPlayer.attemptMove();

@@ -117,7 +117,7 @@ public class Game extends Canvas implements Runnable {
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
 		input = new Input(this);
-
+		ResourceManager.i.loadAll();
 		screenManager = new ScreenManager(input, new TitleScreen());
 	}
 

@@ -1,5 +1,7 @@
 package com.basementstudios.tag.audio;
 
+import com.basementstudios.tag.resource.Audio;
+
 /**
  * Plays an audio track.
  * 

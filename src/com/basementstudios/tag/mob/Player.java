@@ -1,7 +1,9 @@
 package com.basementstudios.tag.mob;
 
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
+import com.basementstudios.tag.resource.SpriteSheet;
 import com.basementstudios.network.*;
 
 /**
@@ -59,8 +61,8 @@ public class Player extends Mob {
 
 		super.render(bm);
 	}
-
-	public Bitmap getBitmap() {
-		return SpriteSheet.character[xSpriteIndex][ySpriteIndex];
+	
+	public SpriteSheet getSpriteSheet() {
+		return ResourceManager.i.characterSpriteSheet;
 	}
 }

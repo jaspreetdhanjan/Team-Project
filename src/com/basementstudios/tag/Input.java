@@ -1,5 +1,6 @@
 package com.basementstudios.tag;
 
+import java.awt.Component;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -65,15 +66,16 @@ public class Input implements KeyListener, FocusListener {
 	public Key num3 = new Key(KeyEvent.VK_3);
 	public Key esc = new Key(KeyEvent.VK_ESCAPE);
 
-	public Input(Game game) {
-		game.addKeyListener(this);
-		game.addFocusListener(this);
+	public Input(Component frame) {
+		frame.addKeyListener(this);
+		frame.addFocusListener(this);
 	}
 
 	public void keyTyped(KeyEvent e) {
 	}
 
 	public void keyPressed(KeyEvent e) {
+		//System.out.println("Pressed -> " + e.getKeyChar());
 		toggle(e, true);
 	}
 

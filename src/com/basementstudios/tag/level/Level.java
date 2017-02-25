@@ -6,6 +6,7 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
+import com.basementstudios.tag.resource.LevelData;
 
 /**
  * Tracks the entities within a level, also produces the level environment.
@@ -14,8 +15,7 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
  */
 
 public abstract class Level {
-	private final String levelName;
-	private final Bitmap levelImage;
+	private final LevelData levelData;
 
 	private AxisAlignedBB bb = new AxisAlignedBB();
 	private List<Entity> entities = new ArrayList<Entity>();
@@ -25,16 +25,12 @@ public abstract class Level {
 	/**
 	 * Constructs a new level.
 	 * 
-	 * @param levelName
-	 *            the name of the level, used to identify on the LevelSelection screen
-	 * @param levelImage
-	 *            the image of the level, MUST be the viewport dimensions
+	 * @param levelData
+	 *            the data specs of the level.
 	 */
-	public Level(String levelName, Bitmap levelImage) {
-		this.levelName = levelName;
-		this.levelImage = levelImage;
-		bb.set(0, 0, levelImage.width, levelImage.height);
-		System.out.println("Created " + levelName + " with dimensions: " + bb.xSize + ", " + bb.ySize);
+	public Level(LevelData levelData) {
+		this.levelData = levelData;
+		bb.set(0, 0, levelData.getLevelImage().width, levelData.getLevelImage().height);
 	}
 
 	public void add(Entity e) {
@@ -46,7 +42,7 @@ public abstract class Level {
 	}
 
 	public void render(Bitmap bm) {
-		bm.render(levelImage, 0, 0, 0xffffff);
+		bm.render(levelData.getLevelImage(), 0, 0, 0xffffff);
 		entities.forEach(e -> e.render(bm));
 	}
 
@@ -93,13 +89,11 @@ public abstract class Level {
 		return tmpResult;
 	}
 
-	public String toString() {
-		return levelName;
+	public LevelData getLevelData() {
+		return levelData;
 	}
 
 	public AxisAlignedBB getBB() {
 		return bb;
 	}
-
-	public abstract int getDifficulty();
 }

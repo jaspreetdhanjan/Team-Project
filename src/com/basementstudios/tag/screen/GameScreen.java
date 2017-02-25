@@ -3,6 +3,7 @@ package com.basementstudios.tag.screen;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.particle.Particle;
 
 /**
  * The main screen. Is a screen representation for the game.
@@ -38,6 +39,11 @@ public class GameScreen extends Screen {
 		if (input.down.isDown()) ya++;
 		if (xa != 0 || ya != 0) {
 			playerController.attemptMove(xa, ya);
+
+			for (int i = 0; i < 5; i++) {
+				Particle e = new Particle(playerController.getSelected().getBB().xPos, playerController.getSelected().getBB().yPos, 10);
+					level.add(e);
+			}
 		}
 
 		if (input.num1.isDown()) playerController.select(PlayerController.PLAYER_1);

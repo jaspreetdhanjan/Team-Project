@@ -1,5 +1,7 @@
 package com.basementstudios.tag.graphics;
 
+import com.basementstudios.tag.resource.SpriteSheet;
+
 /**
  * A font bitmap (spritesheet) for fast font drawing.
  * 
@@ -13,17 +15,17 @@ public class FontBitmap {
 			"0123456789+-=*:;ÖÅÄå                      " + //
 			"";
 
-	private Bitmap[][] fontBitmap;
+	private Bitmap[][] spriteSheet;
 	private int charWidth, charHeight;
 
-	public FontBitmap(Bitmap[][] fontBitmap, int charWidth, int charHeight) {
-		this.fontBitmap = fontBitmap;
+	public FontBitmap(SpriteSheet fontSpriteSheet, int charWidth, int charHeight) {
+		this.spriteSheet = fontSpriteSheet.getSprites();
 		this.charWidth = charWidth;
 		this.charHeight = charHeight;
 	}
 
 	public Bitmap[][] getBitmap() {
-		return fontBitmap;
+		return spriteSheet;
 	}
 
 	public int getCharWidth() {

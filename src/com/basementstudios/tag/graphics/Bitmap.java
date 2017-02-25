@@ -3,6 +3,8 @@ package com.basementstudios.tag.graphics;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
 
+import com.basementstudios.tag.ResourceManager;
+
 /**
  * A fast drawing tool used to draw directly to the screen buffer.
  * 
@@ -15,7 +17,7 @@ public class Bitmap {
 
 	private int xScale = 1, yScale = 1;
 
-	private FontBitmap fontBitmap = new FontBitmap(SpriteSheet.font, 6, 8);
+	private FontBitmap fontBitmap = new FontBitmap(ResourceManager.i.fontSpriteSheet, 6, 8);
 
 	public Bitmap(int width, int height, int[] pixels) {
 		this.width = width;

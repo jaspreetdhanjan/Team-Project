@@ -1,24 +1,30 @@
-package com.basementstudios.tag.audio;
+package com.basementstudios.tag.resource;
 
 import java.io.IOException;
 
 import javax.sound.sampled.*;
 
 /**
- * Loads and stores an audio file in the game. Uses a singleton pattern for each sound.
+ * Keeps data and plays an audio file.
  * 
  * @author Heston Sanctis
  * @author Jaspreet Dhanjan
  */
 
-public class Audio implements Runnable {
+public class Audio extends Resource implements Runnable {
 	private final String path;
+	private final boolean loop;
+
 	private Clip clip;
 	private Thread runnable = new Thread(this);
 
 	public Audio(String path, boolean loop) {
+		super(ResourceType.AUDIO);
 		this.path = path;
+		this.loop = loop;
+	}
 
+	public void create() {
 		try {
 			AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getResourceAsStream(path));
 			clip = AudioSystem.getClip();
@@ -32,12 +38,12 @@ public class Audio implements Runnable {
 		}
 	}
 
-	public void run() {
-		clip.start();
+	public String getPath() {
+		return path;
 	}
 
-	public String toString() {
-		return path;
+	public void run() {
+		clip.start();
 	}
 
 	public Thread getRunnable() {
