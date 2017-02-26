@@ -47,7 +47,9 @@ public class SpriteSheet extends Resource {
 			int yy = spriteHeight * y;
 			for (int x = 0; x < xSprites; x++) {
 				int xx = spriteWidth * x;
-				sprites[x][y] = new Bitmap(spriteWidth, spriteHeight, spriteSheet.getRGB(xx, yy, spriteWidth, spriteHeight, null, 0, spriteWidth));
+
+				int[] data = spriteSheet.getRGB(xx, yy, spriteWidth, spriteHeight, null, 0, spriteWidth);
+				sprites[x][y] = new Bitmap(spriteWidth, spriteHeight, data);
 			}
 		}
 	}

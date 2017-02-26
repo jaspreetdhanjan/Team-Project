@@ -37,7 +37,7 @@ public class Mob extends Entity {
 	private boolean move(AxisAlignedBB newBB) {
 		if (isRemoved()) return false;
 
-		// TODO: this is broken, check y clipping.
+		// TODO: AABB.contains() is broken – check y clipping.
 		// if (!level.getBB().contains(newBB)) {
 		// collide(null, newBB);
 		// return false;

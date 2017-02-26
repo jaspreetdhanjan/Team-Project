@@ -3,6 +3,12 @@ package com.basementstudios.tag.screen;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
 
+/**
+ * Waits for resources to be loaded.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class LoadingScreen extends Screen {
 	private static final int MIN_WAIT_TIME = 20 * 60;
 

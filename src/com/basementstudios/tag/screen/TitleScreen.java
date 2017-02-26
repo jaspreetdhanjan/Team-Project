@@ -1,7 +1,6 @@
 package com.basementstudios.tag.screen;
 
 import com.basementstudios.tag.*;
-import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.ui.RedirectInterface;
 
@@ -19,8 +18,6 @@ public class TitleScreen extends Screen {
 		options.add("Play", new LevelScreen());
 		options.add("Options", new OptionsScreen(this));
 		options.add("Quit", new ExitScreen());
-		
-//		AudioPlayer.play(ResourceManager.i.testAudio);
 	}
 
 	public void tick(Input input) {
@@ -34,5 +31,9 @@ public class TitleScreen extends Screen {
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
+		int pp = 0;
+		int s = 12;
+		bm.drawString("Use the arrow keys to select an option", 8, 8 + s * pp++, 0xffffff);
+		bm.drawString("For updates visit: " + Game.URL, 8, 8 + s * pp++, 0xffffff);
 	}
 }

@@ -34,6 +34,8 @@ public class Game extends Canvas implements Runnable {
 	public static final String TITLE = "The Adventurers' Guild";
 	public static final String VERSION = "Pre-Alpha 2.0";
 
+	public static final String URL = "theadventurersguild.co.uk";
+
 	private boolean stop = false;
 	private String fpsString = "";
 
@@ -107,6 +109,8 @@ public class Game extends Canvas implements Runnable {
 
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
 			public void run() {
+				// TODO: Ideally put all the network (character) loading stuff here.
+				// Just use the launcher for login verification.
 				ResourceManager.i.loadAll();
 			}
 		});
@@ -141,11 +145,12 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 
-	// Draws the actual screen
 	private void screenRender(int w, int h) {
 		screenManager.renderScreen(viewportBitmap);
-
 		renderToScreen();
+
+		// int yDiff = viewportBitmap.height - h;
+
 		for (int y = 0; y < h; y++) {
 			if (y >= viewportBitmap.height) continue;
 			for (int x = 0; x < w; x++) {
@@ -160,7 +165,6 @@ public class Game extends Canvas implements Runnable {
 		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
 	}
 
-	// Draws the heads up display
 	private void hudRender(int w, int h) {
 		screenManager.renderHud(hudBitmap);
 

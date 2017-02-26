@@ -4,11 +4,6 @@ import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.ui.*;
 
-//TODO
-// FPS lock
-// Scaling?
-// Character selection
-
 /**
  * Options panel allows the user to change settings within the game.
  * 
@@ -23,6 +18,7 @@ public class OptionsScreen extends Screen {
 		this.titleScreen = titleScreen;
 	}
 
+	// TODO: Stuff to add: FPS lock, scaling, logout, volume
 	public void init() {
 		options = new ActionInterface<String, Action>("Options");
 		options.add("Select Characters", new Action() {
