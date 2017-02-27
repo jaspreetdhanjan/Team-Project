@@ -12,7 +12,7 @@ public class CharacterSelectionScreen extends Screen {
 	private int pp = 0;
 
 	public void init() {
-		for (CharacterData data : PlayerController.availableCharacters) {
+		for (CharacterData data : GameController.availableCharacters) {
 			String t = "Character: " + data.getName();
 			options.add(t, new Action() {
 				public void onClick() {
@@ -25,8 +25,8 @@ public class CharacterSelectionScreen extends Screen {
 
 		options.add("Save", new Action() {
 			public void onClick() {
-				for (int i = 0; i < PlayerController.selectedCharacters.length; i++) {
-					PlayerController.selectedCharacters[i] = newCharacters[i];
+				for (int i = 0; i < GameController.selectedCharacters.length; i++) {
+					GameController.selectedCharacters[i] = newCharacters[i];
 				}
 				screenManager.toLastScreen();
 				// TODO: Add this to a txt file.

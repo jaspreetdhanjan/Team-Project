@@ -1,8 +1,10 @@
 package com.basementstudios.tag.screen;
 
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.mob.Mob;
 
 /**
  * The main screen. Is a screen representation for the game.
@@ -12,14 +14,18 @@ import com.basementstudios.tag.level.*;
 
 public class GameScreen extends Screen {
 	private Level level;
-	private PlayerController playerController;
+	private GameController gameController;
 
 	public GameScreen(Level level) {
 		this.level = level;
-		playerController = new PlayerController(level, 50, 100);
+		gameController = new GameController(level);
+		gameController.addPlayers();
+		gameController.addEnemys(1);
+		gameController.startGame();
 	}
 
 	public void init() {
+		gameController.setScreenManager(screenManager);
 	}
 
 	public void tick(Input input) {
@@ -28,42 +34,70 @@ public class GameScreen extends Screen {
 		}
 
 		level.tick();
+		gameController.tick(input);
 
-		double xa = 0;
-		double ya = 0;
-
-		if (input.left.isDown()) xa--;
-		if (input.right.isDown()) xa++;
-		if (input.up.isDown()) ya--;
-		if (input.down.isDown()) ya++;
-		if (xa != 0 || ya != 0) {
-			playerController.attemptMove(xa, ya);
-		}
-
-		if (input.num1.isDown()) playerController.select(PlayerController.PLAYER_1);
-		if (input.num2.isDown()) playerController.select(PlayerController.PLAYER_2);
-		if (input.num3.isDown()) playerController.select(PlayerController.PLAYER_3);
 	}
 
 	public void renderScreen(Bitmap bm) {
 		bm.clear();
 
 		level.render(bm);
-		playerController.render(bm);
+		
+		gameController.render(bm);
 	}
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
+		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK
+				|| gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
+			Mob player = gameController.getPlayerController().getSelectedMob();
+			Mob enemy = gameController.getEnemyController().getAttackMob();
+			mobHud(bm, player, 0, 0);
+			mobHud(bm, enemy, 200, 0);
 
-		if (playerController.getSelected() == null) return;
-		bm.drawString("Name: " + playerController.getSelected().getCharacterData().getName(), 8, 8 + 0 * 12, 0xffffff);
-		bm.drawString("Health: " + playerController.getSelected().getCharacterData().getCurrentHealth(), 8, 8 + 1 * 12, 0xffffff);
+			bm.drawString("Use to W and S to cycle though a character to attack.", 0, 75, 0xffffff);
+			bm.drawString("Then use enter to do so.", 0, 85, 0xffffff);
+		} else {
+			bm.drawString("Please wait while the enemy takes its turn.", 0, 70, 0xffffff);
+		}
+	}
 
-		/*	int i = 0;
-			for (CharacterStat stats : playerController.getSelected().getCharacterData().getStats()) {
-				bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
-				i++;
-			}*/
+	private void mobHud(Bitmap bm, Mob player, int xStart, int yStart) {
+		if (player != null) {
+			bm.drawString("Damage " + player.getDmg(), xStart, yStart, 0xffffff);
+			bm.drawString("Defence " + player.getDef(), xStart, yStart + 10, 0xffffff);
+			bm.drawString("Speed " + player.getSpd(), xStart, yStart + 20, 0xffffff);
+
+			String weponType;
+			switch (player.getWepponType()) {
+			case CharacterData.NO_WEAPON:
+				weponType = "Fists";
+				break;
+			case CharacterData.MELEE_WEAPON:
+				weponType = "Melle";
+				break;
+			case CharacterData.RANGED_WEAPON:
+				weponType = "Ranged";
+				break;
+			case CharacterData.MAGIC_WEAPON:
+				weponType = "Magic";
+				break;
+			default:
+				weponType = "Im not gonna ask";
+				break;
+			}
+
+			bm.drawString("Wepon Type " + weponType, xStart, yStart + 35, 0xffffff);
+			if (player.getSpellDuration() != 0) {
+				bm.drawString("Spell Duration " + player.getSpellDuration(), xStart, yStart + 45, 0xffffff);
+			}
+
+			if (player.getDebuffDuration() != 0) {
+				bm.drawString("Debuff", xStart, yStart + 55, 0x85d19b);
+				bm.drawString(player.getDebuffDamage() + " damage for " + player.getDebuffDuration() + " turns", xStart,
+						yStart + 65, 0x85d19b);
+			}
+		}
 	}
 
 	public boolean isLive() {

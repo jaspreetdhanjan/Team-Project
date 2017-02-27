@@ -75,7 +75,7 @@ public class CharacterData {
 		return stats;
 	}
 
-	public void setStats(ArrayList<Stat> stats) {
+	public void setStats(List<Stat> stats) {
 		this.stats = stats;
 	}
 
@@ -105,10 +105,6 @@ public class CharacterData {
 
 	public int getDmg() {
 		return dmg;
-	}
-
-	public void setStats(List<Stat> stats) {
-		this.stats = stats;
 	}
 
 	public String toString() {
