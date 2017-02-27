@@ -10,12 +10,13 @@ import java.util.Arrays;
  */
 
 public class Bitmap {
+	public static final FontBitmap defaultFont = new FontBitmap("default_font.png", 6, 8);
+
 	public final int width, height;
 	public final int pixels[];
 
 	private int xScale = 1, yScale = 1;
-
-	private FontBitmap fontBitmap = new FontBitmap(SpriteSheet.font, 6, 8);
+	private FontBitmap fontBitmap = defaultFont;
 
 	public Bitmap(int width, int height, int[] pixels) {
 		this.width = width;
@@ -80,6 +81,7 @@ public class Bitmap {
 
 			int xx = ch % 42;
 			int yy = ch / 42;
+
 			render(fontBitmap.getBitmap()[xx][yy], xp + i * fontBitmap.getCharWidth() * xScale, yp, colour);
 		}
 	}

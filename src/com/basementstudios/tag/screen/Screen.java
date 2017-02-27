@@ -28,6 +28,8 @@ public abstract class Screen {
 	}
 
 	public void renderHud(Bitmap bm) {
+		if (fullscreenDraw()) return;
+		bm.clear();
 	}
 
 	public final void exit() {
@@ -35,6 +37,10 @@ public abstract class Screen {
 	}
 
 	public boolean isLive() {
+		return false;
+	}
+
+	public boolean fullscreenDraw() {
 		return false;
 	}
 }

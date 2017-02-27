@@ -3,6 +3,12 @@ package com.basementstudios.tag.screen;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 
+/**
+ * Performs an exit sequence.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class ExitScreen extends Screen {
 	private int time = 1 * 60;
 	private int exitCode = 0;
