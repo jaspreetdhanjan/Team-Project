@@ -34,13 +34,15 @@ public class Game extends Canvas implements Runnable {
 	public static final String TITLE = "The Adventurers' Guild";
 	public static final String VERSION = "Pre-Alpha 2.0";
 
+	public static final String URL = "theadventurersguild.co.uk";
+
 	private boolean stop = false;
+	private boolean fpsLock = true;
 	private String fpsString = "";
 
 	private BufferedImage screenImg;
 	private int[] pixels;
 	private Bitmap viewportBitmap, hudBitmap;
-	private Input input;
 
 	private ScreenManager screenManager;
 
@@ -78,7 +80,7 @@ public class Game extends Canvas implements Runnable {
 			unprocessed += (nowTime - lastTime) / nsPerTick;
 			lastTime = nowTime;
 
-			boolean render = true;
+			boolean render = false;
 			while (unprocessed >= 1) {
 				ticks++;
 				tick();
@@ -86,14 +88,13 @@ public class Game extends Canvas implements Runnable {
 				render = true;
 			}
 
-			if (render) {
+			if (render && fpsLock) {
 				render();
 				frames++;
 			}
 
 			if (System.currentTimeMillis() - lastTimer > 1000) {
 				lastTimer += 1000;
-				// System.out.println(ticks + " ticks, " + frames + " fps");
 				fpsString = ticks + " ticks, " + frames + " fps";
 				ticks = 0;
 				frames = 0;
@@ -102,27 +103,24 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
-		requestFocus();
-
-		// viewportImg = new BufferedImage(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, BufferedImage.TYPE_INT_RGB);
-		// hudImg = new BufferedImage(HUD_WIDTH, HUD_HEIGHT, BufferedImage.TYPE_INT_RGB);
-
-		// viewportPixels = ((DataBufferInt) viewportImg.getRaster().getDataBuffer()).getData();
-		// hudPixels = ((DataBufferInt) hudImg.getRaster().getDataBuffer()).getData();
-
 		screenImg = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) screenImg.getRaster().getDataBuffer()).getData();
-
 		viewportBitmap = new Bitmap(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
-		input = new Input(this);
+		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
+			public void run() {
+				// TODO: Ideally put all the network (character) loading stuff here.
+				// Just use the launcher for login verification.
+				ResourceManager.i.loadAll();
+			}
+		});
 
-		screenManager = new ScreenManager(input, new TitleScreen());
+		screenManager = new ScreenManager(new Input(this), loadingScreen);
+		requestFocus();
 	}
 
 	private void tick() {
-		input.tick();
 		screenManager.tick();
 	}
 
@@ -133,8 +131,12 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		screenRender();
-		hudRender();
+//		if (!screenManager.getCurrentScreen().fullscreenDraw()) {
+			screenRender(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+			hudRender(HUD_WIDTH, HUD_HEIGHT);
+//		} else {
+//			screenRender(WIDTH, HEIGHT);
+//		}
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
@@ -144,14 +146,13 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 
-	// Draws the actual screen
-	private void screenRender() {
+	private void screenRender(int w, int h) {
 		screenManager.renderScreen(viewportBitmap);
-
 		renderToScreen();
-		for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
-			for (int x = 0; x < VIEWPORT_WIDTH; x++) {
-				pixels[x + y * VIEWPORT_WIDTH] = viewportBitmap.pixels[x + y * VIEWPORT_WIDTH];
+
+		for (int y = 0; y < h; y++) {
+			for (int x = 0; x < w; x++) {
+				pixels[x + y * w] = viewportBitmap.pixels[x + y * w];
 			}
 		}
 	}
@@ -161,14 +162,13 @@ public class Game extends Canvas implements Runnable {
 		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
 	}
 
-	// Draws the heads up display
-	private void hudRender() {
+	private void hudRender(int w, int h) {
 		screenManager.renderHud(hudBitmap);
 
-		for (int y = 0; y < HUD_HEIGHT; y++) {
+		for (int y = 0; y < h; y++) {
 			int toffs = y + VIEWPORT_HEIGHT;
-			for (int x = 0; x < HUD_WIDTH; x++) {
-				pixels[x + toffs * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
+			for (int x = 0; x < w; x++) {
+				pixels[x + toffs * w] = hudBitmap.pixels[x + y * w];
 			}
 		}
 	}

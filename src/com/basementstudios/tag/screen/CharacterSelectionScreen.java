@@ -5,6 +5,12 @@ import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.ui.*;
 
+/**
+ * State to load a character.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class CharacterSelectionScreen extends Screen {
 	private ActionInterface<String, Action> options = new ActionInterface<String, Action>("Select Characters");
 

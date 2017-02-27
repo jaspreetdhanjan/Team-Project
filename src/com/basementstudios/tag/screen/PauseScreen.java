@@ -44,27 +44,6 @@ public class PauseScreen extends Screen {
 
 	public void renderScreen(Bitmap bm) {
 		bm.clear();
-
-		// Effects render, leave this.
-		/*
-		for (int i = 0; i < bm.pixels.length; i++) {
-			bm.pixels[i] = ((i + tickCount) % 256);
-		}
-		
-		int scale = 2;
-		int xBob = (int) ((Math.sin(tickCount / 10.0) * 10.0) % 50.0);
-		int yBob = (int) ((Math.cos(tickCount / 10.0) * 10.0) % 50.0);
-		
-		String m = "Press space to resume!";
-		int xo = ((Game.WIDTH - bm.getCharWidth(m)) / 2) / scale;
-		int yo = Game.HEIGHT / 2;
-		xo += xBob;
-		yo += yBob;
-		
-		bm.setScale(scale, scale);
-		bm.drawString(m, xo, yo, 0xffffff);
-		bm.setScale(1, 1);*/
-
 		options.render(bm);
 	}
 

@@ -31,5 +31,9 @@ public class TitleScreen extends Screen {
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
+		int pp = 0;
+		int s = 12;
+		bm.drawString("Use the arrow keys to select an option", 8, 8 + s * pp++, 0xffffff);
+		bm.drawString("For updates visit: " + Game.URL, 8, 8 + s * pp++, 0xffffff);
 	}
 }

@@ -4,8 +4,8 @@ import java.util.*;
 
 import com.basementstudios.tag.component.Component;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
+import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * A base class for all entities in the game. These are tracked by Level.java
@@ -41,7 +41,11 @@ public abstract class Entity {
 	public abstract void render(Bitmap bm);
 
 	public Bitmap getBitmap() {
-		return SpriteSheet.entities[xSpriteIndex][ySpriteIndex];
+		return getSpriteSheet().getSprites()[xSpriteIndex][ySpriteIndex];
+	}
+
+	public SpriteSheet getSpriteSheet() {
+		return ResourceManager.i.entitiesSpriteSheet;
 	}
 
 	public void onRemoved() {

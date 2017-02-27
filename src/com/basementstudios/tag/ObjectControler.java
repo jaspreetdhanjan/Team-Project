@@ -76,14 +76,14 @@ public class ObjectControler<T extends Mob> {
 			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
 			int xp = (int) (selectedMob.getBB().xPos + 8);
 			int yp = (int) (selectedMob.getBB().yPos - 20) + yOffs;
-			bm.render(SpriteSheet.entities[0][0], xp, yp, 0xffffff);
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites() [0][0], xp, yp, 0xffffff);
 		}
 
 		if (attackMob != null && !atacking) {
 			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
 			int xp = (int) (attackMob.getBB().xPos + 8);
 			int yp = (int) (attackMob.getBB().yPos - 20) + yOffs;
-			bm.render(SpriteSheet.entities[1][0], xp, yp, 0xffffff);
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], xp, yp, 0xffffff);
 		}
 	}
 

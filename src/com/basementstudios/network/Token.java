@@ -41,7 +41,7 @@ public class Token {
 
 	public void update() throws InvalidTokenException {
 		try {
-			tokenFile = new FileReader("token.txt");
+			tokenFile = new FileReader("doc/token.txt");
 			BufferedReader bufferedReader = new BufferedReader(tokenFile);
 			tokenText = bufferedReader.readLine();
 			bufferedReader.close();
@@ -58,14 +58,14 @@ public class Token {
 	}
 
 	public void remove() {
-		File tokenFile = new File("token.txt");
+		File tokenFile = new File("doc/token.txt");
 		tokenFile.delete();
 	}
 
 	public void add(String token) {
 		FileWriter tokenFile;
 		try {
-			tokenFile = new FileWriter("token.txt");
+			tokenFile = new FileWriter("doc/token.txt");
 			BufferedWriter bufferedWriter = new BufferedWriter(tokenFile);
 			bufferedWriter.write(token);
 			bufferedWriter.close();

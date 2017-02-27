@@ -1,1 +1,4 @@
 token.txt
+*.class
+*.class
+bin/com/basementstudios/tag/screen/GameScreen.class

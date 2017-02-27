@@ -1,5 +1,7 @@
 package com.basementstudios.tag.audio;
 
+import com.basementstudios.tag.resource.Audio;
+
 /**
  * Plays an audio track.
  * 
@@ -8,7 +10,13 @@ package com.basementstudios.tag.audio;
  */
 
 public class AudioPlayer {
-	public static synchronized void play(Audio audio) {
-		audio.getRunnable().start();
+	public static void play(Audio audio) {
+		Thread t = new Thread(audio);
+		t.start();
+		try {
+			t.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }

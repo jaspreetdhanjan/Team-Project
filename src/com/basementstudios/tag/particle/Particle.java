@@ -1,8 +1,9 @@
 package com.basementstudios.tag.particle;
 
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
+import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * Generates a random particle.
@@ -70,9 +71,9 @@ public class Particle extends Entity {
 		int yp = (int) (y - z);
 		bm.render(getBitmap(), xp, yp, 0xffffff);
 	}
-
-	public Bitmap getBitmap() {
-		return SpriteSheet.particles[xSpriteIndex][ySpriteIndex];
+	
+	public SpriteSheet getSpriteSheet() {
+		return ResourceManager.i.particlesSpriteSheet;
 	}
 
 	public void collide(Entity otherEntity, double xxa, double yya, double zza) {

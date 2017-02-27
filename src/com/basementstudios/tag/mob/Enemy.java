@@ -1,6 +1,8 @@
 package com.basementstudios.tag.mob;
 
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.*;
+import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * The player representation within the game.
@@ -70,8 +72,8 @@ public class Enemy extends Mob {
 		super.render(bm);
 	}
 	
-	public Bitmap getBitmap() {
-		return SpriteSheet.enemy[xSpriteIndex][ySpriteIndex];
+	public SpriteSheet getSpriteSheet() {
+		return ResourceManager.i.characterSpriteSheet;
 	}
 
 }

@@ -5,11 +5,17 @@ import java.util.Map;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
 
+/**
+ * Partial implementation of the screen UI.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public abstract class Interface {
-	protected int xStart = 44;
-	protected int paddingFromTitle = 36; 
-	protected int paddingBetweenButtons = 18; 
-	
+	protected int xStart = 56;
+	protected int paddingFromTitle = 36;
+	protected int paddingBetweenButtons = 18;
+
 	public void tick(Input input) {
 		boolean moveUp = input.up.isClicked() || input.left.isClicked();
 		boolean moveDown = input.down.isClicked() || input.right.isClicked();
@@ -44,7 +50,7 @@ public abstract class Interface {
 				option = la + option + ra;
 			}
 
-			int xo = (bm.width- bm.getCharWidth(option)) / 2;
+			int xo = (bm.width - bm.getCharWidth(option)) / 2;
 			int yo = xStart + paddingFromTitle + i * paddingBetweenButtons;
 			bm.drawString(option, xo, yo, col);
 			i++;
