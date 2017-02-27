@@ -4,23 +4,37 @@ import java.util.*;
 
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.phys.AxisAlignedBB;
+
+/**
+ * Tracks the entities within a level, also produces the level environment.
+ * 
+ * @author Jaspreet Dhanjan
+ */
 
 public abstract class Level {
 	private final String levelName;
-	private final int width, height;
+	private final Bitmap levelImage;
+
 	private AxisAlignedBB bb = new AxisAlignedBB();
-
 	private List<Entity> entities = new ArrayList<Entity>();
-
 	private List<Entity> toAdd = new ArrayList<Entity>();
 	private List<Entity> toRemove = new ArrayList<Entity>();
 
-	public Level(String levelName, int width, int height) {
+	/**
+	 * Constructs a new level.
+	 * 
+	 * @param levelName
+	 *            the name of the level, used to identify on the LevelSelection screen
+	 * @param levelImage
+	 *            the image of the level, MUST be the viewport dimensions
+	 */
+	public Level(String levelName, Bitmap levelImage) {
 		this.levelName = levelName;
-		this.width = width;
-		this.height = height;
-		bb.set(0, 0, width, height);
+		this.levelImage = levelImage;
+		bb.set(0, 0, levelImage.width, levelImage.height);
+		System.out.println("Created " + levelName + " with dimensions: " + bb.xSize + ", " + bb.ySize);
 	}
 
 	public void add(Entity e) {
@@ -32,7 +46,7 @@ public abstract class Level {
 	}
 
 	public void render(Bitmap bm) {
-		bm.fill(0, 0, width, height, 0xe4cda2);
+		bm.render(levelImage, 0, 0, 0xffffff);
 		entities.forEach(e -> e.render(bm));
 	}
 
@@ -62,36 +76,30 @@ public abstract class Level {
 		}
 	}
 
-	// TODO: Fix this!
-	/*
-		private List<Entity> tmpResult = new ArrayList<Entity>();
-	
-		public List<Entity> getEntities(AxisAlignedBB bb) {
-			tmpResult.clear();
-			for (int i = 0; i < entities.size(); i++) {
-				Entity e = entities.get(i);
-	
-				AxisAlignedBB otherBB = e.getBB();
-				if (bb.contains(otherBB)) {
-					tmpResult.add(e);
+	private List<Mob> tmpResult = new ArrayList<Mob>();
+
+	public List<Mob> getMobs(AxisAlignedBB bb) {
+		tmpResult.clear();
+		for (int i = 0; i < entities.size(); i++) {
+			Entity e = entities.get(i);
+			if (e instanceof Mob) {
+				Mob m = (Mob) e;
+				if (bb.contains(m.getBB())) {
+					tmpResult.add(m);
+					continue;
 				}
 			}
-			return tmpResult;
-		}*/
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
+		}
+		return tmpResult;
 	}
 
 	public String toString() {
 		return levelName;
 	}
-	
+
 	public AxisAlignedBB getBB() {
 		return bb;
 	}
+
+	public abstract int getDifficulty();
 }

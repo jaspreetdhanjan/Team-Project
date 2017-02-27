@@ -8,11 +8,17 @@ import org.json.simple.parser.ParseException;
 
 import com.basementstudios.network.PostRequest;
 
+/**
+ * Verifies login information with the server.
+ * 
+ * @author James Bray
+ */
+
 public class LoginController {
 	private static final String URL_STRING = "http://tag.yarbsemaj.com/api/login/login.php";
 
 	public static JSONObject login(String username, String password) {
-		HashMap<String, String> arguments = new HashMap<>();
+		HashMap<String, String> arguments = new HashMap<String, String>();
 		arguments.put("User_Name", username);
 		arguments.put("Password", password);
 
@@ -22,8 +28,6 @@ public class LoginController {
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
-
-		System.out.println(loginData.toString());
 		return loginData;
 	}
 }

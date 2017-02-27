@@ -11,11 +11,11 @@ import com.basementstudios.network.*;
  */
 
 public class Player extends Mob {
-	private AIAttackComponent attackComponent = new AIAttackComponent(this);
+	private AttackComponent attackComponent = new AttackComponent(this);
 	private int shootTime = 0;
 
 	public Player(double x, double y, CharacterData characterData) {
-		super(x, y, 13+16, 26+16, characterData);
+		super(x, y, 13 + 16, 26 + 16, characterData);
 
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
@@ -61,6 +61,6 @@ public class Player extends Mob {
 	}
 
 	public Bitmap getBitmap() {
-		return SpriteSheet.chars[xSpriteIndex][ySpriteIndex];
+		return SpriteSheet.character[xSpriteIndex][ySpriteIndex];
 	}
 }

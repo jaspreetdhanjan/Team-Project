@@ -1,14 +1,9 @@
 package com.basementstudios.tag.screen;
 
-import java.util.List;
-
-import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.Game;
-import com.basementstudios.tag.Input;
-import com.basementstudios.tag.OverlayRenderer;
+import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.level.Level;
-import com.basementstudios.tag.level.TestLevel;
+import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.ui.RedirectInterface;
 
 /**
  * Chooses the level for a player, levels/ nodes are unlocked as the player progresses.
@@ -17,26 +12,36 @@ import com.basementstudios.tag.level.TestLevel;
  */
 
 public class LevelScreen extends Screen {
-	private List<CharacterData> selectedCharas;
-	private OverlayRenderer<Level, Screen> overlayRenderer;
-
-	public LevelScreen(List<CharacterData> selectedCharas) {
-		this.selectedCharas = selectedCharas;
-	}
+	private RedirectInterface<Level, Screen> options;
 
 	public void init() {
-		Level testLevel = new TestLevel(Game.WIDTH - 50, Game.HEIGHT - 50);
+		Level testLevel = new TestLevel();
 
-		overlayRenderer = new OverlayRenderer<Level, Screen>(screenManager);
-		overlayRenderer.add(testLevel, new GameScreen(selectedCharas, testLevel));
+		options = new RedirectInterface<Level, Screen>(screenManager, "Level Selector");
+		options.add(testLevel, new GameScreen(testLevel));
 	}
 
 	public void tick(Input input) {
-		overlayRenderer.inputTick(input);
+		options.tick(input);
 	}
 
-	public void renderScene(Bitmap bm) {
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
-		overlayRenderer.renderSelectables(bm);
+		options.render(bm);
 	}
+
+	public void renderHud(Bitmap bm) {
+		bm.clear();
+	}
+	/*
+		private void renderLevelStats(Level level, Bitmap bm) {
+			int xStart = 8;
+			int yStart = 8;
+			int pad = 12;
+			int pp = 0;
+			bm.drawString(level.toString(), xStart, yStart + pad * pp++, 0xffffff);
+			bm.drawString("Width: " + level.getWidth(), xStart, yStart + pad * pp++, 0xffffff);
+			bm.drawString("Height: " + level.getHeight(), xStart, yStart + pad * pp++, 0xffffff);
+			bm.drawString("Difficulty: " + level.getDifficulty(), xStart, yStart + pad * pp++, 0xffffff);
+		}*/
 }

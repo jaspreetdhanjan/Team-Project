@@ -1,9 +1,5 @@
 package com.basementstudios.tag.screen;
 
-import java.util.List;
-
-import com.basementstudios.network.CharacterData;
-import com.basementstudios.network.CharacterStat;
 import com.basementstudios.tag.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
@@ -16,11 +12,11 @@ import com.basementstudios.tag.level.*;
 
 public class GameScreen extends Screen {
 	private Level level;
-	private PlayerController playerController = new PlayerController();
+	private PlayerController playerController;
 
-	public GameScreen(List<CharacterData> selectedCharas, Level level) {
+	public GameScreen(Level level) {
 		this.level = level;
-		playerController.addPlayers(level, 50, 100, selectedCharas);
+		playerController = new PlayerController(level, 50, 100);
 	}
 
 	public void init() {
@@ -35,37 +31,42 @@ public class GameScreen extends Screen {
 
 		double xa = 0;
 		double ya = 0;
+
 		if (input.left.isDown()) xa--;
 		if (input.right.isDown()) xa++;
-		playerController.attemptMove(xa, ya);
+		if (input.up.isDown()) ya--;
+		if (input.down.isDown()) ya++;
+		if (xa != 0 || ya != 0) {
+			playerController.attemptMove(xa, ya);
+		}
 
 		if (input.num1.isDown()) playerController.select(PlayerController.PLAYER_1);
 		if (input.num2.isDown()) playerController.select(PlayerController.PLAYER_2);
 		if (input.num3.isDown()) playerController.select(PlayerController.PLAYER_3);
 	}
 
-	public void renderScene(Bitmap bm) {
+	public void renderScreen(Bitmap bm) {
 		bm.clear();
 
 		level.render(bm);
 		playerController.render(bm);
 	}
 
-	public void renderHud(Bitmap bm, int xStart, int yStart) {
-		if (playerController.getSelectedPlayer() == null) return;
+	public void renderHud(Bitmap bm) {
+		bm.clear();
 
-		super.renderHud(bm, xStart, yStart);
-		bm.drawString("Name: " + playerController.getSelectedPlayer().getCharacterData().getName(), xStart, yStart + 0 * 12, 0xffffff);
-		bm.drawString("Health: " + playerController.getSelectedPlayer().getCharacterData().getCurrentHealth(), xStart, yStart + 1 * 12, 0xffffff);
+		if (playerController.getSelected() == null) return;
+		bm.drawString("Name: " + playerController.getSelected().getCharacterData().getName(), 8, 8 + 0 * 12, 0xffffff);
+		bm.drawString("Health: " + playerController.getSelected().getCharacterData().getCurrentHealth(), 8, 8 + 1 * 12, 0xffffff);
 
-		int i = 0;
-		for (CharacterStat stats : playerController.getSelectedPlayer().getCharacterData().getStats()) {
-			bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
-			i++;
-		}
+		/*	int i = 0;
+			for (CharacterStat stats : playerController.getSelected().getCharacterData().getStats()) {
+				bm.drawString(stats.getName() + " : " + stats.getValue(), xStart + 200, yStart + i * 12, 0xffffff);
+				i++;
+			}*/
 	}
 
 	public boolean isLive() {
-		return false;
+		return true;
 	}
 }

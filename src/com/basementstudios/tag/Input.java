@@ -104,7 +104,7 @@ public class Input implements KeyListener, FocusListener {
 		}
 	}
 
-	private void releaseAll() {
+	public void releaseAll() {
 		keys.forEach(key -> key.release());
 	}
 

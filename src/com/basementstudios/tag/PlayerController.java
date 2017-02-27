@@ -1,6 +1,6 @@
 package com.basementstudios.tag;
 
-import java.util.List;
+import java.util.*;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.graphics.*;
@@ -20,21 +20,26 @@ public class PlayerController {
 	public static final int PLAYER_2 = 1;
 	public static final int PLAYER_3 = 2;
 
-	private Player p0, p1, p2;
-	private Level level;
+	public static List<CharacterData> availableCharacters;
+	public static CharacterData[] selectedCharacters = new CharacterData[3];
+
+	private final Player p0, p1, p2;
 
 	private Player selectedPlayer = null;
 
-	public void addPlayers(Level level, double x, double y, List<CharacterData> selectedCharas) {
-		this.level = level;
+	public PlayerController(Level level, double x, double y) {
+		if (availableCharacters == null) throw new RuntimeException("Characters not loaded!");
+		for (int i = 0; i < 3; i++) {
+			selectedCharacters[i] = availableCharacters.get(i);
+		}
 
-		p0 = new Player(x, y + 30 * 0, selectedCharas.get(PLAYER_1));
-		p1 = new Player(x, y + 30 * 1, selectedCharas.get(PLAYER_2));
-		p2 = new Player(x, y + 30 * 2, selectedCharas.get(PLAYER_3));
+		p0 = new Player(x, y + 30 * 0, selectedCharacters[PLAYER_1]);
+		p1 = new Player(x, y + 30 * 1, selectedCharacters[PLAYER_2]);
+		p2 = new Player(x, y + 30 * 2, selectedCharacters[PLAYER_3]);
 
-		this.level.add(p0);
-		this.level.add(p1);
-		this.level.add(p2);
+		level.add(p0);
+		level.add(p1);
+		level.add(p2);
 	}
 
 	public void select(int selectionIndex) {
@@ -53,13 +58,13 @@ public class PlayerController {
 		}
 	}
 
-	public Player getSelectedPlayer() {
+	public Player getSelected() {
 		return selectedPlayer;
 	}
 
 	public boolean attemptMove(double xa, double ya) {
 		if (selectedPlayer == null) return false;
-
+		
 		selectedPlayer.xa = xa;
 		selectedPlayer.ya = ya;
 		selectedPlayer.attemptMove();

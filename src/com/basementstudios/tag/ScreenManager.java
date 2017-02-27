@@ -32,8 +32,12 @@ public class ScreenManager {
 		currentScreen.tick(input);
 	}
 
-	public void render(Bitmap screenBitmap) {
-		currentScreen.render(screenBitmap);
+	public void renderScreen(Bitmap screenBitmap) {
+		currentScreen.renderScreen(screenBitmap);
+	}
+	
+	public void renderHud(Bitmap hudBitmap) {
+		currentScreen.renderHud(hudBitmap);
 	}
 
 	/**

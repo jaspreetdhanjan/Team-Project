@@ -37,10 +37,11 @@ public class Mob extends Entity {
 	private boolean move(AxisAlignedBB newBB) {
 		if (isRemoved()) return false;
 
-		if (!level.getBB().contains(newBB)) {
-			collide(null, newBB);
-			return false;
-		}
+		// TODO: this is broken, check y clipping.
+		// if (!level.getBB().contains(newBB)) {
+		// collide(null, newBB);
+		// return false;
+		// }
 
 		lastWalkDist = walkDist;
 		walkDist++;
@@ -48,7 +49,7 @@ public class Mob extends Entity {
 		return true;
 	}
 
-	private void collide(Entity cause, AxisAlignedBB newBB) {
+	protected void collide(Entity cause, AxisAlignedBB newBB) {
 		xa = 0;
 		ya = 0;
 	}

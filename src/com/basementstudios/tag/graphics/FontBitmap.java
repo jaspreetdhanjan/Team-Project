@@ -1,5 +1,11 @@
 package com.basementstudios.tag.graphics;
 
+/**
+ * A font bitmap (spritesheet) for fast font drawing.
+ * 
+ * @author Jaspreet Dhanjan
+ */
+
 public class FontBitmap {
 	private static final String CHARS = "" + //
 			"ABCDEFGHIJKLMNOPQRSTUVWXYZ.,!?\"'/\\<>()[]{}" + //
@@ -27,7 +33,7 @@ public class FontBitmap {
 	public int getCharHeight() {
 		return charHeight;
 	}
-	
+
 	public String getAlphabet() {
 		return FontBitmap.CHARS;
 	}

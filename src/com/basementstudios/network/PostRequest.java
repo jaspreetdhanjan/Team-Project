@@ -10,6 +10,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+/**
+ * Sends a POST request to the server.
+ * 
+ * @author James Bray
+ */
+
 public class PostRequest {
 	public JSONObject send(String urlString, Map<String, String> arguments) throws IOException, ParseException {
 		URL url = new URL(urlString);

@@ -50,8 +50,12 @@ public class Bitmap {
 		}
 	}
 
+	public void clear(int colour) {
+		Arrays.fill(pixels, colour);
+	}
+
 	public void clear() {
-		Arrays.fill(pixels, 0);
+		clear(0x000000);
 	}
 
 	public void fill(int x0, int y0, int x1, int y1, int colour) {
@@ -67,10 +71,6 @@ public class Bitmap {
 				pixels[x + y * width] = colour;
 			}
 		}
-	}
-
-	public void setFontBitmap(FontBitmap fontBitmap) {
-		this.fontBitmap = fontBitmap;
 	}
 
 	public void drawString(String msg, int xp, int yp, int colour) {
@@ -98,7 +98,13 @@ public class Bitmap {
 	}
 
 	public void setScale(int xScale, int yScale) {
+		if (xScale < 1) xScale = 1;
+		if (yScale < 1) yScale = 1;
 		this.xScale = xScale;
 		this.yScale = yScale;
+	}
+
+	public void setFontBitmap(FontBitmap fontBitmap) {
+		this.fontBitmap = fontBitmap;
 	}
 }
