@@ -29,10 +29,10 @@ public class FontBitmap {
 		this.charHeight = fontSheet.getSpriteHeight();
 	}
 
-	public FontBitmap(String path, int charWidth, int charHeight) {
+	public FontBitmap(String filename, int charWidth, int charHeight) {
 		BufferedImage fontImg = null;
 		try {
-			fontImg = ImageIO.read(FontBitmap.class.getResourceAsStream(path));
+			fontImg = ImageIO.read(FontBitmap.class.getResourceAsStream("/font/" + filename));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

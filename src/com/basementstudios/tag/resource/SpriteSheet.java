@@ -21,9 +21,9 @@ public class SpriteSheet extends Resource {
 	private int width, height;
 	private Bitmap[][] sprites;
 
-	public SpriteSheet(ResourceManager resourceManager, String path, int spriteWidth, int spriteHeight) {
+	public SpriteSheet(ResourceManager resourceManager, String filename, int spriteWidth, int spriteHeight) {
 		super(ResourceType.SPRITE_SHEET, resourceManager);
-		this.path = "/spritesheet/" + path;
+		this.path = "/spritesheet/" + filename;
 		this.spriteWidth = spriteWidth;
 		this.spriteHeight = spriteHeight;
 	}

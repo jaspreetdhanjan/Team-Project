@@ -1,5 +1,6 @@
 package com.basementstudios.tag.resource;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.*;
@@ -19,16 +20,16 @@ public class Audio extends Resource implements Runnable {
 
 	private Clip clip;
 
-	public Audio(ResourceManager resourceManager, String path, boolean loop) {
+	public Audio(ResourceManager resourceManager, String filename, boolean loop) {
 		super(ResourceType.AUDIO, resourceManager);
-		this.path = "/audio/" + path;
+		this.path = "/audio/" + filename;
 		this.loop = loop;
 	}
 
 	public void create() {
 		try {
 			clip = AudioSystem.getClip();
-			AudioInputStream ais = AudioSystem.getAudioInputStream(Audio.class.getResourceAsStream(path));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(Audio.class.getResourceAsStream(path)));
 			clip.open(ais);
 			if (loop) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -43,6 +44,7 @@ public class Audio extends Resource implements Runnable {
 	}
 
 	public void run() {
+		clip.stop();
 		clip.setFramePosition(0);
 		clip.start();
 	}

@@ -75,7 +75,6 @@ public class Input implements KeyListener, FocusListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		//System.out.println("Pressed -> " + e.getKeyChar());
 		toggle(e, true);
 	}
 

@@ -22,10 +22,10 @@ public class LevelData extends Resource {
 
 	private Bitmap levelImage;
 
-	public LevelData(ResourceManager resourceManager, String levelName, String path) {
+	public LevelData(ResourceManager resourceManager, String levelName, String filename) {
 		super(ResourceType.LEVEL_DATA, resourceManager);
 		this.levelName = levelName;
-		this.path = "/level/" + path;
+		this.path = "/level/" + filename;
 	}
 
 	public void create() {

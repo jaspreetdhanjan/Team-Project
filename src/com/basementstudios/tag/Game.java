@@ -37,6 +37,7 @@ public class Game extends Canvas implements Runnable {
 	public static final String URL = "theadventurersguild.co.uk";
 
 	private boolean stop = false;
+	private boolean fpsLock = true;
 	private String fpsString = "";
 
 	private BufferedImage screenImg;
@@ -79,7 +80,7 @@ public class Game extends Canvas implements Runnable {
 			unprocessed += (nowTime - lastTime) / nsPerTick;
 			lastTime = nowTime;
 
-			boolean render = true;
+			boolean render = false;
 			while (unprocessed >= 1) {
 				ticks++;
 				tick();
@@ -87,7 +88,7 @@ public class Game extends Canvas implements Runnable {
 				render = true;
 			}
 
-			if (render) {
+			if (render && fpsLock) {
 				render();
 				frames++;
 			}
@@ -130,12 +131,12 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		if (!screenManager.getCurrentScreen().fullscreenDraw()) {
+//		if (!screenManager.getCurrentScreen().fullscreenDraw()) {
 			screenRender(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 			hudRender(HUD_WIDTH, HUD_HEIGHT);
-		} else {
-			screenRender(WIDTH, HEIGHT);
-		}
+//		} else {
+//			screenRender(WIDTH, HEIGHT);
+//		}
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
@@ -149,12 +150,8 @@ public class Game extends Canvas implements Runnable {
 		screenManager.renderScreen(viewportBitmap);
 		renderToScreen();
 
-		// int yDiff = viewportBitmap.height - h;
-
 		for (int y = 0; y < h; y++) {
-			if (y >= viewportBitmap.height) continue;
 			for (int x = 0; x < w; x++) {
-				if (x >= viewportBitmap.width) continue;
 				pixels[x + y * w] = viewportBitmap.pixels[x + y * w];
 			}
 		}
