@@ -18,6 +18,7 @@ public class ResourceManager {
 	public final SpriteSheet particlesSpriteSheet = new SpriteSheet(this, "particles.png", 8, 8);
 	public final SpriteSheet entitiesSpriteSheet = new SpriteSheet(this, "entities.png", 16, 16);
 	public final SpriteSheet characterSpriteSheet = new SpriteSheet(this, "character.png", 32, 32);
+	public final SpriteSheet enemySpriteSheet = new SpriteSheet(this, "enemy.png", 32, 32);
 
 	public final LevelData testLevelData = new LevelData(this, "Test Level", "testLevel.png");
 

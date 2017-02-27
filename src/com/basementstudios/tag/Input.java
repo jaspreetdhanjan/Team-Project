@@ -112,4 +112,6 @@ public class Input implements KeyListener, FocusListener {
 	public boolean hasFocus() {
 		return hasFocus;
 	}
+	
+	
 }
