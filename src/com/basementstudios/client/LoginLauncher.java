@@ -2,11 +2,13 @@ package com.basementstudios.client;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 import javax.swing.*;
 
 import org.json.simple.JSONObject;
 
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.CharacterRetriever;
 import com.basementstudios.network.Token;
 import com.basementstudios.tag.Game;
@@ -33,8 +35,6 @@ public class LoginLauncher {
 	private JLabel lblLogin = new JLabel("Login");
 	private JLabel lblUsername = new JLabel("Username");
 	private JLabel lblPassword = new JLabel("Password");
-
-	// TODO: James – Make sure that the launcher only proceeds if the user has made 3 characters on the site.
 
 	public LoginLauncher() {
 		lblUsername.setLabelFor(lblUsername);
@@ -102,7 +102,8 @@ public class LoginLauncher {
 	private void addActionListeners(JButton login) {
 		login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (usernameField.getText().isEmpty()) return;
+				if (usernameField.getText().isEmpty())
+					return;
 
 				String username = usernameField.getText();
 				String password = new String(passwordField.getPassword());
@@ -110,7 +111,13 @@ public class LoginLauncher {
 
 				if ((boolean) loginData.get("success")) {
 					new Token((String) loginData.get("token"));
-					new Game(new CharacterRetriever().getCharacters());
+					List<CharacterData> characterData = new CharacterRetriever().getCharacters();
+					if (characterData.size() > 3)
+						new Game(characterData);
+					else
+						JOptionPane.showMessageDialog(null,
+								"You need at least 3 characters on your account in order to play", "Error",
+								JOptionPane.ERROR_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);
 				}
