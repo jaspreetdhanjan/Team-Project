@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.screen.*;
 import com.basementstudios.network.CharacterData;
@@ -19,8 +20,8 @@ import com.basementstudios.network.CharacterData;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	public static final int WIDTH = 400;
-	public static final int HEIGHT = 300;
+	private static final int WIDTH = 400;
+	private static final int HEIGHT = 300;
 	private static final int SCALE = 2;
 
 	private static final int SCALED_WIDTH = WIDTH * SCALE;
@@ -32,7 +33,7 @@ public class Game extends Canvas implements Runnable {
 	private static final int VIEWPORT_HEIGHT = HEIGHT - HUD_HEIGHT;
 
 	public static final String TITLE = "The Adventurers' Guild";
-	public static final String VERSION = "Pre-Alpha 2.0";
+	public static final String VERSION = "Prototype 2";
 
 	public static final String URL = "theadventurersguild.co.uk";
 
@@ -118,6 +119,8 @@ public class Game extends Canvas implements Runnable {
 
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
+
+		AudioPlayer.setSoundtrack(ResourceManager.i.soundtrackSound);
 	}
 
 	private void tick() {
@@ -131,12 +134,13 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-//		if (!screenManager.getCurrentScreen().fullscreenDraw()) {
-			screenRender(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-			hudRender(HUD_WIDTH, HUD_HEIGHT);
-//		} else {
-//			screenRender(WIDTH, HEIGHT);
-//		}
+		// TODO: Fix this
+		// if (!screenManager.getCurrentScreen().fullscreenDraw()) {
+		screenRender(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		hudRender(HUD_WIDTH, HUD_HEIGHT);
+		// } else {
+		// screenRender(WIDTH, HEIGHT);
+		// }
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);

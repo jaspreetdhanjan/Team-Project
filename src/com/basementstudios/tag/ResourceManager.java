@@ -23,6 +23,7 @@ public class ResourceManager {
 	public final LevelData testLevelData = new LevelData(this, "Test Level", "testLevel.png");
 
 	public final Audio selectionSound = new Audio(this, "select.wav", false);
+	public final Audio soundtrackSound = new Audio(this, "soundtrack_track_1.wav", true);
 
 	public void addResource(Resource resource) {
 		resources.add(resource);

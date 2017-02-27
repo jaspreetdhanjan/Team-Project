@@ -10,6 +10,8 @@ import com.basementstudios.tag.resource.Audio;
  */
 
 public class AudioPlayer {
+	private static Audio soundtrack;
+	
 	public static void play(Audio audio) {
 		Thread t = new Thread(audio);
 		t.start();
@@ -18,5 +20,13 @@ public class AudioPlayer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void setSoundtrack(Audio soundtrack) {
+		AudioPlayer.soundtrack = soundtrack;
+	}
+	
+	public static void setVolume(int volume) {
+		
 	}
 }
