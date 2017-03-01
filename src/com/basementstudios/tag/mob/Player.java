@@ -4,7 +4,6 @@ import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.component.*;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.resource.SpriteSheet;
-import com.basementstudios.network.*;
 import com.basementstudios.network.CharacterData;
 
 /**
@@ -21,14 +20,16 @@ public class Player extends Mob {
 	public Player(double x, double y, CharacterData characterData) {
 		super(x, y, 13 + 16, 26 + 16);
 		this.characterData = characterData;
+
 		characterData.addStat();
 		characterData.addItems();
 		characterData.calculateBattleStats();
+
 		dmg = characterData.getDmg();
 		def = characterData.getDef();
 		spd = characterData.getSpd();
 		spellDuration = characterData.getSpellDuration();
-		wepponType = characterData.getWeaponType();
+		weaponType = characterData.getWeaponType();
 		health = characterData.getCurrentHealth();
 		maxHealth = characterData.getMaxHealth();
 		name = characterData.getName();
@@ -60,16 +61,16 @@ public class Player extends Mob {
 				xa = 0;
 			} else if (bb.xPos - xStart == maxAttackFrame && !isRetracting) {
 				isRetracting = true;
-				getTarge().hit(getDmg());
-				getTarge().spellCast(getDmg(), getSpellDuration());
-			} else if (isRetracting)
-				xa = -1;
-			else
-				xa = 1;
+
+				Mob target = getTarget();
+				target.hit(getDmg());
+				target.spellCast(getDmg(), getSpellDuration());
+			} else if (isRetracting) xa = -1;
+			else xa = 1;
 			attemptMove();
 		}
 	}
-	
+
 	public void render(Bitmap bm) {
 		if (xa == 0) {
 			xSpriteIndex = 0;
@@ -92,11 +93,11 @@ public class Player extends Mob {
 
 		super.render(bm);
 	}
-	
+
 	public SpriteSheet getSpriteSheet() {
 		return ResourceManager.i.characterSpriteSheet;
 	}
-	
+
 	public CharacterData getCharacterData() {
 		return characterData;
 	}

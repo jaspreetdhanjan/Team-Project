@@ -42,14 +42,13 @@ public class GameScreen extends Screen {
 		bm.clear();
 
 		level.render(bm);
-		
+
 		gameController.render(bm);
 	}
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
-		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK
-				|| gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
+		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK || gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
 			Mob player = gameController.getPlayerController().getSelectedMob();
 			Mob enemy = gameController.getEnemyController().getAttackMob();
 			mobHud(bm, player, 0, 0);
@@ -69,22 +68,22 @@ public class GameScreen extends Screen {
 			bm.drawString("Speed " + player.getSpd(), xStart, yStart + 20, 0xffffff);
 
 			String weponType;
-			switch (player.getWepponType()) {
-			case CharacterData.NO_WEAPON:
-				weponType = "Fists";
-				break;
-			case CharacterData.MELEE_WEAPON:
-				weponType = "Melle";
-				break;
-			case CharacterData.RANGED_WEAPON:
-				weponType = "Ranged";
-				break;
-			case CharacterData.MAGIC_WEAPON:
-				weponType = "Magic";
-				break;
-			default:
-				weponType = "Im not gonna ask";
-				break;
+			switch (player.getWeaponType()) {
+				case CharacterData.NO_WEAPON:
+					weponType = "Fists";
+					break;
+				case CharacterData.MELEE_WEAPON:
+					weponType = "Melle";
+					break;
+				case CharacterData.RANGED_WEAPON:
+					weponType = "Ranged";
+					break;
+				case CharacterData.MAGIC_WEAPON:
+					weponType = "Magic";
+					break;
+				default:
+					weponType = "Im not gonna ask";
+					break;
 			}
 
 			bm.drawString("Wepon Type " + weponType, xStart, yStart + 35, 0xffffff);
@@ -94,8 +93,7 @@ public class GameScreen extends Screen {
 
 			if (player.getDebuffDuration() != 0) {
 				bm.drawString("Debuff", xStart, yStart + 55, 0x85d19b);
-				bm.drawString(player.getDebuffDamage() + " damage for " + player.getDebuffDuration() + " turns", xStart,
-						yStart + 65, 0x85d19b);
+				bm.drawString(player.getDebuffDamage() + " damage for " + player.getDebuffDuration() + " turns", xStart, yStart + 65, 0x85d19b);
 			}
 		}
 	}

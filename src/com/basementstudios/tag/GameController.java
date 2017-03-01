@@ -1,17 +1,11 @@
 package com.basementstudios.tag;
 
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
-import com.basementstudios.tag.mob.Enemy;
-import com.basementstudios.tag.mob.Mob;
-import com.basementstudios.tag.mob.Player;
+import com.basementstudios.tag.mob.*;
 import com.basementstudios.tag.screen.EndScreen;
-import com.basementstudios.network.*;
 import com.basementstudios.network.CharacterData;
 
 /**
@@ -21,21 +15,21 @@ import com.basementstudios.network.CharacterData;
  *
  */
 public class GameController {
+	private Level level;
 
-	private int turn = 0;
-	private int maxSpd = 0;
-	private Level level = null;
 	private ObjectControler<Player> playerController;
 	private ObjectControler<Enemy> enemyController;
 	private Random rand = new Random();
 	private ScreenManager screenManager;
+	private int turn = 0;
+	private int maxSpd = 0;
 	private int gameState = 0;
 
 	public static final int STATE_NULL = 0;
 	public static final int STATE_PLAYER_ATACK = 1;
 	public static final int STATE_PLAYER_ATACKING = 2;
 	public static final int STATE_ENEMY_ATACK = 3;
-	
+
 	public static List<CharacterData> availableCharacters;
 	public static CharacterData[] selectedCharacters = new CharacterData[3];
 
@@ -54,52 +48,49 @@ public class GameController {
 		playerController.tick();
 		enemyController.tick();
 		switch (gameState) {
-		case STATE_PLAYER_ATACK:
-			boolean moveUp = input.up.isClicked() || input.left.isClicked();
-			boolean moveDown = input.down.isClicked() || input.right.isClicked();
-			boolean clicked = input.enter.isClicked() || input.space.isClicked();
-			
-			if (moveUp)
-				enemyController.selectAtack(1);
-			if (moveDown)
-				enemyController.selectAtack(-1);
+			case STATE_PLAYER_ATACK:
+				boolean moveUp = input.up.isClicked() || input.left.isClicked();
+				boolean moveDown = input.down.isClicked() || input.right.isClicked();
+				boolean clicked = input.enter.isClicked() || input.space.isClicked();
 
-			if (clicked && !playerController.getSelectedMob().isAttacking) {
-				playerController.getSelectedMob().startAttack(60, enemyController.attackMob);
-				gameState = STATE_PLAYER_ATACKING;
-			}
-			break;
-		case STATE_PLAYER_ATACKING:
-			if (!playerController.getSelectedMob().isAttacking) {
-				gameState = STATE_NULL;
-				getNext();
-			}
-			break;
-		case STATE_ENEMY_ATACK:
-			if (!enemyController.getSelectedMob().isAttacking) {
-				gameState = STATE_NULL;
-				getNext();
-			}
-			break;
+				if (moveUp) enemyController.selectAttack(1);
+				if (moveDown) enemyController.selectAttack(-1);
+
+				if (clicked && !playerController.getSelectedMob().isAttacking) {
+					playerController.getSelectedMob().startAttack(60, enemyController.attackMob);
+					gameState = STATE_PLAYER_ATACKING;
+				}
+				break;
+			case STATE_PLAYER_ATACKING:
+				if (!playerController.getSelectedMob().isAttacking) {
+					gameState = STATE_NULL;
+					getNext();
+				}
+				break;
+			case STATE_ENEMY_ATACK:
+				if (!enemyController.getSelectedMob().isAttacking) {
+					gameState = STATE_NULL;
+					getNext();
+				}
+				break;
 		}
 	}
 
 	/**
 	 * Starts the game
 	 */
-	
-	public void render (Bitmap bm){
+
+	public void render(Bitmap bm) {
 		playerController.render(bm);
 		enemyController.render(bm);
 	}
+
 	public void startGame() {
 		for (Mob player : playerController.getCharaList()) {
-			if (player.getSpd() > maxSpd)
-				maxSpd = player.getSpd();
+			if (player.getSpd() > maxSpd) maxSpd = player.getSpd();
 		}
 		for (Mob enemy : enemyController.getCharaList()) {
-			if (enemy.getSpd() > maxSpd)
-				maxSpd = enemy.getSpd();
+			if (enemy.getSpd() > maxSpd) maxSpd = enemy.getSpd();
 		}
 		maxSpd++;
 		turn++;
@@ -110,10 +101,8 @@ public class GameController {
 	 * Gets the next action to be performed
 	 */
 	public void getNext() {
-		if (playerController.getCharaList().size() == 0)
-			screenManager.setScreen(new EndScreen(false, null));
-		else if (enemyController.getCharaList().size() == 0)
-			screenManager.setScreen(new EndScreen(true, playerController.getCharaList()));
+		if (playerController.getCharaList().size() == 0) screenManager.setScreen(new EndScreen(false, null));
+		else if (enemyController.getCharaList().size() == 0) screenManager.setScreen(new EndScreen(true, playerController.getCharaList()));
 		else {
 			if (nextPlayer() == null) {
 				if (nextEnemy() == null) {
@@ -154,7 +143,7 @@ public class GameController {
 		for (Mob player : playerController.getCharaList()) {
 			if (turn % (maxSpd - player.getSpd()) == 0 && !player.hasGone) {
 				player.hasGone = true;
-				gameState=STATE_PLAYER_ATACK;
+				gameState = STATE_PLAYER_ATACK;
 				playerController.select(i);
 				enemyController.defending();
 				playerController.atack();
@@ -175,11 +164,11 @@ public class GameController {
 		for (Mob enemy : enemyController.getCharaList()) {
 			if (turn % (maxSpd - enemy.getSpd()) == 0 && !enemy.hasGone) {
 				enemy.hasGone = true;
-				gameState=STATE_ENEMY_ATACK;
+				gameState = STATE_ENEMY_ATACK;
 				enemyController.select(i);
 				enemyController.atack();
 				playerController.defending();
-				playerController.selectAtack(rand.nextInt(3));
+				playerController.selectAttack(rand.nextInt(3));
 				enemyController.getSelectedMob().startAttack(60, playerController.attackMob);
 				return enemy;
 			}
@@ -196,7 +185,7 @@ public class GameController {
 	public void addPlayers() {
 		int x = 50;
 		int y = 50;
-		
+
 		if (availableCharacters == null) throw new RuntimeException("Characters not loaded!");
 		for (int i = 0; i < 3; i++) {
 			selectedCharacters[i] = availableCharacters.get(i);
@@ -214,9 +203,10 @@ public class GameController {
 	 * @param seed
 	 */
 	public void addEnemys(int seed) {
-		int x= 200;
+		int x = 200;
 		int y = 50;
-		ArrayList<String> names = new ArrayList<String>();
+
+		List<String> names = new ArrayList<String>();
 		names.add("Bret");
 		names.add("Geff");
 		names.add("Simon");
@@ -228,30 +218,30 @@ public class GameController {
 			int spd = (0 + rand.nextInt(4)) * seed;
 			int spellDuration = 0;
 			int health = 50 * seed;
-			int weponType = CharacterData.NO_WEAPON;
+			int weaponType = CharacterData.NO_WEAPON;
 
 			int wT = (0 + rand.nextInt(4)) * seed;
 
 			switch (wT) {
-			case 0:
-				weponType = CharacterData.NO_WEAPON;
-				break;
-			case 1:
-				weponType = CharacterData.MELEE_WEAPON;
-				break;
-			case 2:
-				weponType = CharacterData.RANGED_WEAPON;
-				break;
-			case 3:
-				dmg = dmg / 2;
-				spellDuration = (1 + rand.nextInt(2)) * seed;
-				weponType = CharacterData.MAGIC_WEAPON;
+				case 0:
+					weaponType = CharacterData.NO_WEAPON;
+					break;
+				case 1:
+					weaponType = CharacterData.MELEE_WEAPON;
+					break;
+				case 2:
+					weaponType = CharacterData.RANGED_WEAPON;
+					break;
+				case 3:
+					dmg = dmg / 2;
+					spellDuration = (1 + rand.nextInt(2)) * seed;
+					weaponType = CharacterData.MAGIC_WEAPON;
 			}
 			String name = names.get(rand.nextInt(names.size()));
-			Enemy enemy = new Enemy(x, y + 50 * i, dmg, def, spd, spellDuration, weponType, health, name);
+			Enemy enemy = new Enemy(x, y + 50 * i, dmg, def, spd, spellDuration, weaponType, health, name);
 			enemyController.addMob(enemy);
 		}
-		enemyController.selectAtack(0);
+		enemyController.selectAttack(0);
 	}
 
 	public int getTurn() {
@@ -268,10 +258,9 @@ public class GameController {
 
 	public int getGameState() {
 		return gameState;
-	};
-	
-	public void setScreenManager(ScreenManager screenManager){
+	}
+
+	public void setScreenManager(ScreenManager screenManager) {
 		this.screenManager = screenManager;
-		System.out.println(screenManager);
 	}
 }

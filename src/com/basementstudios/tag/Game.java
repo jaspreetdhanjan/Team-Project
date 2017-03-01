@@ -120,7 +120,7 @@ public class Game extends Canvas implements Runnable {
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
 
-		AudioPlayer.setSoundtrack(ResourceManager.i.soundtrackSound);
+		AudioPlayer.play(ResourceManager.i.soundtrackSound);
 	}
 
 	private void tick() {

@@ -1,21 +1,18 @@
 package com.basementstudios.tag;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
-import com.basementstudios.tag.mob.Player;
 
 /**
  * @author James Bray
  *
  */
 public class ObjectControler<T extends Mob> {
-
 	protected Level level;
-	protected ArrayList<T> charaList = new ArrayList<T>();
+	protected List<T> charaList = new ArrayList<T>();
 
 	protected Mob selectedMob = null;
 	protected Mob attackMob = null;
@@ -66,8 +63,7 @@ public class ObjectControler<T extends Mob> {
 	}
 
 	/**
-	 * Renders the arrows above mobs heads, colour depended on the mode the
-	 * Controller is in
+	 * Renders the arrows above mobs heads, colour depended on the mode the Controller is in
 	 * 
 	 * @param bm
 	 */
@@ -76,7 +72,7 @@ public class ObjectControler<T extends Mob> {
 			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
 			int xp = (int) (selectedMob.getBB().xPos + 8);
 			int yp = (int) (selectedMob.getBB().yPos - 20) + yOffs;
-			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites() [0][0], xp, yp, 0xffffff);
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
 		}
 
 		if (attackMob != null && !atacking) {
@@ -108,9 +104,9 @@ public class ObjectControler<T extends Mob> {
 	 * 
 	 * @param idDelta
 	 */
-	public void selectAtack(int idDelta) {
+	public void selectAttack(int idDelta) {
 		atackIndex += idDelta;
-		System.out.println(atackIndex);
+//		System.out.println(atackIndex);
 		attackMob = charaList.get(Math.abs(atackIndex % charaList.size()));
 	}
 
@@ -123,7 +119,7 @@ public class ObjectControler<T extends Mob> {
 		return attackMob;
 	}
 
-	public ArrayList<T> getCharaList() {
+	public List<T> getCharaList() {
 		return charaList;
 	}
 

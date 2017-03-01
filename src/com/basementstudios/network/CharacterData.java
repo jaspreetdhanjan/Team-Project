@@ -182,7 +182,6 @@ public class CharacterData {
 			}
 
 			for (Stat stat : item.getStats()) {
-				System.out.println(stat.getID() + stat.getName());
 				switch (stat.getID()) {
 					case 1: {
 						spd -= stat.getValue();

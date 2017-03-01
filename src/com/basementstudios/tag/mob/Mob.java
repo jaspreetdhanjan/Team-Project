@@ -1,23 +1,20 @@
 package com.basementstudios.tag.mob;
 
-import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.particle.TextParticle;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
 /**
  * A moving and dynamic character within the game.
  * 
- * @since Version 1.0 combat removed.
- * 
  * @author Jaspreet Dhanjan
+ * @author James Bray
  */
 
 public class Mob extends Entity {
 	public boolean hasGone = false;
-	protected int dmg, def, spd, spellDuration, wepponType, health, maxHealth;
+	protected int dmg, def, spd, spellDuration, weaponType, health, maxHealth;
 	protected int debuffDamage, debuffDuration;
 	protected String name;
 	public boolean isAttacking = false;
@@ -48,8 +45,7 @@ public class Mob extends Entity {
 	}
 
 	private boolean move(AxisAlignedBB newBB) {
-		if (isRemoved())
-			return false;
+		if (isRemoved()) return false;
 
 		// TODO: AABB.contains() is broken – check y clipping.
 		// if (!level.getBB().contains(newBB)) {
@@ -76,8 +72,8 @@ public class Mob extends Entity {
 		int xp = (int) bb.xPos;
 		int yp = (int) bb.yPos;
 		bm.render(getBitmap(), xp, yp, colour);
-		bm.drawString(health+"/"+maxHealth, xp, yp+32,  0xff0000);
-		bm.drawString(name, xp, yp-5,  0x000000e);
+		bm.drawString(health + "/" + maxHealth, xp, yp + 32, 0xff0000);
+		bm.drawString(name, xp, yp - 5, 0x000000e);
 	}
 
 	public AxisAlignedBB getBB() {
@@ -101,7 +97,6 @@ public class Mob extends Entity {
 	}
 
 	public void spellHurt() {
-		System.out.println("Spell Hurt");
 		int colour = 0x0f5b00;
 
 		if (debuffDuration > 0) {
@@ -113,11 +108,9 @@ public class Mob extends Entity {
 
 	public void hurt(int dmg) {
 		int colour = 0xff0000;
-
-		System.out.println(health);
 		level.add(new TextParticle("-" + dmg, bb.xPos, bb.yPos, 2, colour));
 	}
-	
+
 	public void hit(int dmg) {
 		int damage = dmg - def;
 
@@ -128,9 +121,9 @@ public class Mob extends Entity {
 
 		hurt(damage);
 	}
-	
-	public void movePlayer(){
-		
+
+	public void movePlayer() {
+
 	}
 
 	public void onDied() {
@@ -153,8 +146,8 @@ public class Mob extends Entity {
 		return spellDuration;
 	}
 
-	public int getWepponType() {
-		return wepponType;
+	public int getWeaponType() {
+		return weaponType;
 	}
 
 	public int getHealth() {
@@ -165,7 +158,7 @@ public class Mob extends Entity {
 		return maxHealth;
 	}
 
-	public Mob getTarge() {
+	public Mob getTarget() {
 		return target;
 	}
 
@@ -180,5 +173,4 @@ public class Mob extends Entity {
 	public String getName() {
 		return name;
 	}
-	
 }
