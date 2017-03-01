@@ -20,9 +20,9 @@ import com.basementstudios.network.CharacterData;
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
-	private static final int WIDTH = 400;
-	private static final int HEIGHT = 300;
-	private static final int SCALE = 2;
+	private static final int WIDTH = 800;
+	private static final int HEIGHT = 600;
+	private static final int SCALE = 1;
 
 	private static final int SCALED_WIDTH = WIDTH * SCALE;
 	private static final int SCALED_HEIGHT = HEIGHT * SCALE;

@@ -19,7 +19,7 @@ public class Player extends Mob {
 	private final CharacterData characterData;
 
 	public Player(double x, double y, CharacterData characterData) {
-		super(x, y, 13 + 16, 26 + 16);
+		super(x, y, 64, 64);
 		this.characterData = characterData;
 		characterData.addStat();
 		characterData.addItems();

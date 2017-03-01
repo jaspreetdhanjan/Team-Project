@@ -203,7 +203,7 @@ public class GameController {
 		}
 
 		for (int i = 0; i < 3; i++) {
-			Player player = new Player(x, y + 50 * i, selectedCharacters[i]);
+			Player player = new Player(x, y + 80 * i, selectedCharacters[i]);
 			playerController.addMob(player);
 		}
 	}
@@ -214,7 +214,7 @@ public class GameController {
 	 * @param seed
 	 */
 	public void addEnemys(int seed) {
-		int x= 200;
+		int x= 400;
 		int y = 50;
 		ArrayList<String> names = new ArrayList<String>();
 		names.add("Bret");
@@ -248,7 +248,7 @@ public class GameController {
 				weponType = CharacterData.MAGIC_WEAPON;
 			}
 			String name = names.get(rand.nextInt(names.size()));
-			Enemy enemy = new Enemy(x, y + 50 * i, dmg, def, spd, spellDuration, weponType, health, name);
+			Enemy enemy = new Enemy(x, y + 70 * i, dmg, def, spd, spellDuration, weponType, health, name);
 			enemyController.addMob(enemy);
 		}
 		enemyController.selectAtack(0);

@@ -76,8 +76,8 @@ public class Mob extends Entity {
 		int xp = (int) bb.xPos;
 		int yp = (int) bb.yPos;
 		bm.render(getBitmap(), xp, yp, colour);
-		bm.drawString(health+"/"+maxHealth, xp, yp+32,  0xff0000);
-		bm.drawString(name, xp, yp-5,  0x000000e);
+		bm.drawString(health+"/"+maxHealth, xp, yp+64,  0xff0000);
+		bm.drawString(name, xp, yp,  0x000000e);
 	}
 
 	public AxisAlignedBB getBB() {
