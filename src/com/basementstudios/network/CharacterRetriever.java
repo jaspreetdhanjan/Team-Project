@@ -27,7 +27,7 @@ public class CharacterRetriever {
 		}
 	}
 
-	public List<CharacterData> getCharacters() {
+	public  List<CharacterData> getCharacters() {
 		List<CharacterData> result = new ArrayList<CharacterData>();
 
 		PostRequest poster = new PostRequest();

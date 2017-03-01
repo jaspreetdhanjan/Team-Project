@@ -19,12 +19,7 @@ public class Run {
 		try {
 			new Token();
 			List<CharacterData> characterData = new CharacterRetriever().getCharacters();
-			if (characterData.size() > 3)
-				new Game(characterData);
-			else
-				JOptionPane.showMessageDialog(null,
-						"You need at least 3 characters on your account in order to play", "Error",
-						JOptionPane.ERROR_MESSAGE);
+				new Game();
 		} catch (InvalidTokenException e) {
 			new LoginLauncher();
 		}

@@ -47,8 +47,7 @@ public class Game extends Canvas implements Runnable {
 
 	private ScreenManager screenManager;
 
-	public Game(List<CharacterData> availableCharacters) {
-		GameController.availableCharacters = availableCharacters;
+	public Game() {
 
 		Dimension d = new Dimension(SCALED_WIDTH, SCALED_HEIGHT);
 		setMinimumSize(d);

@@ -110,10 +110,11 @@ public class LoginLauncher {
 				JSONObject loginData = LoginController.login(username, password);
 
 				if ((boolean) loginData.get("success")) {
-					new Token((String) loginData.get("token"));
 					List<CharacterData> characterData = new CharacterRetriever().getCharacters();
-					if (characterData.size() > 3)
-						new Game(characterData);
+					if (characterData.size() > 3){
+						new Token((String) loginData.get("token"));
+						new Game();
+					}	
 					else
 						JOptionPane.showMessageDialog(null,
 								"You need at least 3 characters on your account in order to play", "Error",

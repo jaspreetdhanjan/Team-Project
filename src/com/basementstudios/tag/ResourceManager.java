@@ -2,6 +2,10 @@ package com.basementstudios.tag;
 
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
+import com.basementstudios.network.CharacterData;
+import com.basementstudios.network.CharacterRetriever;
 import com.basementstudios.tag.resource.*;
 
 /**
@@ -34,5 +38,7 @@ public class ResourceManager {
 			System.out.println("Loading -> " + resource.getResourceType() + " from path: " + resource.getPath());
 			resource.create();
 		});
+		GameController.availableCharacters = new CharacterRetriever().getCharacters();
+		System.out.println("Loading ->  charas from server" );
 	}
 }
