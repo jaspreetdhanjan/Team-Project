@@ -10,6 +10,7 @@ import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.screen.*;
 import com.basementstudios.network.CharacterData;
+import com.basementstudios.network.CharacterRetriever;
 
 /**
  * Entry-point for the main application.
@@ -110,8 +111,8 @@ public class Game extends Canvas implements Runnable {
 
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
 			public void run() {
-				// TODO: Ideally put all the network (character) loading stuff here.
-				// Just use the launcher for login verification.
+				GameController.availableCharacters = new CharacterRetriever().getCharacters();
+				System.out.println("Loading ->  charas from server" );
 				ResourceManager.i.loadAll();
 			}
 		});

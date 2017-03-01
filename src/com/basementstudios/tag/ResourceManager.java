@@ -38,7 +38,6 @@ public class ResourceManager {
 			System.out.println("Loading -> " + resource.getResourceType() + " from path: " + resource.getPath());
 			resource.create();
 		});
-		GameController.availableCharacters = new CharacterRetriever().getCharacters();
-		System.out.println("Loading ->  charas from server" );
+		
 	}
 }
