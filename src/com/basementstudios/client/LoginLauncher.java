@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.CharacterRetriever;
+import com.basementstudios.network.InvalidTokenException;
 import com.basementstudios.network.Token;
 import com.basementstudios.tag.Game;
 
@@ -110,15 +111,22 @@ public class LoginLauncher {
 				JSONObject loginData = LoginController.login(username, password);
 
 				if ((boolean) loginData.get("success")) {
+					new Token((String) loginData.get("token"));
 					List<CharacterData> characterData = new CharacterRetriever().getCharacters();
 					if (characterData.size() > 3){
-						new Token((String) loginData.get("token"));
 						new Game();
 					}	
-					else
+					else{
+						try {
+							new Token().remove();
+						} catch (InvalidTokenException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						JOptionPane.showMessageDialog(null,
 								"You need at least 3 characters on your account in order to play", "Error",
 								JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);
 				}
