@@ -18,7 +18,6 @@ public class Run {
 	public static void main(String[] args) {
 		try {
 			new Token();
-			List<CharacterData> characterData = new CharacterRetriever().getCharacters();
 				new Game();
 		} catch (InvalidTokenException e) {
 			new LoginLauncher();

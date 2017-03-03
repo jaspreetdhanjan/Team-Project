@@ -9,45 +9,130 @@ import org.json.simple.parser.ParseException;
 
 /**
  * Retrieves CharacterData for each character created, server-side.
- * 
+ *
  * @author James Bray
  */
 
 public class CharacterRetriever {
-	private static final String URL = "http://tag.yarbsemaj.com/api/chara/list.php";
+    private static final String STAT_URL = "http://tag.yarbsemaj.com/api/chara/getStat.php";
+    private static final String ITEM_URL = "http://tag.yarbsemaj.com/api/chara/getItems.php";
+    private static final String URL = "http://tag.yarbsemaj.com/api/chara/list.php";
 
-	private String token;
+    private String token;
 
-	public CharacterRetriever() {
-		try {
-			Token tokenObj = new Token();
-			token = tokenObj.getToken();
-		} catch (InvalidTokenException e) {
-			e.printStackTrace();
-		}
-	}
+    private CharacterData characterData;
+    private Item item;
 
-	public  List<CharacterData> getCharacters() {
-		List<CharacterData> result = new ArrayList<CharacterData>();
+    public CharacterRetriever() {
+        try {
+            Token tokenObj = new Token();
+            token = tokenObj.getToken();
+        } catch (InvalidTokenException e) {
+            e.printStackTrace();
+        }
+    }
 
-		PostRequest poster = new PostRequest();
-		Map<String, String> arguments = new HashMap<String, String>();
-		arguments.put("Token", token);
-		JSONObject charaData;
-		try {
-			charaData = poster.send(URL, arguments);
-			if ((boolean) charaData.get("success")) {
-				JSONObject charaData1 = (JSONObject) charaData.get("char");
-				JSONArray charaArray = (JSONArray) charaData1.get("char");
-				for (Object charaObject : charaArray) {
-					JSONObject chara = (JSONObject) charaObject;
-					result.add(new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth"))));
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
+    public List<CharacterData> getCharacters() {
+        List<CharacterData> result = new ArrayList<CharacterData>();
 
-		return result;
-	}
+        PostRequest poster = new PostRequest();
+        Map<String, String> arguments = new HashMap<String, String>();
+        arguments.put("Token", token);
+        JSONObject charaData;
+        try {
+            charaData = poster.send(URL, arguments);
+            if ((boolean) charaData.get("success")) {
+                JSONObject charaData1 = (JSONObject) charaData.get("char");
+                JSONArray charaArray = (JSONArray) charaData1.get("char");
+                for (Object charaObject : charaArray) {
+                    JSONObject chara = (JSONObject) charaObject;
+
+                    characterData = new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth")));
+                    addStat();
+                    addItems();
+                    result.add(characterData);
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(result);
+        return result;
+    }
+
+    public CharacterData getUpdateData(CharacterData characterData){
+        this.characterData = characterData;
+        addStat();
+        addItems();
+        return this.characterData;
+
+    }
+
+    public void addStat() {
+        if (characterData.getStats().size() == 0) {
+            PostRequest poster = new PostRequest();
+            Map<String, String> arguments = new HashMap<String, String>();
+            arguments.put("CharID", String.valueOf(characterData.getID()));
+            JSONObject charaData;
+            try {
+                charaData = poster.send(STAT_URL, arguments);
+                if ((boolean) charaData.get("success")) {
+                    JSONObject charaData1 = (JSONObject) charaData.get("Starts");
+                    JSONArray charaArray = (JSONArray) charaData1.get("stat");
+                    for (Object charaObject : charaArray) {
+                        JSONObject chara = (JSONObject) charaObject;
+                        characterData.addStat(new Stat(Integer.parseInt((String) chara.get("CharacteristicID")), Integer.parseInt((String) chara.get("Value")), (String) chara.get("Name")));
+                    }
+                }
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addItems() {
+        if (characterData.getItems().size() == 0) {
+            PostRequest poster = new PostRequest();
+            Map<String, String> arguments = new HashMap<String, String>();
+            arguments.put("CharID", String.valueOf(characterData.getID()));
+            JSONObject charaData;
+            try {
+                charaData = poster.send(ITEM_URL, arguments);
+                if ((boolean) charaData.get("success")) {
+                    JSONObject charaData1 = (JSONObject) charaData.get("items");
+                    JSONArray charaArray = (JSONArray) charaData1.get("item");
+                    for (Object charaObject : charaArray) {
+                        JSONObject chara = (JSONObject) charaObject;
+                        item = new Item(Integer.parseInt((String) chara.get("ItemID")), ((String) chara.get("ItemName")), Integer.parseInt((String) chara.get("SlotID")), (String) chara.get("SlotName"), Integer.parseInt((String) chara.get("TypeID")), (String) chara.get("TypeName"));
+                        addStats();
+                        characterData.addItem(item);
+                    }
+                }
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addStats() {
+        PostRequest poster = new PostRequest();
+        Map<String, String> arguments = new HashMap<String, String>();
+        arguments.put("ItemID", String.valueOf(item.getID()));
+        System.out.println("ItemData");
+
+        JSONObject charaData;
+        try {
+            charaData = poster.send(STAT_URL, arguments);
+            if ((boolean) charaData.get("success")) {
+                JSONObject charaData1 = (JSONObject) charaData.get("Starts");
+                JSONArray charaArray = (JSONArray) charaData1.get("stat");
+                for (Object charaObject : charaArray) {
+                    JSONObject chara = (JSONObject) charaObject;
+                    item.addStat(new Stat(Integer.parseInt((String) chara.get("StatID")), Integer.parseInt((String) chara.get("Value")), (String) chara.get("Name")));
+                }
+            }
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }

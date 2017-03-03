@@ -41,9 +41,9 @@ public class Enemy extends Mob {
 				getTarge().hit(getDmg());
 				getTarge().spellCast(getDmg(), getSpellDuration());
 			} else if (isRetracting)
-				xa = 1;
+				xa = 2;
 			else
-				xa = -1;
+				xa = -2;
 			attemptMove();
 		}
 	}
@@ -53,7 +53,7 @@ public class Enemy extends Mob {
 
 		if (xa == 0) {
 			xSpriteIndex = 0;
-			ySpriteIndex = 0;
+			ySpriteIndex = 1;
 		} else if (xa < 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 1;
@@ -63,7 +63,7 @@ public class Enemy extends Mob {
 			}
 		} else if (xa > 0) {
 			xSpriteIndex = 0;
-			ySpriteIndex = 3;
+			ySpriteIndex = 0;
 
 			if (isMoving()) {
 				xSpriteIndex = (walkDist / 10) % 4;
@@ -73,7 +73,7 @@ public class Enemy extends Mob {
 	}
 	
 	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.characterSpriteSheet;
+		return ResourceManager.i.newCharacterSpriteSheet;
 	}
 
 }

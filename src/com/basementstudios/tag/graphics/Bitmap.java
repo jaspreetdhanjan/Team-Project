@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 
 public class Bitmap {
-	public static final FontBitmap defaultFont = new FontBitmap("default_font.png", 6, 8);
+	public static final FontBitmap defaultFont = new FontBitmap("default_font.png", 12, 16);
 
 	public final int width, height;
 	public final int pixels[];

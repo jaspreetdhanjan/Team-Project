@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
  */
 
 public class SpriteSheet {
-	public static final Bitmap[][] font = loadBitmap("/spritesheet/font.png", 6, 8);
+	public static final Bitmap[][] font = loadBitmap("/spritesheet/font.png", 12, 16);
 	public static final Bitmap[][] particles = loadBitmap("/spritesheet/particles.png", 8, 8);
 	public static final Bitmap[][] entities = loadBitmap("/spritesheet/entities.png", 16, 16);
 	public static final Bitmap[][] character = loadBitmap("/spritesheet/character.png", 64, 64);

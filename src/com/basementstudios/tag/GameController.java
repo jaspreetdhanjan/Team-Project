@@ -11,7 +11,6 @@ import com.basementstudios.tag.mob.Enemy;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.mob.Player;
 import com.basementstudios.tag.screen.EndScreen;
-import com.basementstudios.network.*;
 import com.basementstudios.network.CharacterData;
 
 /**
@@ -31,13 +30,15 @@ public class GameController {
 	private ScreenManager screenManager;
 	private int gameState = 0;
 
+	private static int charaGap = 130;
+
 	public static final int STATE_NULL = 0;
 	public static final int STATE_PLAYER_ATACK = 1;
 	public static final int STATE_PLAYER_ATACKING = 2;
 	public static final int STATE_ENEMY_ATACK = 3;
 	
 	public static List<CharacterData> availableCharacters;
-	public static CharacterData[] selectedCharacters = new CharacterData[3];
+	public static ArrayList<CharacterData> selectedCharacters = new ArrayList<CharacterData>(3);
 
 	public GameController(Level level) {
 		this.level = level;
@@ -65,7 +66,7 @@ public class GameController {
 				enemyController.selectAtack(-1);
 
 			if (clicked && !playerController.getSelectedMob().isAttacking) {
-				playerController.getSelectedMob().startAttack(60, enemyController.attackMob);
+				playerController.getSelectedMob().startAttack(200, enemyController.attackMob);
 				gameState = STATE_PLAYER_ATACKING;
 			}
 			break;
@@ -180,7 +181,7 @@ public class GameController {
 				enemyController.atack();
 				playerController.defending();
 				playerController.selectAtack(rand.nextInt(3));
-				enemyController.getSelectedMob().startAttack(60, playerController.attackMob);
+				enemyController.getSelectedMob().startAttack(200, playerController.attackMob);
 				return enemy;
 			}
 			i++;
@@ -190,20 +191,21 @@ public class GameController {
 
 	/**
 	 * Adds players
-	 * 
-	 * @param selectedCharas
+	 *
 	 */
 	public void addPlayers() {
 		int x = 50;
-		int y = 50;
+		int y = 40;
 		
 		if (availableCharacters == null) throw new RuntimeException("Characters not loaded!");
-		for (int i = 0; i < 3; i++) {
-			selectedCharacters[i] = availableCharacters.get(i);
+		int unlovedCharas = 3-selectedCharacters.size();
+		for (int i = 0; i < unlovedCharas; i++) {
+			selectedCharacters.add(availableCharacters.get(i));
+            System.out.println(selectedCharacters.size());
 		}
 
 		for (int i = 0; i < 3; i++) {
-			Player player = new Player(x, y + 80 * i, selectedCharacters[i]);
+			Player player = new Player(x, y + charaGap * i, selectedCharacters.get(i));
 			playerController.addMob(player);
 		}
 	}
@@ -214,8 +216,8 @@ public class GameController {
 	 * @param seed
 	 */
 	public void addEnemys(int seed) {
-		int x= 400;
-		int y = 50;
+		int x= Game.WIDTH-100-ResourceManager.i.enemySpriteSheet.getSpriteWidth();
+		int y = 40;
 		ArrayList<String> names = new ArrayList<String>();
 		names.add("Bret");
 		names.add("Geff");
@@ -248,7 +250,7 @@ public class GameController {
 				weponType = CharacterData.MAGIC_WEAPON;
 			}
 			String name = names.get(rand.nextInt(names.size()));
-			Enemy enemy = new Enemy(x, y + 70 * i, dmg, def, spd, spellDuration, weponType, health, name);
+			Enemy enemy = new Enemy(x, y + charaGap * i, dmg, def, spd, spellDuration, weponType, health, name);
 			enemyController.addMob(enemy);
 		}
 		enemyController.selectAtack(0);

@@ -14,15 +14,12 @@ import com.basementstudios.network.CharacterData;
  */
 
 public class Player extends Mob {
-	private AttackComponent attackComponent = new AttackComponent(this);
 	private int shootTime = 0;
 	private final CharacterData characterData;
 
 	public Player(double x, double y, CharacterData characterData) {
 		super(x, y, 64, 64);
 		this.characterData = characterData;
-		characterData.addStat();
-		characterData.addItems();
 		characterData.calculateBattleStats();
 		dmg = characterData.getDmg();
 		def = characterData.getDef();
@@ -35,8 +32,6 @@ public class Player extends Mob {
 
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
-
-		addComponent(attackComponent);
 	}
 
 	public void tick() {
@@ -45,12 +40,6 @@ public class Player extends Mob {
 		if (shootTime > 0) {
 			shootTime--;
 		}
-	}
-
-	public void attemptShoot() {
-		if (shootTime != 0) return;
-		shootTime = 10;
-		attackComponent.tryAttack(240.0);
 	}
 
 	public void movePlayer() {
@@ -63,9 +52,9 @@ public class Player extends Mob {
 				getTarge().hit(getDmg());
 				getTarge().spellCast(getDmg(), getSpellDuration());
 			} else if (isRetracting)
-				xa = -1;
+				xa = -2;
 			else
-				xa = 1;
+				xa = 2;
 			attemptMove();
 		}
 	}
@@ -83,7 +72,7 @@ public class Player extends Mob {
 			}
 		} else if (xa > 0) {
 			xSpriteIndex = 0;
-			ySpriteIndex = 3;
+			ySpriteIndex = 0;
 
 			if (isMoving()) {
 				xSpriteIndex = (walkDist / 10) % 4;
@@ -94,7 +83,7 @@ public class Player extends Mob {
 	}
 	
 	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.characterSpriteSheet;
+		return ResourceManager.i.newCharacterSpriteSheet;
 	}
 	
 	public CharacterData getCharacterData() {
