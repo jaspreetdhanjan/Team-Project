@@ -1,11 +1,18 @@
 package com.basementstudios.network;
 
-import java.io.IOException;
-import java.util.*;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.basementstudios.network.CharacterData.*;
+
+import com.basementstudios.network.CharacterData;
 
 /**
  * Retrieves CharacterData for each character created, server-side.
@@ -17,6 +24,8 @@ public class CharacterRetriever {
     private static final String STAT_URL = "http://tag.yarbsemaj.com/api/chara/getStat.php";
     private static final String ITEM_URL = "http://tag.yarbsemaj.com/api/chara/getItems.php";
     private static final String URL = "http://tag.yarbsemaj.com/api/chara/list.php";
+    private static final String ITEM_STAT_URL = "http://tag.yarbsemaj.com/api/item/getStat.php";
+
 
     private String token;
 
@@ -50,6 +59,7 @@ public class CharacterRetriever {
                     characterData = new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth")));
                     addStat();
                     addItems();
+                    calculateBattleStats();
                     result.add(characterData);
                 }
             }
@@ -64,6 +74,7 @@ public class CharacterRetriever {
         this.characterData = characterData;
         addStat();
         addItems();
+        calculateBattleStats();
         return this.characterData;
 
     }
@@ -122,7 +133,7 @@ public class CharacterRetriever {
 
         JSONObject charaData;
         try {
-            charaData = poster.send(STAT_URL, arguments);
+            charaData = poster.send(ITEM_STAT_URL, arguments);
             if ((boolean) charaData.get("success")) {
                 JSONObject charaData1 = (JSONObject) charaData.get("Starts");
                 JSONArray charaArray = (JSONArray) charaData1.get("stat");
@@ -133,6 +144,62 @@ public class CharacterRetriever {
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void calculateBattleStats() {
+        characterData.setDmg(characterData.getStats().get(2).getValue());
+        characterData.setSpd(characterData.getStats().get(4).getValue());
+
+        int damageMultiplier = 1;
+        for (Item item : characterData.getItems()) {
+            switch (item.getTypeID()) {
+                case 1: {
+                    characterData.setWeaponType(MELEE_WEAPON);
+                    damageMultiplier = characterData.getStats().get(2).getValue();
+                    break;
+                }
+                case 2: {
+                    characterData.setWeaponType(RANGED_WEAPON);
+                    damageMultiplier = characterData.getStats().get(3).getValue();
+                    break;
+                }
+                case 3: {
+                    characterData.setWeaponType(MAGIC_WEAPON);
+                    damageMultiplier = characterData.getStats().get(5).getValue();
+                    break;
+                }
+            }
+
+            for (Stat stat : item.getStats()) {
+                System.out.println(stat.getID() + stat.getName());
+                switch (stat.getID()) {
+                    case 1: {
+                        characterData.setSpd(-stat.getValue());
+                        break;
+                    }
+                    case 2: {
+                        characterData.setDmg(stat.getValue() * damageMultiplier);
+                        break;
+                    }
+                    case 4: {
+                        characterData.setSpellDuration(stat.getValue());
+                        break;
+                    }
+                    case 5: {
+                        characterData.setDef(stat.getValue());
+                        break;
+                    }
+                    case 8: {
+                        characterData.setSpd(stat.getValue());
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (characterData.getSpd() < 0) {
+            characterData.setSpd(1);
         }
     }
 }

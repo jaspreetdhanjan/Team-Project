@@ -1,12 +1,8 @@
 package com.basementstudios.network;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines a character's item.
@@ -15,7 +11,6 @@ import org.json.simple.parser.ParseException;
  */
 
 public class Item implements Serializable {
-	private static final String STAT_URL = "http://tag.yarbsemaj.com/api/item/getStat.php";
 
 	private final int id;
 

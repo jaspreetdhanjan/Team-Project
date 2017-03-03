@@ -1,9 +1,7 @@
 package com.basementstudios.tag.mob;
 
-import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.particle.TextParticle;
 import com.basementstudios.tag.phys.AxisAlignedBB;
 
@@ -16,20 +14,17 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 
 public class Mob extends Entity {
     public boolean hasGone = false;
-    protected int dmg, def, spd, spellDuration, wepponType, health, maxHealth;
-    protected int debuffDamage, debuffDuration;
-    protected String name;
     public boolean isAttacking = false;
     public boolean isRetracting = false;
     public int maxAttackFrame;
-
     public double xStart, yStart;
-
+    public double xa, ya;
+    protected int dmg, def, spd, spellDuration, wepponType, health, maxHealth;
+    protected int debuffDamage, debuffDuration;
+    protected String name;
     protected AxisAlignedBB bb = new AxisAlignedBB();
     protected int lastWalkDist, walkDist;
     protected Mob target = null;
-
-    public double xa, ya;
 
     public Mob(double x, double y, double xSize, double ySize) {
         bb.set(x, y, xSize, ySize);
@@ -76,7 +71,6 @@ public class Mob extends Entity {
         int yp = (int) bb.yPos;
         bm.render(getBitmap(), xp, yp, colour);
         bm.drawString(health + "/" + maxHealth, xp, yp + 128, 0xff0000);
-        //bm.drawString(name, xp, yp, 0x000000e);
     }
 
     public AxisAlignedBB getBB() {

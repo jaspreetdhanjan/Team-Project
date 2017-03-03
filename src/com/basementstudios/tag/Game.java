@@ -1,21 +1,21 @@
 package com.basementstudios.tag;
 
+import com.basementstudios.network.CharacterData;
+import com.basementstudios.network.CharacterRetriever;
+import com.basementstudios.tag.audio.AudioPlayer;
+import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.screen.LoadingScreen;
+import com.basementstudios.tag.screen.TitleScreen;
+
+import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JFrame;
-
-import com.basementstudios.tag.audio.AudioPlayer;
-import com.basementstudios.tag.graphics.*;
-import com.basementstudios.tag.screen.*;
-import com.basementstudios.network.CharacterData;
-import com.basementstudios.network.CharacterRetriever;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.DefaultValueLoaderDecorator;
 
 /**
  * Entry-point for the main application.
@@ -24,25 +24,19 @@ import com.sun.xml.internal.bind.v2.runtime.unmarshaller.DefaultValueLoaderDecor
  */
 
 public class Game extends Canvas implements Runnable {
-	private static final long serialVersionUID = 1L;
-
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
-	private static final int SCALE = 1;
-
-	private static final int SCALED_WIDTH = WIDTH * SCALE;
-	private static final int SCALED_HEIGHT = HEIGHT * SCALE;
-
 	public static final int HUD_WIDTH = WIDTH;
 	public static final int HUD_HEIGHT = 150;
-	private static final int VIEWPORT_WIDTH = WIDTH;
-	private static final int VIEWPORT_HEIGHT = HEIGHT - HUD_HEIGHT;
-
+	public static final int VIEWPORT_WIDTH = WIDTH;
+	public static final int VIEWPORT_HEIGHT = HEIGHT - HUD_HEIGHT;
 	public static final String TITLE = "The Adventurers' Guild";
 	public static final String VERSION = "Prototype 2";
-
 	public static final String URL = "theadventurersguild.co.uk";
-
+	private static final long serialVersionUID = 1L;
+	private static final int SCALE = 1;
+	private static final int SCALED_WIDTH = WIDTH * SCALE;
+	private static final int SCALED_HEIGHT = HEIGHT * SCALE;
 	private boolean stop = false;
 	private boolean fpsLock = true;
 	private String fpsString = "";

@@ -1,12 +1,8 @@
 package com.basementstudios.network;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines the character attributes.
@@ -26,7 +22,6 @@ public class CharacterData implements Serializable {
 	private int currentHealth, maxHealth;
 	private String name;
 	private int dmg, def, spd, spellDuration, weaponType;
-
 	private List<Stat> stats = new ArrayList<Stat>();
 	private List<Item> items = new ArrayList<Item>();
 
@@ -44,6 +39,10 @@ public class CharacterData implements Serializable {
 
 	public int getWeaponType() {
 		return weaponType;
+	}
+
+	public void setWeaponType(int weaponType) {
+		this.weaponType = weaponType;
 	}
 
 	public int getID() {
@@ -94,20 +93,36 @@ public class CharacterData implements Serializable {
 		return def;
 	}
 
+	public void setDef(int def) {
+		this.def += def;
+	}
+
 	public int getSpd() {
 		return spd;
+	}
+
+	public void setSpd(int spd) {
+		this.spd += spd;
 	}
 
 	public int getSpellDuration() {
 		return spellDuration;
 	}
 
+	public void setSpellDuration(int spellDuration) {
+		this.spellDuration += spellDuration;
+	}
+
 	public int getDmg() {
 		return dmg;
 	}
 
+	public void setDmg(int dmg) {
+		this.dmg += dmg;
+	}
+
 	public String toString() {
-		return name + " " + Integer.toString(getCurrentHealth()) + "/" + Integer.toString(getMaxHealth());
+		return name;
 	}
 
 	public void addItem(Item item){
@@ -117,59 +132,5 @@ public class CharacterData implements Serializable {
 	public void addStat(Stat stat){
 	    stats.add(stat);
     }
-	public void calculateBattleStats() {
-		dmg += stats.get(2).getValue();
-		spd += stats.get(4).getValue();
 
-		int damageMultiplier = 1;
-		for (Item item : items) {
-			switch (item.getTypeID()) {
-				case 1: {
-					weaponType = MELEE_WEAPON;
-					damageMultiplier = stats.get(2).getValue();
-					break;
-				}
-				case 2: {
-					weaponType = RANGED_WEAPON;
-					damageMultiplier = stats.get(3).getValue();
-					break;
-				}
-				case 3: {
-					weaponType = MAGIC_WEAPON;
-					damageMultiplier = stats.get(5).getValue();
-					break;
-				}
-			}
-
-			for (Stat stat : item.getStats()) {
-				System.out.println(stat.getID() + stat.getName());
-				switch (stat.getID()) {
-					case 1: {
-						spd -= stat.getValue();
-						break;
-					}
-					case 2: {
-						dmg += stat.getValue() * damageMultiplier;
-						break;
-					}
-					case 4: {
-						spellDuration += stat.getValue();
-						break;
-					}
-					case 5: {
-						def += stat.getValue();
-						break;
-					}
-					case 8: {
-						spd += stat.getValue();
-						break;
-					}
-				}
-			}
-		}
-
-		if (spd < 0) {
-			spd = 1;
-		}
-	}
 }
