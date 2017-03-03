@@ -6,13 +6,9 @@ import com.basementstudios.tag.controller.GameController;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.ui.Action;
-import com.basementstudios.tag.ui.ActionInterface;
+import com.basementstudios.tag.ui.*;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * State to load a character.
@@ -23,7 +19,9 @@ import java.util.ArrayList;
 public class CharacterSelectionScreen extends Screen {
 	private ActionInterface<CharacterData, Action> options = new ActionInterface<CharacterData, Action>("Select Characters");
 
-	private ArrayList<CharacterData> newCharacters = new ArrayList<CharacterData>();
+	// WHY MAKE AN ARRAYLIST JAMES?!
+	// There's a max of 3 characters, there isn't a need to have a list.
+	private List<CharacterData> newCharacters = new ArrayList<CharacterData>();
 	private int pp = 0;
 
 	public void init() {
@@ -38,24 +36,6 @@ public class CharacterSelectionScreen extends Screen {
 			});
 		}
 	}
-
-	/*	public void save() {
-			GameController.selectedCharacters = new ArrayList<CharacterData>();
-			for (int i = 0; i < newCharacters.size(); i++) {
-				GameController.selectedCharacters.add(newCharacters.get(i));
-			}
-			try {
-				FileOutputStream fileOut = new FileOutputStream("doc/chara.ser", false);
-				ObjectOutputStream out = new ObjectOutputStream(fileOut);
-				out.writeObject(GameController.selectedCharacters);
-				out.close();
-				fileOut.close();
-				System.out.printf("Serialized data");
-			} catch (IOException i) {
-				i.printStackTrace();
-			}
-			screenManager.toLastScreen();
-		}*/
 
 	public void tick(Input input) {
 		options.tick(input);

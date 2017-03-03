@@ -22,7 +22,7 @@ public class Player extends Mob {
 		def = characterData.getDef();
 		spd = characterData.getSpd();
 		spellDuration = characterData.getSpellDuration();
-		wepponType = characterData.getWeaponType();
+		weaponType = characterData.getWeaponType();
 		health = characterData.getCurrentHealth();
 		maxHealth = characterData.getMaxHealth();
 		name = characterData.getName();

@@ -21,19 +21,19 @@ import java.awt.image.DataBufferInt;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
 	public static final String TITLE = "The Adventurers' Guild";
 	public static final String VERSION = "Prototype 2";
-	
+
 	public static final int HUD_WIDTH = WIDTH;
 	public static final int HUD_HEIGHT = 150;
 	public static final int VIEWPORT_WIDTH = WIDTH;
 	public static final int VIEWPORT_HEIGHT = HEIGHT - HUD_HEIGHT;
-	
+
 	public static final String URL = "theadventurersguild.co.uk";
-	
+
 	private boolean stop = false;
 	private boolean fpsLock = true;
 	private String fpsString = "";
@@ -104,14 +104,17 @@ public class Game extends Canvas implements Runnable {
 		viewportBitmap = new Bitmap(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
+		Thread t = new Thread(() -> {
+			GameController.availableCharacters = new CharacterRetriever().getCharacters();
+		});
+
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
 			public void run() {
-				GameController.availableCharacters = new CharacterRetriever().getCharacters();
-				
-				//JIO.load("doc/chara.ser");
+				// JIO.load("doc/chara.ser");
 				ResourceManager.i.loadAll();
 			}
 		});
+		t.start();
 
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
@@ -130,13 +133,8 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 
-		// TODO: Fix this
-		// if (!screenManager.getCurrentScreen().fullscreenDraw()) {
-		screenRender(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-		hudRender(HUD_WIDTH, HUD_HEIGHT);
-		// } else {
-		// screenRender(WIDTH, HEIGHT);
-		// }
+		screenRender();
+		hudRender();
 
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
@@ -146,13 +144,13 @@ public class Game extends Canvas implements Runnable {
 		bs.show();
 	}
 
-	private void screenRender(int w, int h) {
+	private void screenRender() {
 		screenManager.renderScreen(viewportBitmap);
 		renderToScreen();
 
-		for (int y = 0; y < h; y++) {
-			for (int x = 0; x < w; x++) {
-				pixels[x + y * w] = viewportBitmap.pixels[x + y * w];
+		for (int y = 0; y < VIEWPORT_HEIGHT; y++) {
+			for (int x = 0; x < VIEWPORT_WIDTH; x++) {
+				pixels[x + y * VIEWPORT_WIDTH] = viewportBitmap.pixels[x + y * VIEWPORT_WIDTH];
 			}
 		}
 	}
@@ -162,13 +160,13 @@ public class Game extends Canvas implements Runnable {
 		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 22, 0xffffff);
 	}
 
-	private void hudRender(int w, int h) {
+	private void hudRender() {
 		screenManager.renderHud(hudBitmap);
 
-		for (int y = 0; y < h; y++) {
+		for (int y = 0; y < HUD_HEIGHT; y++) {
 			int toffs = y + VIEWPORT_HEIGHT;
-			for (int x = 0; x < w; x++) {
-				pixels[x + toffs * w] = hudBitmap.pixels[x + y * w];
+			for (int x = 0; x < HUD_WIDTH; x++) {
+				pixels[x + toffs * HUD_WIDTH] = hudBitmap.pixels[x + y * HUD_WIDTH];
 			}
 		}
 	}

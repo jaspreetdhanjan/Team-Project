@@ -12,19 +12,18 @@ import com.basementstudios.tag.resource.SpriteSheet;
  */
 
 public class Enemy extends Mob {
-	public Enemy(double x, double y, int dmg, int def, int spd, int spellDuration, int wepponType, int health, String name) {
+	public Enemy(double x, double y, int dmg, int def, int spd, int spellDuration, int weaponType, int health, String name) {
 		super(x, y, 13 + 16, 26 + 16);
 		super.dmg = dmg;
 		super.def = def;
 		super.spd = spd;
 		super.spellDuration = spellDuration;
-		super.wepponType = wepponType;
+		super.weaponType = weaponType;
 		super.health = health;
 		super.maxHealth = health;
 		super.name = name;
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
-
 	}
 
 	public void tick() {
@@ -47,8 +46,7 @@ public class Enemy extends Mob {
 	}
 
 	public void render(Bitmap bm) {
-		int colour = 0xffffff;
-
+		colour = 0xffffff;
 		if (xa == 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 1;
