@@ -9,7 +9,6 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
  * A moving and dynamic character within the game.
  *
  * @author Jaspreet Dhanjan
- * @since Version 1.0 combat removed.
  */
 
 public class Mob extends Entity {

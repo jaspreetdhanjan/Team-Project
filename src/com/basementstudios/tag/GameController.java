@@ -270,10 +270,9 @@ public class GameController {
 
 	public int getGameState() {
 		return gameState;
-	};
-	
-	public void setScreenManager(ScreenManager screenManager){
+	}
+
+	public void setScreenManager(ScreenManager screenManager) {
 		this.screenManager = screenManager;
-		System.out.println(screenManager);
 	}
 }

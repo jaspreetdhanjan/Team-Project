@@ -1,22 +1,14 @@
 package com.basementstudios.tag.screen;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import com.basementstudios.network.InvalidTokenException;
-import com.basementstudios.network.Item;
-import com.basementstudios.network.PostRequest;
-import com.basementstudios.network.Token;
-import com.basementstudios.tag.Game;
+import com.basementstudios.network.*;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.mob.Player;
 
 /**
@@ -27,12 +19,11 @@ import com.basementstudios.tag.mob.Player;
  */
 
 public class EndScreen extends Screen {
-
 	private boolean win;
-	private ArrayList<Player> mobs;
-	private ArrayList<String> winData = new ArrayList<String>();
+	private List<Player> mobs;
+	private List<String> winData = new ArrayList<String>();
 
-	public EndScreen(boolean win, ArrayList<Player> mobs) {
+	public EndScreen(boolean win, List<Player> mobs) {
 		this.win = win;
 		this.mobs = mobs;
 
@@ -42,7 +33,6 @@ public class EndScreen extends Screen {
 	}
 
 	public void tick(Input input) {
-
 	}
 
 	public void renderScreen(Bitmap bm) {
@@ -51,8 +41,8 @@ public class EndScreen extends Screen {
 
 		int xo = 0;
 		int yo = 0;
-		if (win) {
 
+		if (win) {
 			bm.drawStringShadowed("Congratulations!!!", xo, yo, 0xff);
 			bm.drawStringShadowed("You have Won", xo, yo + 10, 0xff);
 			bm.drawStringShadowed("Reward: ", xo, yo + 30, 0xff);
@@ -72,8 +62,8 @@ public class EndScreen extends Screen {
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 	}
-	
-	public void getWinData(ArrayList<Player> mobs, int XP, int gold) {
+
+	public void getWinData(List<Player> mobs, int XP, int gold) {
 		try {
 			Token token = new Token();
 			Map<String, String> arguments = new HashMap<String, String>();
@@ -82,9 +72,9 @@ public class EndScreen extends Screen {
 			JSONObject charaData;
 			PostRequest poster = new PostRequest();
 			charaData = poster.send("http://tag.yarbsemaj.com/api/user/addGold.php", arguments);
-			System.out.println(charaData);
+//			System.out.println(charaData);
 			if ((boolean) charaData.get("success")) {
-				System.out.println("added gold");
+//				System.out.println("added gold");
 			}
 			for (Player player : mobs) {
 				int id = player.getCharacterData().getID();
@@ -93,19 +83,15 @@ public class EndScreen extends Screen {
 				arguments1.put("Token", token.getToken());
 				arguments1.put("XP", String.valueOf(XP));
 				charaData = poster.send("http://tag.yarbsemaj.com/api/chara/addXP.php", arguments1);
-				System.out.println(charaData);
+//				System.out.println(charaData);
 				if ((boolean) charaData.get("success")) {
 					String newXP = String.valueOf((Long) charaData.get("newXP"));
 					String levelsGained = String.valueOf((Long) charaData.get("levelChange"));
-
 					winData.add(player.getName() + ":XP " + newXP + "(" + XP + ")" + levelsGained + " new levels");
-
 				}
 			}
 		} catch (InvalidTokenException | IOException | ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 }
