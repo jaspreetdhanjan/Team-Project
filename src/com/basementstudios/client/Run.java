@@ -1,6 +1,11 @@
 package com.basementstudios.client;
 
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import com.basementstudios.network.*;
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
 
 /**
@@ -13,7 +18,7 @@ public class Run {
 	public static void main(String[] args) {
 		try {
 			new Token();
-			new Game(new CharacterRetriever().getCharacters());
+				new Game();
 		} catch (InvalidTokenException e) {
 			new LoginLauncher();
 		}

@@ -12,19 +12,19 @@ import com.basementstudios.tag.resource.SpriteSheet;
  */
 
 public class Enemy extends Mob {
-	public Enemy(double x, double y, int dmg, int def, int spd, int spellDuration, int weaponType, int health, String name) {
-		super(x, y, 13 + 16, 26 + 16);
-		super.dmg = dmg;
-		super.def = def;
-		super.spd = spd;
-		super.spellDuration = spellDuration;
-		super.weaponType = weaponType;
-		super.health = health;
-		super.maxHealth = health;
-		super.name = name;
-
+	public Enemy(double x, double y, int dmg, int def,int spd, int spellDuration,int wepponType, int health, String name) {
+		super(x, y,13 + 16, 26 + 16);
+		super.dmg=dmg;
+		super.def=def;
+		super.spd=spd;
+		super.spellDuration=spellDuration;
+		super.wepponType=wepponType;
+		super.health=health;
+		super.maxHealth=health;
+		super.name=name;
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
+
 	}
 
 	public void tick() {
@@ -38,22 +38,22 @@ public class Enemy extends Mob {
 				xa = 0;
 			} else if (xStart - bb.xPos == maxAttackFrame && !isRetracting) {
 				isRetracting = true;
-
-				Mob target = getTarget();
-				target.hit(getDmg());
-				target.spellCast(getDmg(), getSpellDuration());
-			} else if (isRetracting) xa = 1;
-			else xa = -1;
+				getTarge().hit(getDmg());
+				getTarge().spellCast(getDmg(), getSpellDuration());
+			} else if (isRetracting)
+				xa = 2;
+			else
+				xa = -2;
 			attemptMove();
 		}
 	}
-
+	
 	public void render(Bitmap bm) {
-		colour = 0xffffff;
+		int colour = 0xffffff;
 
 		if (xa == 0) {
 			xSpriteIndex = 0;
-			ySpriteIndex = 0;
+			ySpriteIndex = 1;
 		} else if (xa < 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 1;
@@ -63,7 +63,7 @@ public class Enemy extends Mob {
 			}
 		} else if (xa > 0) {
 			xSpriteIndex = 0;
-			ySpriteIndex = 3;
+			ySpriteIndex = 0;
 
 			if (isMoving()) {
 				xSpriteIndex = (walkDist / 10) % 4;
@@ -71,8 +71,9 @@ public class Enemy extends Mob {
 		}
 		super.render(bm);
 	}
-
+	
 	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.characterSpriteSheet;
+		return ResourceManager.i.newCharacterSpriteSheet;
 	}
+
 }

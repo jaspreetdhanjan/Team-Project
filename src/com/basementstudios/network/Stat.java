@@ -1,12 +1,14 @@
 package com.basementstudios.network;
 
+import java.io.Serializable;
+
 /**
  * Defines a character's stat.
  * 
  * @author James Bray
  */
 
-public class Stat {
+public class Stat implements Serializable {
 	private final int id;
 	private int value;
 	private String name;

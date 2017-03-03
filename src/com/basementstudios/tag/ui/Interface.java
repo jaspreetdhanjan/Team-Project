@@ -1,9 +1,9 @@
 package com.basementstudios.tag.ui;
 
-import java.util.Map;
-
-import com.basementstudios.tag.*;
+import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
+
+import java.util.Map;
 
 /**
  * Partial implementation of the screen UI.
@@ -13,8 +13,8 @@ import com.basementstudios.tag.graphics.Bitmap;
 
 public abstract class Interface {
 	protected int xStart = 56;
-	protected int paddingFromTitle = 36;
-	protected int paddingBetweenButtons = 18;
+    protected int paddingFromTitle = 32;
+    protected int paddingBetweenButtons = 20;
 
 	public void tick(Input input) {
 		boolean moveUp = input.up.isClicked() || input.left.isClicked();

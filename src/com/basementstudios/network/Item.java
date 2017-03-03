@@ -1,11 +1,8 @@
 package com.basementstudios.network;
 
-import java.io.IOException;
-import java.util.*;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Defines a character's item.
@@ -13,8 +10,7 @@ import org.json.simple.parser.ParseException;
  * @author James Bray
  */
 
-public class Item {
-	private static final String STAT_URL = "http://tag.yarbsemaj.com/api/item/getStat.php";
+public class Item implements Serializable {
 
 	private final int id;
 
@@ -30,29 +26,11 @@ public class Item {
 		this.slot = slot;
 		this.typeID = typeID;
 		this.type = type;
-
-		addStats();
 	}
 
-	public void addStats() {
-		PostRequest poster = new PostRequest();
-		Map<String, String> arguments = new HashMap<String, String>();
-		arguments.put("ItemID", String.valueOf(id));
 
-		JSONObject charaData;
-		try {
-			charaData = poster.send(STAT_URL, arguments);
-			if ((boolean) charaData.get("success")) {
-				JSONObject charaData1 = (JSONObject) charaData.get("Starts");
-				JSONArray charaArray = (JSONArray) charaData1.get("stat");
-				for (Object charaObject : charaArray) {
-					JSONObject chara = (JSONObject) charaObject;
-					stats.add(new Stat(Integer.parseInt((String) chara.get("StatID")), Integer.parseInt((String) chara.get("Value")), (String) chara.get("Name")));
-				}
-			}
-		} catch (IOException | ParseException e) {
-			e.printStackTrace();
-		}
+	public void addStat(Stat stat){
+		stats.add(stat);
 	}
 
 	public String getName() {

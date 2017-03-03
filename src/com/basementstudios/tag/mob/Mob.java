@@ -7,170 +7,170 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
 
 /**
  * A moving and dynamic character within the game.
- * 
+ *
  * @author Jaspreet Dhanjan
- * @author James Bray
  */
 
 public class Mob extends Entity {
-	public boolean hasGone = false;
-	protected int dmg, def, spd, spellDuration, weaponType, health, maxHealth;
-	protected int debuffDamage, debuffDuration;
-	protected String name;
-	public boolean isAttacking = false;
-	public boolean isRetracting = false;
-	public int maxAttackFrame;
+    public boolean hasGone = false;
+    public boolean isAttacking = false;
+    public boolean isRetracting = false;
+    public int maxAttackFrame;
+    public double xStart, yStart;
+    public double xa, ya;
+    protected int dmg, def, spd, spellDuration, wepponType, health, maxHealth;
+    protected int debuffDamage, debuffDuration;
+    protected String name;
+    protected AxisAlignedBB bb = new AxisAlignedBB();
+    protected int lastWalkDist, walkDist;
+    protected Mob target = null;
 
-	public double xStart, yStart;
+    public Mob(double x, double y, double xSize, double ySize) {
+        bb.set(x, y, xSize, ySize);
+        xStart = x;
+        yStart = y;
+    }
 
-	protected AxisAlignedBB bb = new AxisAlignedBB();
-	protected int lastWalkDist, walkDist;
-	protected Mob target = null;
+    public void attemptMove() {
+        double xxa = bb.xPos + xa;
+        double yya = bb.yPos + ya;
 
-	public double xa, ya;
+        AxisAlignedBB newBB = new AxisAlignedBB(xxa, yya, bb.xSize, bb.ySize);
 
-	public Mob(double x, double y, double xSize, double ySize) {
-		bb.set(x, y, xSize, ySize);
-		xStart = x;
-		yStart = y;
-	}
+        move(newBB);
+    }
 
-	public void attemptMove() {
-		double xxa = bb.xPos + xa;
-		double yya = bb.yPos + ya;
+    private boolean move(AxisAlignedBB newBB) {
+        if (isRemoved())
+            return false;
 
-		AxisAlignedBB newBB = new AxisAlignedBB(xxa, yya, bb.xSize, bb.ySize);
+        // TODO: AABB.contains() is broken – check y clipping.
+        // if (!level.getBB().contains(newBB)) {
+        // collide(null, newBB);
+        // return false;
+        // }
 
-		move(newBB);
-	}
+        lastWalkDist = walkDist;
+        walkDist++;
+        bb.set(newBB);
+        return true;
+    }
 
-	private boolean move(AxisAlignedBB newBB) {
-		if (isRemoved()) return false;
+    protected void collide(Entity cause, AxisAlignedBB newBB) {
+        xa = 0;
+        ya = 0;
+    }
 
-		// TODO: AABB.contains() is broken – check y clipping.
-		// if (!level.getBB().contains(newBB)) {
-		// collide(null, newBB);
-		// return false;
-		// }
+    public boolean isMoving() {
+        return walkDist != lastWalkDist;
+    }
 
-		lastWalkDist = walkDist;
-		walkDist++;
-		bb.set(newBB);
-		return true;
-	}
+    public void render(Bitmap bm) {
+        int xp = (int) bb.xPos;
+        int yp = (int) bb.yPos;
+        bm.render(getBitmap(), xp, yp, colour);
+        bm.drawString(health + "/" + maxHealth, xp, yp + 128, 0xff0000);
+    }
 
-	protected void collide(Entity cause, AxisAlignedBB newBB) {
-		xa = 0;
-		ya = 0;
-	}
+    public AxisAlignedBB getBB() {
+        return bb;
+    }
 
-	public boolean isMoving() {
-		return walkDist != lastWalkDist;
-	}
+    public void startAttack(int maxAttackFrame, Mob enemy) {
+        isAttacking = true;
+        isRetracting = false;
+        this.maxAttackFrame = maxAttackFrame;
+        target = enemy;
+    }
 
-	public void render(Bitmap bm) {
-		int xp = (int) bb.xPos;
-		int yp = (int) bb.yPos;
-		bm.render(getBitmap(), xp, yp, colour);
-		bm.drawString(health + "/" + maxHealth, xp, yp + 32, 0xff0000);
-		bm.drawString(name, xp, yp - 5, 0x000000e);
-	}
+    public void spellCast(int spellDamage, int speelDamageDuration) {
+        this.debuffDamage = spellDamage;
+        this.debuffDuration = speelDamageDuration;
+    }
 
-	public AxisAlignedBB getBB() {
-		return bb;
-	}
+    public void turnTick() {
+        spellHurt();
+    }
 
-	public void startAttack(int maxAttackFrame, Mob enemy) {
-		isAttacking = true;
-		isRetracting = false;
-		this.maxAttackFrame = maxAttackFrame;
-		target = enemy;
-	}
+    public void spellHurt() {
+        System.out.println("Spell Hurt");
+        int colour = 0x0f5b00;
 
-	public void spellCast(int spellDamage, int speelDamageDuration) {
-		this.debuffDamage = spellDamage;
-		this.debuffDuration = speelDamageDuration;
-	}
+        if (debuffDuration > 0) {
+            health -= debuffDamage;
+            level.add(new TextParticle("-" + debuffDamage, bb.xPos, bb.yPos, 2, colour));
+            debuffDuration--;
+        }
+    }
 
-	public void turnTick() {
-		spellHurt();
-	}
+    public void hurt(int dmg) {
+        int colour = 0xff0000;
 
-	public void spellHurt() {
-		int colour = 0x0f5b00;
+        System.out.println(health);
+        level.add(new TextParticle("-" + dmg, bb.xPos, bb.yPos, 2, colour));
+    }
 
-		if (debuffDuration > 0) {
-			health -= debuffDamage;
-			level.add(new TextParticle("-" + debuffDamage, bb.xPos, bb.yPos, 2, colour));
-			debuffDuration--;
-		}
-	}
+    public void hit(int dmg) {
+        int damage = dmg - def;
 
-	public void hurt(int dmg) {
-		int colour = 0xff0000;
-		level.add(new TextParticle("-" + dmg, bb.xPos, bb.yPos, 2, colour));
-	}
+        if (damage < 0) {
+            damage = 0;
+        }
+        health -= damage;
 
-	public void hit(int dmg) {
-		int damage = dmg - def;
+        hurt(damage);
+    }
 
-		if (damage < 0) {
-			damage = 0;
-		}
-		health -= damage;
+    public void movePlayer() {
 
-		hurt(damage);
-	}
+    }
 
-	public void movePlayer() {
+    public void onDied() {
+        remove();
+    }
 
-	}
+    public int getDmg() {
+        return dmg;
+    }
 
-	public void onDied() {
-		remove();
-	}
+    public int getDef() {
+        return def;
+    }
 
-	public int getDmg() {
-		return dmg;
-	}
+    public int getSpd() {
+        return spd;
+    }
 
-	public int getDef() {
-		return def;
-	}
+    public int getSpellDuration() {
+        return spellDuration;
+    }
 
-	public int getSpd() {
-		return spd;
-	}
+    public int getWepponType() {
+        return wepponType;
+    }
 
-	public int getSpellDuration() {
-		return spellDuration;
-	}
+    public int getHealth() {
+        return health;
+    }
 
-	public int getWeaponType() {
-		return weaponType;
-	}
+    public int getMaxHealth() {
+        return maxHealth;
+    }
 
-	public int getHealth() {
-		return health;
-	}
+    public Mob getTarge() {
+        return target;
+    }
 
-	public int getMaxHealth() {
-		return maxHealth;
-	}
+    public int getDebuffDamage() {
+        return debuffDamage;
+    }
 
-	public Mob getTarget() {
-		return target;
-	}
+    public int getDebuffDuration() {
+        return debuffDuration;
+    }
 
-	public int getDebuffDamage() {
-		return debuffDamage;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public int getDebuffDuration() {
-		return debuffDuration;
-	}
-
-	public String getName() {
-		return name;
-	}
 }
