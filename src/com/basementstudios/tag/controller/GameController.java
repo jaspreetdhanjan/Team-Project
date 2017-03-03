@@ -1,7 +1,11 @@
-package com.basementstudios.tag;
+package com.basementstudios.tag.controller;
 
 import java.util.*;
 
+import com.basementstudios.tag.Game;
+import com.basementstudios.tag.Input;
+import com.basementstudios.tag.ResourceManager;
+import com.basementstudios.tag.ScreenManager;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.*;
@@ -25,8 +29,8 @@ public class GameController {
 
 	private int turn = 0;
 	private int maxSpd = 0;
-	private ObjectControler<Player> playerController;
-	private ObjectControler<Enemy> enemyController;
+	private ObjectController<Player> playerController;
+	private ObjectController<Enemy> enemyController;
 	private Random rand = new Random();
 
 	private ScreenManager screenManager;
@@ -35,8 +39,8 @@ public class GameController {
 	private static int charaGap = 130;
 
 	public GameController(Level level) {
-		playerController = new ObjectControler<Player>(level);
-		enemyController = new ObjectControler<Enemy>(level);
+		playerController = new ObjectController<Player>(level);
+		enemyController = new ObjectController<Enemy>(level);
 	}
 
 	/**
@@ -250,11 +254,11 @@ public class GameController {
 		return turn;
 	}
 
-	public ObjectControler<Player> getPlayerController() {
+	public ObjectController<Player> getPlayerController() {
 		return playerController;
 	}
 
-	public ObjectControler<Enemy> getEnemyController() {
+	public ObjectController<Enemy> getEnemyController() {
 		return enemyController;
 	}
 

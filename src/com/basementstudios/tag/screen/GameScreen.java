@@ -2,6 +2,7 @@ package com.basementstudios.tag.screen;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.*;
+import com.basementstudios.tag.controller.GameController;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.*;
 import com.basementstudios.tag.mob.Mob;

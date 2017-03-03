@@ -2,6 +2,7 @@ package com.basementstudios.tag;
 
 import com.basementstudios.network.CharacterRetriever;
 import com.basementstudios.tag.audio.AudioPlayer;
+import com.basementstudios.tag.controller.GameController;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.screen.LoadingScreen;
 import com.basementstudios.tag.screen.TitleScreen;
@@ -107,7 +108,7 @@ public class Game extends Canvas implements Runnable {
 			public void run() {
 				GameController.availableCharacters = new CharacterRetriever().getCharacters();
 				
-				JIO.load("doc/chara.ser");
+				//JIO.load("doc/chara.ser");
 				ResourceManager.i.loadAll();
 			}
 		});
@@ -158,7 +159,7 @@ public class Game extends Canvas implements Runnable {
 
 	private void renderToScreen() {
 		viewportBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
-		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 12, 0xffffff);
+		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 22, 0xffffff);
 	}
 
 	private void hudRender(int w, int h) {

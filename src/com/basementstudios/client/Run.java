@@ -13,7 +13,7 @@ public class Run {
 	public static void main(String[] args) {
 		try {
 			new Token();
-				new Game();
+			new Game();
 		} catch (InvalidTokenException e) {
 			new LoginLauncher();
 		}

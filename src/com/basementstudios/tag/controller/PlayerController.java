@@ -1,8 +1,9 @@
-package com.basementstudios.tag;
+package com.basementstudios.tag.controller;
 
 import java.util.*;
 
 import com.basementstudios.network.CharacterData;
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.*;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Player;

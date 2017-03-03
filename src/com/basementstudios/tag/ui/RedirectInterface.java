@@ -32,7 +32,7 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 		this.title = title;
 	}
 
-	protected void onChanged(boolean moveUp, boolean moveDown, boolean clicked) {
+	protected void onChanged(boolean moveUp, boolean moveDown, boolean moveLeft, boolean moveRight, boolean clicked) {
 		// Put all the keys from the directory into a list.
 		// It is then easier to traverse this list using a simple index variable.
 		// If clicked is true, then we go to the current index in that list and retrieve the new screen.

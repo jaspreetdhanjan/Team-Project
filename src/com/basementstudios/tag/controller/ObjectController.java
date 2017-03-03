@@ -1,7 +1,8 @@
-package com.basementstudios.tag;
+package com.basementstudios.tag.controller;
 
 import java.util.*;
 
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
@@ -9,7 +10,7 @@ import com.basementstudios.tag.mob.Mob;
 /**
  * @author James Bray
  */
-public class ObjectControler<T extends Mob> {
+public class ObjectController<T extends Mob> {
 	protected Level level;
 	protected List<T> charaList = new ArrayList<T>();
 
@@ -18,9 +19,8 @@ public class ObjectControler<T extends Mob> {
 	private int attackIndex = 0;
 	private boolean attacking = false;
 
-	public ObjectControler(Level level) {
+	public ObjectController(Level level) {
 		this.level = level;
-
 	}
 
 	public void select(int selectionIndex) {

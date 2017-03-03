@@ -13,6 +13,8 @@ import com.basementstudios.tag.resource.*;
 public class ResourceManager {
 	public static final ResourceManager i = new ResourceManager();
 
+	private List<Resource> resources = new ArrayList<Resource>();
+
 	public final SpriteSheet particlesSpriteSheet = new SpriteSheet(this, "particles.png", 8, 8);
 	public final SpriteSheet entitiesSpriteSheet = new SpriteSheet(this, "entities.png", 32, 32);
 	public final SpriteSheet characterSpriteSheet = new SpriteSheet(this, "character.png", 64, 64);
@@ -23,8 +25,6 @@ public class ResourceManager {
 
 	public final Audio selectionSound = new Audio(this, "select.wav", false);
 	public final Audio soundtrackSound = new Audio(this, "soundtrack_track_1.wav", true);
-
-	private List<Resource> resources = new ArrayList<Resource>();
 
 	public void addResource(Resource resource) {
 		resources.add(resource);

@@ -4,10 +4,7 @@ import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.Bitmap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A basic interface that runs the Action class when an item is clicked
@@ -23,17 +20,16 @@ import java.util.Map;
 public class ActionInterface<S, T extends Action> extends Interface {
 	private String title;
 
-	private Map<S, T> stateDirectory = new HashMap<S, T>();
+	private Map<S, T> stateDirectory = new LinkedHashMap<S, T>();
 	private int selectedIndex = 0;
-	private S key;
-	private List<S> nodes;
+	private S selected;
 
 	public ActionInterface(String title) {
 		this.title = title;
 	}
 
-	protected void onChanged(boolean moveUp, boolean moveDown, boolean clicked) {
-		nodes = new ArrayList<S>(stateDirectory.keySet());
+	protected void onChanged(boolean moveUp, boolean moveDown, boolean moveLeft, boolean moveRight, boolean clicked) {
+		List<S> nodes = new ArrayList<S>(stateDirectory.keySet());
 
 		if (moveUp) selectedIndex--;
 		if (moveDown) selectedIndex++;
@@ -50,13 +46,12 @@ public class ActionInterface<S, T extends Action> extends Interface {
 
 		AudioPlayer.play(ResourceManager.i.selectionSound);
 
-
 		if (selected != null) {
+			selected.onHover();
 			if (clicked) {
 				selected.onClick();
 			}
 		}
-		key = nodes.get(selectedIndex);
 	}
 
 	public void render(Bitmap bm) {
@@ -72,15 +67,15 @@ public class ActionInterface<S, T extends Action> extends Interface {
 
 	public void add(S param, T event) {
 		stateDirectory.put(param, event);
-		onChanged(false, false, false);
+		onChanged(false, false, false, false, false);
 	}
 
 	public void remove(S param) {
 		stateDirectory.remove(param);
-		onChanged(false, false, false);
+		onChanged(false, false, false, false, false);
 	}
 
 	public S getSelected() {
-		return key;
+		return selected;
 	}
 }

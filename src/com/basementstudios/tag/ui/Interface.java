@@ -12,21 +12,24 @@ import java.util.Map;
  */
 
 public abstract class Interface {
-	protected int xStart = 56;
-    protected int paddingFromTitle = 32;
-    protected int paddingBetweenButtons = 20;
+	protected int xStart = 85;
+	protected int paddingFromTitle = 64;
+	protected int paddingBetweenButtons = 32;
 
 	public void tick(Input input) {
-		boolean moveUp = input.up.isClicked() || input.left.isClicked();
-		boolean moveDown = input.down.isClicked() || input.right.isClicked();
+		boolean moveUp = input.up.isClicked();
+		boolean moveDown = input.down.isClicked();
+		boolean moveLeft = input.left.isClicked();
+		boolean moveRight = input.right.isClicked();
+
 		boolean clicked = input.enter.isClicked() || input.space.isClicked();
 
-		if (moveUp || moveDown || clicked) {
-			onChanged(moveUp, moveDown, clicked);
+		if (moveUp || moveDown || moveLeft || moveRight || clicked) {
+			onChanged(moveUp, moveDown, moveLeft, moveRight, clicked);
 		}
 	}
 
-	protected void onChanged(boolean moveUp, boolean moveDown, boolean clicked) {
+	protected void onChanged(boolean moveUp, boolean moveDown, boolean moveLeft, boolean moveRight, boolean clicked) {
 	}
 
 	public abstract void render(Bitmap bm);

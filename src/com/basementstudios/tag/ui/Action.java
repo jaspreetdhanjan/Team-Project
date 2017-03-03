@@ -7,5 +7,15 @@ package com.basementstudios.tag.ui;
  */
 
 public interface Action {
-	public void onClick();
+	public default void onHover() {
+	}
+
+	public default void onClick() {
+	}
+
+	public default void onLeft() {
+	}
+
+	public default void onRight() {
+	}
 }
