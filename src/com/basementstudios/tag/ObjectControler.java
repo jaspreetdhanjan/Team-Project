@@ -1,136 +1,129 @@
 package com.basementstudios.tag;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
-import com.basementstudios.tag.mob.Player;
 
 /**
  * @author James Bray
  */
 public class ObjectControler<T extends Mob> {
+	protected Level level;
+	protected List<T> charaList = new ArrayList<T>();
 
-    protected Level level;
-    protected ArrayList<T> charaList = new ArrayList<T>();
+	protected Mob selectedMob = null;
+	protected Mob attackMob = null;
+	private int attackIndex = 0;
+	private boolean attacking = false;
 
-    protected Mob selectedMob = null;
-    protected Mob attackMob = null;
-    private int atackIndex = 0;
-    private boolean atacking = false;
+	public ObjectControler(Level level) {
+		this.level = level;
 
+	}
 
-    public ObjectControler(Level level) {
-        this.level = level;
+	public void select(int selectionIndex) {
+		selectedMob = charaList.get(selectionIndex);
+	}
 
-    }
+	/**
+	 * Sets the controller up for attack mode
+	 */
+	public void attack() {
+		attacking = true;
+		attackIndex = 0;
+		attackMob = charaList.get(0);
+	}
 
-    public void select(int selectionIndex) {
-        selectedMob = charaList.get(selectionIndex);
-    }
+	/**
+	 * Sets the controller to be attacked
+	 */
+	public void defending() {
+		attacking = false;
+		attackIndex = 0;
+		attackMob = charaList.get(0);
+	}
 
-    /**
-     * Sets the controller up for attack mode
-     */
-    public void atack() {
-        atacking = true;
-        atackIndex = 0;
-        attackMob = charaList.get(0);
-    }
+	/**
+	 * Happens at the end of ever turn, updates all attached mobs
+	 */
+	public void turnTick() {
+		for (T mob : charaList) {
+			mob.turnTick();
+		}
+	}
 
-    /**
-     * Sets the controller to be attacked
-     */
-    public void defending() {
-        atacking = false;
-        atackIndex = 0;
-        attackMob = charaList.get(0);
+	/**
+	 * Renders the arrows above mobs heads, colour depended on the mode the Controller is in
+	 *
+	 * @param bm
+	 */
+	public void render(Bitmap bm) {
+		if (selectedMob != null && attacking) {
+			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
+			int xp = (int) (selectedMob.getBB().xPos + 32);
+			int yp = (int) (selectedMob.getBB().yPos - 20) + yOffs;
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
+		}
 
-    }
+		if (attackMob != null && !attacking) {
+			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
+			int xp = (int) (attackMob.getBB().xPos + 32);
+			int yp = (int) (attackMob.getBB().yPos - 20) + yOffs;
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], xp, yp, 0xffffff);
+		}
+	}
 
-    /**
-     * Happens at the end of ever turn, updates all attached mobs
-     */
-    public void turnTick() {
-        for (T mob : charaList) {
-            mob.turnTick();
-        }
-    }
+	/**
+	 * Returns the mob to do the attacking
+	 *
+	 * @return
+	 */
+	public Mob getSelectedMob() {
+		return selectedMob;
+	}
 
-    /**
-     * Renders the arrows above mobs heads, colour depended on the mode the
-     * Controller is in
-     *
-     * @param bm
-     */
-    public void render(Bitmap bm) {
-        if (selectedMob != null && atacking) {
-            int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-            int xp = (int) (selectedMob.getBB().xPos + 32);
-            int yp = (int) (selectedMob.getBB().yPos - 20) + yOffs;
-            bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
-        }
+	public void removeDeadMob(Mob mob) {
+		if (mob.getHealth() <= 0) {
+			mob.onDied();
+			charaList.remove(mob);
+		}
+	}
 
-        if (attackMob != null && !atacking) {
-            int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-            int xp = (int) (attackMob.getBB().xPos + 32);
-            int yp = (int) (attackMob.getBB().yPos - 20) + yOffs;
-            bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], xp, yp, 0xffffff);
-        }
-    }
+	/**
+	 * Sets the Mob to be attacked
+	 *
+	 * @param idDelta
+	 */
+	public void selectAttack(int idDelta) {
+		attackIndex += idDelta;
+		attackMob = charaList.get(Math.abs(attackIndex % charaList.size()));
+	}
 
-    /**
-     * Returns the mob to do the attacking
-     *
-     * @return
-     */
-    public Mob getSelectedMob() {
-        return selectedMob;
-    }
+	/**
+	 * Returns the Mob to be attacked
+	 *
+	 * @return
+	 */
+	public Mob getAttackMob() {
+		return attackMob;
+	}
 
-    public void removeDeadMob(Mob mob) {
-        if (mob.getHealth() <= 0) {
-            mob.onDied();
-            charaList.remove(mob);
-        }
-    }
+	public List<T> getCharaList() {
+		return charaList;
+	}
 
-    /**
-     * Sets the Mob to be attacked
-     *
-     * @param idDelta
-     */
-    public void selectAtack(int idDelta) {
-        atackIndex += idDelta;
-        System.out.println(atackIndex);
-        attackMob = charaList.get(Math.abs(atackIndex % charaList.size()));
-    }
+	public void tick() {
+		for (int i = 0; i < charaList.size(); i++) {
+			T player = charaList.get(i);
+			player.movePlayer();
+			removeDeadMob(player);
+		}
+	}
 
-    /**
-     * Returns the Mob to be attacked
-     *
-     * @return
-     */
-    public Mob getAttackMob() {
-        return attackMob;
-    }
-
-    public ArrayList<T> getCharaList() {
-        return charaList;
-    }
-
-    public void tick() {
-        for (int i = 0; i < charaList.size(); i++) {
-            T player = charaList.get(i);
-            player.movePlayer();
-            removeDeadMob(player);
-        }
-    }
-
-    public void addMob(T mob) {
-        level.add(mob);
-        charaList.add(mob);
-    }
+	public void addMob(T mob) {
+		level.add(mob);
+		charaList.add(mob);
+	}
 }

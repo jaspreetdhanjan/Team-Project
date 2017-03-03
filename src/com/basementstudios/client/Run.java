@@ -1,11 +1,6 @@
 package com.basementstudios.client;
 
-import java.util.List;
-
-import javax.swing.JOptionPane;
-
 import com.basementstudios.network.*;
-import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
 
 /**

@@ -12,16 +12,16 @@ import com.basementstudios.tag.resource.SpriteSheet;
  */
 
 public class Enemy extends Mob {
-	public Enemy(double x, double y, int dmg, int def,int spd, int spellDuration,int wepponType, int health, String name) {
-		super(x, y,13 + 16, 26 + 16);
-		super.dmg=dmg;
-		super.def=def;
-		super.spd=spd;
-		super.spellDuration=spellDuration;
-		super.wepponType=wepponType;
-		super.health=health;
-		super.maxHealth=health;
-		super.name=name;
+	public Enemy(double x, double y, int dmg, int def, int spd, int spellDuration, int wepponType, int health, String name) {
+		super(x, y, 13 + 16, 26 + 16);
+		super.dmg = dmg;
+		super.def = def;
+		super.spd = spd;
+		super.spellDuration = spellDuration;
+		super.wepponType = wepponType;
+		super.health = health;
+		super.maxHealth = health;
+		super.name = name;
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 
@@ -40,14 +40,12 @@ public class Enemy extends Mob {
 				isRetracting = true;
 				getTarge().hit(getDmg());
 				getTarge().spellCast(getDmg(), getSpellDuration());
-			} else if (isRetracting)
-				xa = 2;
-			else
-				xa = -2;
+			} else if (isRetracting) xa = 2;
+			else xa = -2;
 			attemptMove();
 		}
 	}
-	
+
 	public void render(Bitmap bm) {
 		int colour = 0xffffff;
 
@@ -71,9 +69,8 @@ public class Enemy extends Mob {
 		}
 		super.render(bm);
 	}
-	
+
 	public SpriteSheet getSpriteSheet() {
 		return ResourceManager.i.newCharacterSpriteSheet;
 	}
-
 }

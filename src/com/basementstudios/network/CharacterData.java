@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 public class CharacterData implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	public static final int NO_WEAPON = -1;
 	public static final int MAGIC_WEAPON = 1;
@@ -25,7 +26,7 @@ public class CharacterData implements Serializable {
 	private List<Stat> stats = new ArrayList<Stat>();
 	private List<Item> items = new ArrayList<Item>();
 
-	public CharacterData(int id, String name, int currentHealth, int maxHealth)  {
+	public CharacterData(int id, String name, int currentHealth, int maxHealth) {
 		this.id = id;
 		this.name = name;
 		this.currentHealth = currentHealth;
@@ -125,12 +126,11 @@ public class CharacterData implements Serializable {
 		return name;
 	}
 
-	public void addItem(Item item){
+	public void addItem(Item item) {
 		items.add(item);
 	}
 
-	public void addStat(Stat stat){
-	    stats.add(stat);
-    }
-
+	public void addStat(Stat stat) {
+		stats.add(stat);
+	}
 }

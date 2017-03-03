@@ -1,6 +1,5 @@
 package com.basementstudios.tag;
 
-import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.CharacterRetriever;
 import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.Bitmap;
@@ -12,10 +11,6 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 
 /**
  * Entry-point for the main application.
@@ -24,19 +19,20 @@ import java.util.ArrayList;
  */
 
 public class Game extends Canvas implements Runnable {
+	private static final long serialVersionUID = 1L;
+	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
+	public static final String TITLE = "The Adventurers' Guild";
+	public static final String VERSION = "Prototype 2";
+	
 	public static final int HUD_WIDTH = WIDTH;
 	public static final int HUD_HEIGHT = 150;
 	public static final int VIEWPORT_WIDTH = WIDTH;
 	public static final int VIEWPORT_HEIGHT = HEIGHT - HUD_HEIGHT;
-	public static final String TITLE = "The Adventurers' Guild";
-	public static final String VERSION = "Prototype 2";
+	
 	public static final String URL = "theadventurersguild.co.uk";
-	private static final long serialVersionUID = 1L;
-	private static final int SCALE = 1;
-	private static final int SCALED_WIDTH = WIDTH * SCALE;
-	private static final int SCALED_HEIGHT = HEIGHT * SCALE;
+	
 	private boolean stop = false;
 	private boolean fpsLock = true;
 	private String fpsString = "";
@@ -48,8 +44,7 @@ public class Game extends Canvas implements Runnable {
 	private ScreenManager screenManager;
 
 	public Game() {
-
-		Dimension d = new Dimension(SCALED_WIDTH, SCALED_HEIGHT);
+		Dimension d = new Dimension(WIDTH, HEIGHT);
 		setMinimumSize(d);
 		setMaximumSize(d);
 		setPreferredSize(d);
@@ -111,20 +106,8 @@ public class Game extends Canvas implements Runnable {
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
 			public void run() {
 				GameController.availableCharacters = new CharacterRetriever().getCharacters();
-				System.out.println("Loading ->  charas from server" );
-				ObjectInputStream ois = null;
-				try {
-					FileInputStream fin = new FileInputStream("doc/chara.ser");
-					ois = new ObjectInputStream(fin);
-					System.out.println("Loading ->  charas from file" );
-					for(CharacterData characterData : (ArrayList<CharacterData>) ois.readObject()){
-						GameController.selectedCharacters.add( new CharacterRetriever().getUpdateData(characterData));
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+				
+				JIO.load("doc/chara.ser");
 				ResourceManager.i.loadAll();
 			}
 		});
@@ -157,7 +140,7 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.drawImage(screenImg, 0, 0, SCALED_WIDTH, SCALED_HEIGHT, null);
+		g.drawImage(screenImg, 0, 0, WIDTH, HEIGHT, null);
 		g.dispose();
 		bs.show();
 	}

@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 public class Item implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private final int id;
 
@@ -28,8 +29,7 @@ public class Item implements Serializable {
 		this.type = type;
 	}
 
-
-	public void addStat(Stat stat){
+	public void addStat(Stat stat) {
 		stats.add(stat);
 	}
 
