@@ -1,7 +1,8 @@
 package com.basementstudios.tag.mob;
 
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.ResourceManager;
-import com.basementstudios.tag.graphics.*;
+import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
@@ -73,7 +74,13 @@ public class Enemy extends Mob {
 	}
 	
 	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.newCharacterSpriteSheet;
+		switch (wepponType) {
+			case CharacterData.MAGIC_WEAPON:
+				return ResourceManager.i.magicCharacterSpriteSheet;
+			case CharacterData.MELEE_WEAPON:
+				return ResourceManager.i.melleeCharacterSpriteSheet;
+		}
+		return ResourceManager.i.magicCharacterSpriteSheet;
 	}
 
 }

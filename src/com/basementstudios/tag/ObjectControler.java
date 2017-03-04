@@ -1,12 +1,10 @@
 package com.basementstudios.tag;
 
-import java.util.ArrayList;
-
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.graphics.SpriteSheet;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
-import com.basementstudios.tag.mob.Player;
+
+import java.util.ArrayList;
 
 /**
  * @author James Bray
@@ -68,14 +66,14 @@ public class ObjectControler<T extends Mob> {
     public void render(Bitmap bm) {
         if (selectedMob != null && atacking) {
             int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-            int xp = (int) (selectedMob.getBB().xPos + 32);
+            int xp = (int) (selectedMob.getBB().xPos + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2);
             int yp = (int) (selectedMob.getBB().yPos - 20) + yOffs;
             bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
         }
 
         if (attackMob != null && !atacking) {
             int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-            int xp = (int) (attackMob.getBB().xPos + 32);
+            int xp = (int) (attackMob.getBB().xPos + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2);
             int yp = (int) (attackMob.getBB().yPos - 20) + yOffs;
             bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], xp, yp, 0xffffff);
         }

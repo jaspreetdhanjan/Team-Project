@@ -1,17 +1,16 @@
 package com.basementstudios.tag;
 
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Enemy;
 import com.basementstudios.tag.mob.Mob;
 import com.basementstudios.tag.mob.Player;
 import com.basementstudios.tag.screen.EndScreen;
-import com.basementstudios.network.CharacterData;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Controls the game flow
@@ -21,6 +20,13 @@ import com.basementstudios.network.CharacterData;
  */
 public class GameController {
 
+	public static final int STATE_NULL = 0;
+	public static final int STATE_PLAYER_ATACK = 1;
+	public static final int STATE_PLAYER_ATACKING = 2;
+	public static final int STATE_ENEMY_ATACK = 3;
+	public static List<CharacterData> availableCharacters;
+	public static ArrayList<CharacterData> selectedCharacters = new ArrayList<CharacterData>(3);
+	private static int charaGap = 138;
 	private int turn = 0;
 	private int maxSpd = 0;
 	private Level level = null;
@@ -29,16 +35,6 @@ public class GameController {
 	private Random rand = new Random();
 	private ScreenManager screenManager;
 	private int gameState = 0;
-
-	private static int charaGap = 130;
-
-	public static final int STATE_NULL = 0;
-	public static final int STATE_PLAYER_ATACK = 1;
-	public static final int STATE_PLAYER_ATACKING = 2;
-	public static final int STATE_ENEMY_ATACK = 3;
-	
-	public static List<CharacterData> availableCharacters;
-	public static ArrayList<CharacterData> selectedCharacters = new ArrayList<CharacterData>(3);
 
 	public GameController(Level level) {
 		this.level = level;
@@ -195,7 +191,7 @@ public class GameController {
 	 */
 	public void addPlayers() {
 		int x = 50;
-		int y = 40;
+		int y = 30;
 		
 		if (availableCharacters == null) throw new RuntimeException("Characters not loaded!");
 		int unlovedCharas = 3-selectedCharacters.size();
@@ -217,7 +213,7 @@ public class GameController {
 	 */
 	public void addEnemys(int seed) {
 		int x= Game.WIDTH-100-ResourceManager.i.enemySpriteSheet.getSpriteWidth();
-		int y = 40;
+		int y = 25;
 		ArrayList<String> names = new ArrayList<String>();
 		names.add("Bret");
 		names.add("Geff");

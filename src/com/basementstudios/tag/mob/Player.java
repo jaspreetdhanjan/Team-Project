@@ -80,7 +80,13 @@ public class Player extends Mob {
 	}
 	
 	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.newCharacterSpriteSheet;
+		switch (wepponType) {
+			case CharacterData.MAGIC_WEAPON:
+				return ResourceManager.i.magicCharacterSpriteSheet;
+			case CharacterData.MELEE_WEAPON:
+				return ResourceManager.i.melleeCharacterSpriteSheet;
+		}
+		return ResourceManager.i.magicCharacterSpriteSheet;
 	}
 	
 	public CharacterData getCharacterData() {

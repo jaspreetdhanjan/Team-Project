@@ -78,12 +78,12 @@ public class CharacterSelectionScreen extends Screen {
         int i = 0;
         for (; i < newCharacters.size(); i++) {
             CharacterData data = newCharacters.get(i);
-            bm.render(ResourceManager.i.newCharacterSpriteSheet.getSprites()[0][0], 12 + i * 128, 0, 0xffffff);
+            bm.render(ResourceManager.i.magicCharacterSpriteSheet.getSprites()[0][0], 12 + i * 128, 0, 0xffffff);
             bm.drawString(data.getName(), 12 + i * 128, 128, 0xffffff);
         }
 
         for (; i < 3; i++) {
-            bm.render(ResourceManager.i.newCharacterSpriteSheet.getSprites()[0][0], 12 + i * 128, 0, 0x333333);
+            bm.render(ResourceManager.i.magicCharacterSpriteSheet.getSprites()[0][0], 12 + i * 128, 0, 0x333333);
             bm.drawString("Empty Slot", 12 + i * 128, 128, 0x7c7c7c);
         }
         CharacterData characterData = options.getSelected();
