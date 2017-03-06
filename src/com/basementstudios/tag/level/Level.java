@@ -3,9 +3,8 @@ package com.basementstudios.tag.level;
 import java.util.*;
 
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.controller.*;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.mob.Mob;
-import com.basementstudios.tag.phys.AxisAlignedBB;
 import com.basementstudios.tag.resource.LevelData;
 
 /**
@@ -17,10 +16,12 @@ import com.basementstudios.tag.resource.LevelData;
 public abstract class Level {
 	private final LevelData levelData;
 
-	private AxisAlignedBB bb = new AxisAlignedBB();
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> toAdd = new ArrayList<Entity>();
 	private List<Entity> toRemove = new ArrayList<Entity>();
+
+	private PlayerController playerController;
+	private EnemyController enemyController;
 
 	/**
 	 * Constructs a new level.
@@ -30,7 +31,11 @@ public abstract class Level {
 	 */
 	public Level(LevelData levelData) {
 		this.levelData = levelData;
-		bb.set(0, 0, levelData.getLevelImage().width, levelData.getLevelImage().height);
+	}
+
+	public void init() {
+		playerController = new PlayerController(this, 0, 30);
+		enemyController = new EnemyController(this, 650, 30, 3);
 	}
 
 	public void add(Entity e) {
@@ -44,6 +49,14 @@ public abstract class Level {
 	public void render(Bitmap bm) {
 		bm.render(levelData.getLevelImage(), 0, 0, 0xffffff);
 		entities.forEach(e -> e.render(bm));
+
+		playerController.renderSelected(bm);
+	}
+
+	public void fight() {
+		if (playerController.getSelected() == null || enemyController.getSelected() == null) return;
+		
+		
 	}
 
 	public void tick() {
@@ -72,32 +85,19 @@ public abstract class Level {
 		}
 	}
 
-	private List<Mob> tmpResult = new ArrayList<Mob>();
-
-	public List<Mob> getMobs(AxisAlignedBB bb) {
-		tmpResult.clear();
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
-			if (e instanceof Mob) {
-				Mob m = (Mob) e;
-				if (bb.contains(m.getBB())) {
-					tmpResult.add(m);
-					continue;
-				}
-			}
-		}
-		return tmpResult;
-	}
-
 	public LevelData getLevelData() {
 		return levelData;
 	}
 
-	public AxisAlignedBB getBB() {
-		return bb;
-	}
-	
 	public String toString() {
 		return levelData.getLevelName();
+	}
+
+	public PlayerController getPlayer() {
+		return playerController;
+	}
+
+	public EnemyController getEnemy() {
+		return enemyController;
 	}
 }

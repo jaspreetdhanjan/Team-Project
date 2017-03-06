@@ -1,7 +1,10 @@
 package com.basementstudios.tag.graphics;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Arrays;
+
+import javax.imageio.ImageIO;
 
 /**
  * A fast drawing tool used to draw directly to the screen buffer.
@@ -87,7 +90,7 @@ public class Bitmap {
 	}
 
 	public void drawStringShadowed(String msg, int xp, int yp, int colour) {
-		drawString(msg, xp + 1, yp + 1, 0x111111);
+		drawString(msg, xp + 2, yp + 2, 0x111111);
 		drawString(msg, xp + 0, yp + 0, colour);
 	}
 
@@ -108,5 +111,16 @@ public class Bitmap {
 
 	public void setFontBitmap(FontBitmap fontBitmap) {
 		this.fontBitmap = fontBitmap;
+	}
+
+	public static Bitmap load(String path) {
+		Bitmap result = null;
+		try {
+			BufferedImage image = ImageIO.read(Bitmap.class.getResourceAsStream(path));
+			result = new Bitmap(image);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 }

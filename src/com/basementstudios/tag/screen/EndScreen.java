@@ -11,13 +11,6 @@ import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.mob.Player;
 
-/**
- * Screen representation for when the game is in a paused state.
- * 
- * @author Jaspreet Dhanjan
- * @author James Bray
- */
-
 public class EndScreen extends Screen {
 	private boolean win;
 	private List<Player> mobs;
@@ -72,9 +65,9 @@ public class EndScreen extends Screen {
 			JSONObject charaData;
 			PostRequest poster = new PostRequest();
 			charaData = poster.send("http://tag.yarbsemaj.com/api/user/addGold.php", arguments);
-//			System.out.println(charaData);
+			// System.out.println(charaData);
 			if ((boolean) charaData.get("success")) {
-//				System.out.println("added gold");
+				// System.out.println("added gold");
 			}
 			for (Player player : mobs) {
 				int id = player.getCharacterData().getID();
@@ -83,11 +76,11 @@ public class EndScreen extends Screen {
 				arguments1.put("Token", token.getToken());
 				arguments1.put("XP", String.valueOf(XP));
 				charaData = poster.send("http://tag.yarbsemaj.com/api/chara/addXP.php", arguments1);
-//				System.out.println(charaData);
+				// System.out.println(charaData);
 				if ((boolean) charaData.get("success")) {
 					String newXP = String.valueOf((Long) charaData.get("newXP"));
 					String levelsGained = String.valueOf((Long) charaData.get("levelChange"));
-					winData.add(player.getName() + ":XP " + newXP + "(" + XP + ")" + levelsGained + " new levels");
+					winData.add(player.getCharacterData().getName() + ":XP " + newXP + "(" + XP + ")" + levelsGained + " new levels");
 				}
 			}
 		} catch (InvalidTokenException | IOException | ParseException e) {

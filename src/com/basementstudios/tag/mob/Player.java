@@ -12,50 +12,22 @@ import com.basementstudios.tag.resource.SpriteSheet;
  */
 
 public class Player extends Mob {
-	private final CharacterData characterData;
-    private int shootTime = 0;
+	private int shootTime = 0;
 
 	public Player(double x, double y, CharacterData characterData) {
-		super(x, y, 64, 64);
-		this.characterData = characterData;
-		dmg = characterData.getDmg();
-		def = characterData.getDef();
-		spd = characterData.getSpd();
-		spellDuration = characterData.getSpellDuration();
-		weaponType = characterData.getWeaponType();
-		health = characterData.getCurrentHealth();
-		maxHealth = characterData.getMaxHealth();
-		name = characterData.getName();
-
+		super(x, y, 128, 128, characterData);
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
 	}
 
 	public void tick() {
 		super.tick();
-
+		
 		if (shootTime > 0) {
 			shootTime--;
 		}
 	}
 
-	public void movePlayer() {
-		if (isAttacking) {
-			if (bb.xPos - xStart == 0 && isRetracting) {
-				isAttacking = false;
-				xa = 0;
-			} else if (bb.xPos - xStart == maxAttackFrame && !isRetracting) {
-				isRetracting = true;
-				getTarge().hit(getDmg());
-				getTarge().spellCast(getDmg(), getSpellDuration());
-			} else if (isRetracting)
-				xa = -2;
-			else
-				xa = 2;
-			attemptMove();
-		}
-	}
-	
 	public void render(Bitmap bm) {
 		if (xa == 0) {
 			xSpriteIndex = 0;
@@ -65,26 +37,21 @@ public class Player extends Mob {
 			ySpriteIndex = 1;
 
 			if (isMoving()) {
-				xSpriteIndex = (walkDist / 10) % 4;
+				xSpriteIndex = (walkDist / 7) % 5;
 			}
 		} else if (xa > 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 0;
 
 			if (isMoving()) {
-				xSpriteIndex = (walkDist / 10) % 4;
+				xSpriteIndex = (walkDist / 7) % 5;
 			}
 		}
 
 		super.render(bm);
 	}
-	
-	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.newCharacterSpriteSheet;
-	}
-	
-	public CharacterData getCharacterData() {
-		return characterData;
-	}
 
+	public SpriteSheet getSpriteSheet() {
+		return ResourceManager.i.playerSpriteSheet;
+	}
 }

@@ -1,17 +1,13 @@
 package com.basementstudios.tag;
 
-import com.basementstudios.network.CharacterRetriever;
+import com.basementstudios.network.CharacterLoader;
 import com.basementstudios.tag.audio.AudioPlayer;
-import com.basementstudios.tag.controller.GameController;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.screen.LoadingScreen;
-import com.basementstudios.tag.screen.TitleScreen;
+import com.basementstudios.tag.screen.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import java.awt.image.*;
 
 /**
  * Entry-point for the main application.
@@ -105,7 +101,7 @@ public class Game extends Canvas implements Runnable {
 		hudBitmap = new Bitmap(HUD_WIDTH, HUD_HEIGHT);
 
 		Thread t = new Thread(() -> {
-			GameController.availableCharacters = new CharacterRetriever().getCharacters();
+			Characters.setAvailable(new CharacterLoader().getCharacters());
 		});
 
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
@@ -119,7 +115,7 @@ public class Game extends Canvas implements Runnable {
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
 
-		AudioPlayer.play(ResourceManager.i.soundtrackSound);
+//		AudioPlayer.play(ResourceManager.i.soundtrackSound);
 	}
 
 	private void tick() {

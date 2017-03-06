@@ -63,6 +63,12 @@ public class LoadingScreen extends Screen {
 		bm.setScale(1, 1);
 	}
 
+	public void renderHud(Bitmap bm) {
+		for (int i = 0; i < bm.pixels.length; i++) {
+			bm.pixels[i] = ((i + tickCount) % 256);
+		}
+	}
+
 	public boolean fullscreenDraw() {
 		return true;
 	}

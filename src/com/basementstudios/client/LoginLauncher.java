@@ -9,7 +9,7 @@ import javax.swing.*;
 import org.json.simple.JSONObject;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.network.CharacterRetriever;
+import com.basementstudios.network.CharacterLoader;
 import com.basementstudios.network.InvalidTokenException;
 import com.basementstudios.network.Token;
 import com.basementstudios.tag.Game;
@@ -111,7 +111,7 @@ public class LoginLauncher {
 
 				if ((boolean) loginData.get("success")) {
 					new Token((String) loginData.get("token"));
-					List<CharacterData> characterData = new CharacterRetriever().getCharacters();
+					List<CharacterData> characterData = new CharacterLoader().getCharacters();
 					if (characterData.size() >= 3) {
 						new Game();
 					} else {

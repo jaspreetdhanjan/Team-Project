@@ -1,9 +1,10 @@
 package com.basementstudios.tag.mob;
 
+import com.basementstudios.network.CharacterData;
+
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.particle.TextParticle;
-import com.basementstudios.tag.phys.AxisAlignedBB;
 
 /**
  * A moving and dynamic character within the game.
@@ -12,50 +13,77 @@ import com.basementstudios.tag.phys.AxisAlignedBB;
  */
 
 public class Mob extends Entity {
-	public boolean hasGone = false;
-	public boolean isAttacking = false;
-	public boolean isRetracting = false;
-	public int maxAttackFrame;
-	public double xStart, yStart;
-	public double xa, ya;
-	protected int dmg, def, spd, spellDuration, weaponType, health, maxHealth;
-	protected int debuffDamage, debuffDuration;
-	protected String name;
-	protected AxisAlignedBB bb = new AxisAlignedBB();
+	private final CharacterData characterData;
+
+	protected double x, y;
+	protected double xa, ya;
+
 	protected int lastWalkDist, walkDist;
+
+	protected double xSize, ySize;
+	protected double newX, newY;
+
+	protected boolean hasGone = false;
+	protected boolean isAttacking = false;
+	protected boolean isRetracting = false;
+	protected int maxAttackFrame;
+
+	protected int debuffDamage, debuffDuration;
 	protected Mob target = null;
 
-	public Mob(double x, double y, double xSize, double ySize) {
-		bb.set(x, y, xSize, ySize);
-		xStart = x;
-		yStart = y;
+	public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
+		this.x = x;
+		this.y = y;
+		this.xSize = xSize;
+		this.ySize = ySize;
+		this.characterData = characterData;
+		newX = x;
+		newY = y;
+	}
+
+	public void setDelta(double xa, double ya) {
+		this.xa = xa;
+		this.ya = ya;
+	}
+
+	public void moveTo(double newX, double newY) {
+		this.newX = newX;
+		this.newY = newY;
+	}
+
+	public void tick() {
+		if (Math.abs(Math.floor(newX - x)) > 50 || Math.abs(Math.floor(newY - y)) > 50) {
+			if (x < newX) xa++;
+			if (x > newX) xa--;
+			if (y < newY) ya++;
+			if (y > newY) ya--;
+		}
+
+		if (xa != 0 || ya != 0) {
+			attemptMove();
+		}
+
 	}
 
 	public void attemptMove() {
-		double xxa = bb.xPos + xa;
-		double yya = bb.yPos + ya;
+		double xxa = x + xa;
+		double yya = y + ya;
 
-		AxisAlignedBB newBB = new AxisAlignedBB(xxa, yya, bb.xSize, bb.ySize);
-
-		move(newBB);
+		move(xxa, yya);
+		// move(0, yya);
 	}
 
-	private boolean move(AxisAlignedBB newBB) {
+	private boolean move(double xxa, double yya) {
 		if (isRemoved()) return false;
-
-		// TODO: AABB.contains() is broken – check y clipping.
-		// if (!level.getBB().contains(newBB)) {
-		// collide(null, newBB);
-		// return false;
-		// }
 
 		lastWalkDist = walkDist;
 		walkDist++;
-		bb.set(newBB);
+		x = xxa;
+		y = yya;
 		return true;
 	}
 
-	protected void collide(Entity cause, AxisAlignedBB newBB) {
+	protected void collide(Entity cause, double xxa, double yya) {
 		xa = 0;
 		ya = 0;
 	}
@@ -65,98 +93,20 @@ public class Mob extends Entity {
 	}
 
 	public void render(Bitmap bm) {
-		int xp = (int) bb.xPos;
-		int yp = (int) bb.yPos;
+		int xp = (int) x;
+		int yp = (int) y;
 		bm.render(getBitmap(), xp, yp, colour);
-		bm.drawString(health + "/" + maxHealth, xp, yp + 128, 0xff0000);
-	}
 
-	public AxisAlignedBB getBB() {
-		return bb;
-	}
-
-	public void startAttack(int maxAttackFrame, Mob enemy) {
-		isAttacking = true;
-		isRetracting = false;
-		this.maxAttackFrame = maxAttackFrame;
-		target = enemy;
-	}
-
-	public void spellCast(int spellDamage, int speelDamageDuration) {
-		this.debuffDamage = spellDamage;
-		this.debuffDuration = speelDamageDuration;
-	}
-
-	public void turnTick() {
-		spellHurt();
-	}
-
-	public void spellHurt() {
-		System.out.println("Spell Hurt");
-		int colour = 0x0f5b00;
-
-		if (debuffDuration > 0) {
-			health -= debuffDamage;
-			level.add(new TextParticle("-" + debuffDamage, bb.xPos, bb.yPos, 2, colour));
-			debuffDuration--;
-		}
-	}
-
-	public void hurt(int dmg) {
-		int colour = 0xff0000;
-
-		System.out.println(health);
-		level.add(new TextParticle("-" + dmg, bb.xPos, bb.yPos, 2, colour));
-	}
-
-	public void hit(int dmg) {
-		int damage = dmg - def;
-
-		if (damage < 0) {
-			damage = 0;
-		}
-		health -= damage;
-
-		hurt(damage);
-	}
-
-	public void movePlayer() {
-
+		// Draw the health bar
+		bm.fill(xp + 40, yp - 4, xp + 32 + (characterData.getMaxHealth() / 2), yp, 0xff0000);
+		bm.fill(xp + 40, yp - 4, xp + 32 + (characterData.getCurrentHealth() / 2), yp, 0xff00);
 	}
 
 	public void onDied() {
 		remove();
 	}
 
-	public int getDmg() {
-		return dmg;
-	}
-
-	public int getDef() {
-		return def;
-	}
-
-	public int getSpd() {
-		return spd;
-	}
-
-	public int getSpellDuration() {
-		return spellDuration;
-	}
-
-	public int getWeaponType() {
-		return weaponType;
-	}
-
-	public int getHealth() {
-		return health;
-	}
-
-	public int getMaxHealth() {
-		return maxHealth;
-	}
-
-	public Mob getTarge() {
+	public Mob getTarget() {
 		return target;
 	}
 
@@ -168,7 +118,15 @@ public class Mob extends Entity {
 		return debuffDuration;
 	}
 
-	public String getName() {
-		return name;
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public final CharacterData getCharacterData() {
+		return characterData;
 	}
 }

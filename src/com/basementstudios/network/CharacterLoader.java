@@ -13,6 +13,7 @@ import java.util.Map;
 import static com.basementstudios.network.CharacterData.*;
 
 import com.basementstudios.network.CharacterData;
+import com.basementstudios.tag.util.Logger;
 
 /**
  * Retrieves CharacterData for each character created, server-side.
@@ -20,7 +21,7 @@ import com.basementstudios.network.CharacterData;
  * @author James Bray
  */
 
-public class CharacterRetriever {
+public class CharacterLoader {
 	private static final String STAT_URL = "http://tag.yarbsemaj.com/api/chara/getStat.php";
 	private static final String ITEM_URL = "http://tag.yarbsemaj.com/api/chara/getItems.php";
 	private static final String URL = "http://tag.yarbsemaj.com/api/chara/list.php";
@@ -31,7 +32,7 @@ public class CharacterRetriever {
 	private CharacterData characterData;
 	private Item item;
 
-	public CharacterRetriever() {
+	public CharacterLoader() {
 		try {
 			Token tokenObj = new Token();
 			token = tokenObj.getToken();
@@ -65,7 +66,9 @@ public class CharacterRetriever {
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
-		System.out.println(result);
+
+		Logger.log("SERVER: Loaded -> " + result);
+
 		return result;
 	}
 
@@ -75,7 +78,6 @@ public class CharacterRetriever {
 		addItems();
 		calculateBattleStats();
 		return this.characterData;
-
 	}
 
 	public void addStat() {
@@ -147,8 +149,8 @@ public class CharacterRetriever {
 	}
 
 	public void calculateBattleStats() {
-		characterData.setDmg(characterData.getStats().get(2).getValue());
-		characterData.setSpd(characterData.getStats().get(4).getValue());
+		characterData.addDmg(characterData.getStats().get(2).getValue());
+		characterData.addSpd(characterData.getStats().get(4).getValue());
 
 		int damageMultiplier = 1;
 		for (Item item : characterData.getItems()) {
@@ -174,23 +176,23 @@ public class CharacterRetriever {
 				System.out.println(stat.getID() + stat.getName());
 				switch (stat.getID()) {
 					case 1: {
-						characterData.setSpd(-stat.getValue());
+						characterData.addSpd(-stat.getValue());
 						break;
 					}
 					case 2: {
-						characterData.setDmg(stat.getValue() * damageMultiplier);
+						characterData.addDmg(stat.getValue() * damageMultiplier);
 						break;
 					}
 					case 4: {
-						characterData.setSpellDuration(stat.getValue());
+						characterData.addSpellDuration(stat.getValue());
 						break;
 					}
 					case 5: {
-						characterData.setDef(stat.getValue());
+						characterData.addDef(stat.getValue());
 						break;
 					}
 					case 8: {
-						characterData.setSpd(stat.getValue());
+						characterData.addSpd(stat.getValue());
 						break;
 					}
 				}
@@ -198,7 +200,7 @@ public class CharacterRetriever {
 		}
 
 		if (characterData.getSpd() < 0) {
-			characterData.setSpd(1);
+			characterData.addSpd(1);
 		}
 	}
 }

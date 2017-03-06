@@ -50,7 +50,7 @@ public class CharacterData implements Serializable {
 		return id;
 	}
 
-	public void setCurrentHelth(int currentHealth) {
+	public void setCurrentHealth(int currentHealth) {
 		this.currentHealth = currentHealth;
 	}
 
@@ -86,6 +86,30 @@ public class CharacterData implements Serializable {
 		this.items = items;
 	}
 
+	public void addItem(Item item) {
+		items.add(item);
+	}
+
+	public void addStat(Stat stat) {
+		stats.add(stat);
+	}
+
+	public void addDef(int def) {
+		this.def += def;
+	}
+
+	public void addSpd(int spd) {
+		this.spd += spd;
+	}
+
+	public void addSpellDuration(int spellDuration) {
+		this.spellDuration += spellDuration;
+	}
+
+	public void addDmg(int dmg) {
+		this.dmg += dmg;
+	}
+
 	public int getCurrentHealth() {
 		return currentHealth;
 	}
@@ -94,43 +118,24 @@ public class CharacterData implements Serializable {
 		return def;
 	}
 
-	public void setDef(int def) {
-		this.def += def;
-	}
-
 	public int getSpd() {
 		return spd;
-	}
-
-	public void setSpd(int spd) {
-		this.spd += spd;
 	}
 
 	public int getSpellDuration() {
 		return spellDuration;
 	}
 
-	public void setSpellDuration(int spellDuration) {
-		this.spellDuration += spellDuration;
-	}
-
 	public int getDmg() {
 		return dmg;
-	}
-
-	public void setDmg(int dmg) {
-		this.dmg += dmg;
 	}
 
 	public String toString() {
 		return name;
 	}
 
-	public void addItem(Item item) {
-		items.add(item);
-	}
-
-	public void addStat(Stat stat) {
-		stats.add(stat);
+	public void reduceHealth(int dmg) {
+		if (dmg < 0) dmg = 0;
+		currentHealth -= dmg;
 	}
 }

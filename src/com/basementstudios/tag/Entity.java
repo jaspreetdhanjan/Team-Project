@@ -2,7 +2,6 @@ package com.basementstudios.tag;
 
 import java.util.*;
 
-import com.basementstudios.tag.component.Component;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.resource.SpriteSheet;
@@ -22,20 +21,11 @@ public abstract class Entity {
 	protected int xSpriteIndex, ySpriteIndex;
 	protected int colour = 0xffffff;
 
-	private List<Component> components = new ArrayList<Component>();
-
 	public final void init(Level level) {
 		this.level = level;
 	}
 
-	public void addComponent(Component c) {
-		components.add(c);
-	}
-
 	public void tick() {
-		for (Component com : components) {
-			com.tick();
-		}
 	}
 
 	public abstract void render(Bitmap bm);

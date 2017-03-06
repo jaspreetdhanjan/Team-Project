@@ -2,13 +2,10 @@ package com.basementstudios.tag.screen;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Game;
-import com.basementstudios.tag.controller.GameController;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.ui.*;
-
-import java.util.*;
 
 /**
  * State to load a character.
@@ -18,23 +15,20 @@ import java.util.*;
 
 public class CharacterSelectionScreen extends Screen {
 	private ActionInterface<CharacterData, Action> options = new ActionInterface<CharacterData, Action>("Select Characters");
-
-	// WHY MAKE AN ARRAYLIST JAMES?!
-	// There's a max of 3 characters, there isn't a need to have a list.
-	private List<CharacterData> newCharacters = new ArrayList<CharacterData>();
+	private CharacterData[] newCharacters = new CharacterData[3];
+	
 	private int pp = 0;
 
 	public void init() {
-		for (CharacterData data : GameController.availableCharacters) {
+/*		for (CharacterData data : GameController.availableCharacters) {
 			options.add(data, new Action() {
 				public void onClick() {
-					pp++;
-					newCharacters.add(data);
+					newCharacters[pp++] = data;
 					options.remove(data);
 					// if (pp == 3) save();
 				}
 			});
-		}
+		}*/
 	}
 
 	public void tick(Input input) {
@@ -54,15 +48,18 @@ public class CharacterSelectionScreen extends Screen {
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
+
+		Bitmap sprite = ResourceManager.i.playerSpriteSheet.getSprites()[0][0];
+
 		int i = 0;
-		for (; i < newCharacters.size(); i++) {
-			CharacterData data = newCharacters.get(i);
-			bm.render(ResourceManager.i.newCharacterSpriteSheet.getSprites()[0][0], 12 + i * 128, 0, 0xffffff);
+		for (; i < newCharacters.length; i++) {
+			CharacterData data = newCharacters[i];
+			bm.render(sprite, 12 + i * 128, 0, 0xffffff);
 			bm.drawString(data.getName(), 12 + i * 128, 128, 0xffffff);
 		}
 
 		for (; i < 3; i++) {
-			bm.render(ResourceManager.i.newCharacterSpriteSheet.getSprites()[0][0], 12 + i * 128, 0, 0x333333);
+			bm.render(sprite, 12 + i * 128, 0, 0x333333);
 			bm.drawString("Empty Slot", 12 + i * 128, 128, 0x7c7c7c);
 		}
 		CharacterData characterData = options.getSelected();
@@ -76,26 +73,26 @@ public class CharacterSelectionScreen extends Screen {
 			bm.drawString("Defence " + player.getDef(), xStart, yStart + 32, 0xffffff);
 			bm.drawString("Speed " + player.getSpd(), xStart, yStart + 48, 0xffffff);
 
-			String weponType;
+			String weaponType;
 			switch (player.getWeaponType()) {
 				case CharacterData.NO_WEAPON:
-					weponType = "Fists";
+					weaponType = "Fists";
 					break;
 				case CharacterData.MELEE_WEAPON:
-					weponType = "Melle";
+					weaponType = "Melle";
 					break;
 				case CharacterData.RANGED_WEAPON:
-					weponType = "Ranged";
+					weaponType = "Ranged";
 					break;
 				case CharacterData.MAGIC_WEAPON:
-					weponType = "Magic";
+					weaponType = "Magic";
 					break;
 				default:
-					weponType = "Im not gonna ask";
+					weaponType = "Im not gonna ask";
 					break;
 			}
 
-			bm.drawString("Weapon Type " + weponType, xStart, yStart + 64, 0xffffff);
+			bm.drawString("Weapon Type " + weaponType, xStart, yStart + 64, 0xffffff);
 			if (player.getSpellDuration() != 0) {
 				bm.drawString("Spell Duration " + player.getSpellDuration(), xStart, yStart + 80, 0xffffff);
 			}
