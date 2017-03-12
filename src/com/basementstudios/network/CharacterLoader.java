@@ -1,5 +1,6 @@
 package com.basementstudios.network;
 
+import com.basementstudios.tag.util.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -13,7 +14,6 @@ import java.util.Map;
 import static com.basementstudios.network.CharacterData.*;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.util.Logger;
 
 /**
  * Retrieves CharacterData for each character created, server-side.
@@ -56,7 +56,7 @@ public class CharacterLoader {
 				for (Object charaObject : charaArray) {
 					JSONObject chara = (JSONObject) charaObject;
 
-					characterData = new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth")));
+					characterData = new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth")), Integer.parseInt((String) chara.get("Type")));
 					addStat();
 					addItems();
 					calculateBattleStats();

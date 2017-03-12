@@ -5,7 +5,8 @@ import com.basementstudios.tag.Game;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.ui.*;
+import com.basementstudios.tag.ui.Action;
+import com.basementstudios.tag.ui.ActionInterface;
 
 /**
  * State to load a character.
@@ -49,7 +50,8 @@ public class CharacterSelectionScreen extends Screen {
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 
-		Bitmap sprite = ResourceManager.i.playerSpriteSheet.getSprites()[0][0];
+
+		Bitmap sprite = ResourceManager.i.knightSpriteSheet.getSprites()[0][0];
 
 		int i = 0;
 		for (; i < newCharacters.length; i++) {

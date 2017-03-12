@@ -1,15 +1,19 @@
 package com.basementstudios.tag.screen;
 
-import java.io.IOException;
-import java.util.*;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-
-import com.basementstudios.network.*;
+import com.basementstudios.network.InvalidTokenException;
+import com.basementstudios.network.PostRequest;
+import com.basementstudios.network.Token;
 import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.mob.Player;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EndScreen extends Screen {
 	private boolean win;
@@ -47,7 +51,7 @@ public class EndScreen extends Screen {
 
 			bm.drawStringShadowed("and 200 gold", xo, yo + 10 * i, 0xff);
 		} else {
-			bm.drawStringShadowed("Comisration :(", xo, yo, 0xff);
+			bm.drawStringShadowed("Commiseration :(", xo, yo, 0xff);
 			bm.drawStringShadowed("You have Lost :'(", xo, yo + 20, 0xff);
 		}
 	}
@@ -78,8 +82,8 @@ public class EndScreen extends Screen {
 				charaData = poster.send("http://tag.yarbsemaj.com/api/chara/addXP.php", arguments1);
 				// System.out.println(charaData);
 				if ((boolean) charaData.get("success")) {
-					String newXP = String.valueOf((Long) charaData.get("newXP"));
-					String levelsGained = String.valueOf((Long) charaData.get("levelChange"));
+					String newXP = String.valueOf(charaData.get("newXP"));
+					String levelsGained = String.valueOf(charaData.get("levelChange"));
 					winData.add(player.getCharacterData().getName() + ":XP " + newXP + "(" + XP + ")" + levelsGained + " new levels");
 				}
 			}

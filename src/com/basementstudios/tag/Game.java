@@ -1,13 +1,15 @@
 package com.basementstudios.tag;
 
 import com.basementstudios.network.CharacterLoader;
-import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.screen.*;
+import com.basementstudios.tag.screen.LoadingScreen;
+import com.basementstudios.tag.screen.TitleScreen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 
 /**
  * Entry-point for the main application.
@@ -16,20 +18,16 @@ import java.awt.image.*;
  */
 
 public class Game extends Canvas implements Runnable {
-	private static final long serialVersionUID = 1L;
-
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
 	public static final String TITLE = "The Adventurers' Guild";
 	public static final String VERSION = "Prototype 2";
-
 	public static final int HUD_WIDTH = WIDTH;
 	public static final int HUD_HEIGHT = 150;
 	public static final int VIEWPORT_WIDTH = WIDTH;
 	public static final int VIEWPORT_HEIGHT = HEIGHT - HUD_HEIGHT;
-
 	public static final String URL = "theadventurersguild.co.uk";
-
+	private static final long serialVersionUID = 1L;
 	private boolean stop = false;
 	private boolean fpsLock = true;
 	private String fpsString = "";
@@ -103,17 +101,17 @@ public class Game extends Canvas implements Runnable {
 		Thread t = new Thread(() -> {
 			Characters.setAvailable(new CharacterLoader().getCharacters());
 		});
-
+		t.start();
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
 			public void run() {
 				// JIO.load("doc/chara.ser");
 				ResourceManager.i.loadAll();
 			}
 		});
-		t.start();
 
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
+
 
 //		AudioPlayer.play(ResourceManager.i.soundtrackSound);
 	}

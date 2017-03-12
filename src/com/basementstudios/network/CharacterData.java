@@ -11,26 +11,29 @@ import java.util.List;
  */
 
 public class CharacterData implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	public static final int NO_WEAPON = -1;
 	public static final int MAGIC_WEAPON = 1;
 	public static final int RANGED_WEAPON = 2;
 	public static final int MELEE_WEAPON = 3;
-
+	public static final int ROGUE_TYPE = 0;
+	public static final int MAGE_TYPE = 1;
+	public static final int NECRO_TYPE = 2;
+	public static final int KNIGHT_TYPE = 3;
+	private static final long serialVersionUID = 1L;
 	private final int id;
 
 	private int currentHealth, maxHealth;
 	private String name;
-	private int dmg, def, spd, spellDuration, weaponType;
+	private int dmg, def, spd, spellDuration, weaponType, type;
 	private List<Stat> stats = new ArrayList<Stat>();
 	private List<Item> items = new ArrayList<Item>();
 
-	public CharacterData(int id, String name, int currentHealth, int maxHealth) {
+	public CharacterData(int id, String name, int currentHealth, int maxHealth, int type) {
 		this.id = id;
 		this.name = name;
 		this.currentHealth = currentHealth;
 		this.maxHealth = maxHealth;
+		this.type = type;
 		dmg = 0;
 		def = 0;
 		spd = 0;
@@ -48,10 +51,6 @@ public class CharacterData implements Serializable {
 
 	public int getID() {
 		return id;
-	}
-
-	public void setCurrentHealth(int currentHealth) {
-		this.currentHealth = currentHealth;
 	}
 
 	public int getMaxHealth() {
@@ -114,6 +113,10 @@ public class CharacterData implements Serializable {
 		return currentHealth;
 	}
 
+	public void setCurrentHealth(int currentHealth) {
+		this.currentHealth = currentHealth;
+	}
+
 	public int getDef() {
 		return def;
 	}
@@ -128,6 +131,10 @@ public class CharacterData implements Serializable {
 
 	public int getDmg() {
 		return dmg;
+	}
+
+	public int getType() {
+		return type;
 	}
 
 	public String toString() {

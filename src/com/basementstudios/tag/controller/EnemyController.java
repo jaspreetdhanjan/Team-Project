@@ -1,10 +1,12 @@
 package com.basementstudios.tag.controller;
 
-import java.util.*;
-
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Enemy;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Controls the 3 enemies.
@@ -42,7 +44,7 @@ public class EnemyController extends Controller<Enemy> {
 	private CharacterData[] generateData() {
 		CharacterData[] result = new CharacterData[3];
 		for (int i = 0; i < 3; i++) {
-			result[i] = new CharacterData(i + 3, getRandomName(), 100, 100);
+			result[i] = new CharacterData(i + 3, getRandomName(), 100, 100, random.nextInt(3));
 		}
 
 		return result;

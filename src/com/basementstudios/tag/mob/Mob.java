@@ -1,10 +1,10 @@
 package com.basementstudios.tag.mob;
 
 import com.basementstudios.network.CharacterData;
-
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.particle.TextParticle;
+import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * A moving and dynamic character within the game.
@@ -128,5 +128,19 @@ public class Mob extends Entity {
 
 	public final CharacterData getCharacterData() {
 		return characterData;
+	}
+
+	public SpriteSheet getSpriteSheet() {
+		switch (getCharacterData().getType()) {
+			case CharacterData.ROGUE_TYPE:
+				return ResourceManager.i.rogueSpriteSheet;
+			case CharacterData.MAGE_TYPE:
+				return ResourceManager.i.mageSpriteSheet;
+			case CharacterData.NECRO_TYPE:
+				return ResourceManager.i.necromancerSpriteSheet;
+			case CharacterData.KNIGHT_TYPE:
+				return ResourceManager.i.knightSpriteSheet;
+		}
+		return ResourceManager.i.rogueSpriteSheet;
 	}
 }

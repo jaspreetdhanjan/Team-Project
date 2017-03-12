@@ -1,9 +1,7 @@
 package com.basementstudios.tag.mob;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.ResourceManager;
-import com.basementstudios.tag.graphics.*;
-import com.basementstudios.tag.resource.SpriteSheet;
+import com.basementstudios.tag.graphics.Bitmap;
 
 /**
  * The enemy representation within the game.
@@ -47,7 +45,4 @@ public class Enemy extends Mob {
 		super.render(bm);
 	}
 
-	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.enemySpriteSheet;
-	}
 }
