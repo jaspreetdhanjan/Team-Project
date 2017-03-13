@@ -1,10 +1,10 @@
 package com.basementstudios.network;
 
-import java.io.*;
-import java.util.HashMap;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
+import java.io.*;
+import java.util.HashMap;
 
 /**
  * A login token.
@@ -65,7 +65,9 @@ public class Token {
 	public void add(String token) {
 		FileWriter tokenFile;
 		try {
-			tokenFile = new FileWriter("doc/token.txt");
+			File file = new File("doc/token.txt");
+			file.getParentFile().mkdirs();
+			tokenFile = new FileWriter(file);
 			BufferedWriter bufferedWriter = new BufferedWriter(tokenFile);
 			bufferedWriter.write(token);
 			bufferedWriter.close();

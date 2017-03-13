@@ -1,18 +1,17 @@
 package com.basementstudios.client;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
-
-import javax.swing.*;
-
-import org.json.simple.JSONObject;
-
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.CharacterRetriever;
 import com.basementstudios.network.InvalidTokenException;
 import com.basementstudios.network.Token;
 import com.basementstudios.tag.Game;
+import org.json.simple.JSONObject;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * A login authenticator for the game.
@@ -114,7 +113,9 @@ public class LoginLauncher {
 					new Token((String) loginData.get("token"));
 					List<CharacterData> characterData = new CharacterRetriever().getCharacters();
 					if (characterData.size() > 3){
+						frame.dispose();
 						new Game();
+
 					}	
 					else{
 						try {
