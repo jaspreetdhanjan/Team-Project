@@ -21,7 +21,7 @@ public class ResourceManager {
 	public final SpriteSheet entitiesSpriteSheet = new SpriteSheet(this, "entities.png", 32, 32);
 	public final SpriteSheet knightSpriteSheet = new SpriteSheet(this, "knight.png", 128, 128);
 	public final SpriteSheet mageSpriteSheet = new SpriteSheet(this, "mage.png", 128, 128);
-	public final SpriteSheet necromancerSpriteSheet = new SpriteSheet(this, "necromancer.png", 128, 128);
+	public final SpriteSheet necromancerSpriteSheet = new SpriteSheet(this, "necro.png", 128, 128);
 	public final SpriteSheet rogueSpriteSheet = new SpriteSheet(this, "rogue.png", 128, 128);
 	public final LevelData testLevelData = new LevelData(this, "Test Level", "testLevel.png");
 	public final Audio selectionSound = new Audio(this, "select.wav", false);

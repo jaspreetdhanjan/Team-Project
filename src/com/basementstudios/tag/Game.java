@@ -101,13 +101,15 @@ public class Game extends Canvas implements Runnable {
 		Thread t = new Thread(() -> {
 			Characters.setAvailable(new CharacterLoader().getCharacters());
 		});
-		t.start();
+
 		LoadingScreen loadingScreen = new LoadingScreen(new TitleScreen(), new Runnable() {
 			public void run() {
 				// JIO.load("doc/chara.ser");
 				ResourceManager.i.loadAll();
 			}
 		});
+
+		t.start();
 
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
