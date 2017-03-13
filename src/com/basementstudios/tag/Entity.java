@@ -34,9 +34,7 @@ public abstract class Entity {
 		return getSpriteSheet().getSprites()[xSpriteIndex][ySpriteIndex];
 	}
 
-	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.entitiesSpriteSheet;
-	}
+	public abstract SpriteSheet getSpriteSheet();
 
 	public void onRemoved() {
 	}

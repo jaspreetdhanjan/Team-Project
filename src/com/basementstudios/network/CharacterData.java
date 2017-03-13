@@ -19,16 +19,18 @@ public class CharacterData implements Serializable {
 	public static final int MELEE_WEAPON = 3;
 
 	private final int id;
+	private final String name;
+	private final int type;
 
 	private int currentHealth, maxHealth;
-	private String name;
 	private int dmg, def, spd, spellDuration, weaponType;
 	private List<Stat> stats = new ArrayList<Stat>();
 	private List<Item> items = new ArrayList<Item>();
 
-	public CharacterData(int id, String name, int currentHealth, int maxHealth) {
+	public CharacterData(int id, String name, int type, int currentHealth, int maxHealth) {
 		this.id = id;
 		this.name = name;
+		this.type = type;
 		this.currentHealth = currentHealth;
 		this.maxHealth = maxHealth;
 		dmg = 0;
@@ -64,10 +66,6 @@ public class CharacterData implements Serializable {
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<Stat> getStats() {
@@ -137,5 +135,9 @@ public class CharacterData implements Serializable {
 	public void reduceHealth(int dmg) {
 		if (dmg < 0) dmg = 0;
 		currentHealth -= dmg;
+	}
+
+	public int getType() {
+		return type;
 	}
 }

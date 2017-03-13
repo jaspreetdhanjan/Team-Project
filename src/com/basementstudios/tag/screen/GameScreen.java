@@ -56,6 +56,14 @@ public class GameScreen extends Screen {
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 		bm.render(hudBitmap, 0, 0, 0xffffff);
+
+		for (int i = 0; i < level.getEnemy().getMobs().length; i++) {
+			Mob m = level.getEnemy().getMobs()[i];
+			String msg = "Villain: " + m.getCharacterData().getName();
+
+			bm.drawString(msg, 500, 20 + i * 50, 0);
+		}
+
 		/*		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK || gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
 					Mob player = gameController.getPlayerController().getSelectedMob();
 					Mob enemy = gameController.getEnemyController().getAttackMob();

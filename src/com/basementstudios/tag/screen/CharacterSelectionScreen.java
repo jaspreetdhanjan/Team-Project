@@ -49,7 +49,8 @@ public class CharacterSelectionScreen extends Screen {
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 
-		Bitmap sprite = ResourceManager.i.playerSpriteSheet.getSprites()[0][0];
+//		Bitmap sprite = ResourceManager.i.playerSpriteSheet.getSprites()[0][0];
+		Bitmap sprite = null;
 
 		int i = 0;
 		for (; i < newCharacters.length; i++) {

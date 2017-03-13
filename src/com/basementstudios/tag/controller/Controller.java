@@ -24,11 +24,13 @@ public abstract class Controller<T extends Mob> {
 	protected T selected = null;
 	protected T lastSelected = null;
 
+	private Mob[] mobs;
+
 	public Controller(Level level) {
 		this.level = level;
 	}
 
-	public void select(int selectionIndex) {
+	public final void select(int selectionIndex) {
 		lastSelected = selected;
 
 		if (selectionIndex == NO_MOB) selected = null;
@@ -41,16 +43,8 @@ public abstract class Controller<T extends Mob> {
 		}
 	}
 
-	private void onSelected() {
-		double[] battlePos = getBattlePos();
-		
-		if(lastSelected!=null) {
-			lastSelected.moveTo(selected.getX(), selected.getY());
-		}
-		selected.moveTo(battlePos[0], battlePos[1]);
+	protected void onSelected() {
 	}
-
-	protected abstract double[] getBattlePos();
 
 	public void renderSelected(Bitmap bm) {
 		if (selected == null) return;
@@ -61,20 +55,46 @@ public abstract class Controller<T extends Mob> {
 		bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
 	}
 
-	//
-	// public boolean attemptMove(double xa, double ya) {
-	// if (selected == null) return false;
-	//
-	// selected.setDelta(xa, ya);
-	// selected.attemptMove();
-	// return true;
-	// }
-	//
+	/*
+	 * steps of attack
+	 * 
+	 * 1. Get speed value. Lower the speed, the less the players go
+	 * 2. The player with the fastest speed goes first
+	 * 
+	 * 3. Let the player select the character
+	 * 4. Turn time++
+	 * 
+	 * Magic does damage over time. spellDuration is the time variable
+	 * Debuff damage is recovery
+	 *  
+	 *  Run James' old Mob damage methods
+	 *  
+	 *  No need to change weapons, characters are initialised with weapons
+	 *  
+	 * 5. if(attacking character) if he has 5 defence, 10 attack on other character
+	 * 
+	 * 
+	 *  
+	 */
+	
+	public <S extends Mob> void attack(Controller<S> enemyController) {
+	}
+
 	public T getSelected() {
 		return selected;
 	}
 
 	public T getLastSelected() {
 		return lastSelected;
+	}
+
+	public Mob[] getMobs() {
+		if (mobs == null) {
+			mobs = new Mob[3];
+			mobs[0] = p0;
+			mobs[1] = p1;
+			mobs[2] = p2;
+		}
+		return mobs;
 	}
 }

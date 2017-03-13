@@ -18,8 +18,10 @@ public class ResourceManager {
 
 	public final SpriteSheet particlesSpriteSheet = new SpriteSheet(this, "particles.png", 8, 8);
 	public final SpriteSheet entitiesSpriteSheet = new SpriteSheet(this, "entities.png", 32, 32);
-	public final SpriteSheet playerSpriteSheet = new SpriteSheet(this, "player.png", 128, 128);
-	public final SpriteSheet enemySpriteSheet = new SpriteSheet(this, "enemy.png", 128, 128);
+	public final SpriteSheet type0SpriteSheet = new SpriteSheet(this, "character_type0.png", 128, 128);
+	public final SpriteSheet type1SpriteSheet = new SpriteSheet(this, "character_type1.png", 128, 128);
+	public final SpriteSheet type2SpriteSheet = new SpriteSheet(this, "character_type2.png", 128, 128);
+	public final SpriteSheet type3SpriteSheet = new SpriteSheet(this, "character_type3.png", 128, 128);
 
 	public final LevelData testLevelData = new LevelData(this, "Test Level", "testLevel.png");
 

@@ -5,6 +5,7 @@ import java.util.*;
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Enemy;
+import com.basementstudios.tag.mob.Player;
 
 /**
  * Controls the 3 enemies.
@@ -14,57 +15,45 @@ import com.basementstudios.tag.mob.Enemy;
  */
 
 public class EnemyController extends Controller<Enemy> {
+	private static final double[] POS_FRON_CEN = new double[] { 600, 135 * 3.0 / 2.0 };
+	private static final double[] POS_BACK_TOP = new double[] { 650, 135 };
+	private static final double[] POS_BACK_BOT = new double[] { 650, 270 };
+
 	private static final String[] names = { "James", "Nick", "Hugh Osborne", "Mamadu", "Heston", "Jaspreet", "Sean", "Ben" };
 
 	private int difficulty;
-	private Enemy e0, e1, e2;
-	private double[] battlePos = new double[2];
 
 	private Random random = new Random();
-	private List<String> usedNames = new ArrayList<String>();
 
-	public EnemyController(Level level, double x, double y, int difficulty) {
+	public EnemyController(Level level, int difficulty) {
 		super(level);
 		this.difficulty = difficulty;
-		battlePos[0] = x - 128;
-		battlePos[1] = y + 135*3.0/2.0;
 
 		CharacterData[] characterData = generateData();
-		e0 = new Enemy(battlePos[0], battlePos[1], characterData[0]);
-		e1 = new Enemy(x, y + 135 * 1, characterData[1]);
-		e2 = new Enemy(x, y + 135 * 2, characterData[2]);
+		p0 = new Enemy(POS_FRON_CEN[0], POS_FRON_CEN[1], characterData[MOB_1]);
+		p1 = new Enemy(POS_BACK_TOP[0], POS_BACK_TOP[1], characterData[MOB_2]);
+		p2 = new Enemy(POS_BACK_BOT[0], POS_BACK_BOT[1], characterData[MOB_3]);
 
-		level.add(e0);
-		level.add(e1);
-		level.add(e2);
+		level.add(p0);
+		level.add(p1);
+		level.add(p2);
 	}
 
 	private CharacterData[] generateData() {
 		CharacterData[] result = new CharacterData[3];
-		for (int i = 0; i < 3; i++) {
-			result[i] = new CharacterData(i + 3, getRandomName(), 100, 100);
+		for (int i = 0; i < result.length; i++) {
+			result[i] = new CharacterData(-1, getRandomName(), random.nextInt(4), 100, 100);
 		}
 
 		return result;
 	}
 
 	private String getRandomName() {
-		/*		int index = 0;
-				String name = "";
-				do {
-					index = random.nextInt(names.length);
-					name = names[index];
-				} while (!usedNames.contains(usedNames));
-		
-				usedNames.add(name);*/
-		return names[random.nextInt(names.length)];
+		String name = names[random.nextInt(names.length)];
+		return name;
 	}
 
 	public int getDifficulty() {
 		return difficulty;
-	}
-
-	protected double[] getBattlePos() {
-		return battlePos;
 	}
 }

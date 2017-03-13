@@ -56,7 +56,7 @@ public class CharacterLoader {
 				for (Object charaObject : charaArray) {
 					JSONObject chara = (JSONObject) charaObject;
 
-					characterData = new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth")));
+					characterData = new CharacterData(Integer.parseInt((String) chara.get("CharacterID")), (String) chara.get("Name"), Integer.parseInt((String) chara.get("Type")), Integer.parseInt((String) chara.get("CurrentHealth")), Integer.parseInt((String) chara.get("MaxHealth")));
 					addStat();
 					addItems();
 					calculateBattleStats();

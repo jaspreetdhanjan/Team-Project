@@ -59,6 +59,7 @@ public class EndScreen extends Screen {
 	public void getWinData(List<Player> mobs, int XP, int gold) {
 		try {
 			Token token = new Token();
+
 			Map<String, String> arguments = new HashMap<String, String>();
 			arguments.put("Token", token.getToken());
 			arguments.put("Amount", String.valueOf(gold));

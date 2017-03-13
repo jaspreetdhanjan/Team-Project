@@ -2,6 +2,7 @@ package com.basementstudios.tag.particle;
 
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * Creates an explosion effect within the game with use of other particles.
@@ -50,5 +51,9 @@ public class Explosion extends Entity {
 	}
 
 	public void render(Bitmap bm) {
+	}
+
+	public SpriteSheet getSpriteSheet() {
+		return null;
 	}
 }

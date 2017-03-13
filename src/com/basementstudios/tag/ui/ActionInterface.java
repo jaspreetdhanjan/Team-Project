@@ -78,4 +78,9 @@ public class ActionInterface<S, T extends Action> extends Interface {
 	public S getSelected() {
 		return selected;
 	}
+
+	public void replaceOption(S oldKey, S newKey) {
+		T ob = stateDirectory.remove(oldKey);
+		stateDirectory.put(newKey, ob);
+	}
 }

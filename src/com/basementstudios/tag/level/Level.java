@@ -34,8 +34,8 @@ public abstract class Level {
 	}
 
 	public void init() {
-		playerController = new PlayerController(this, 0, 30);
-		enemyController = new EnemyController(this, 650, 30, 3);
+		playerController = new PlayerController(this);
+		enemyController = new EnemyController(this, 3);
 	}
 
 	public void add(Entity e) {
@@ -51,12 +51,13 @@ public abstract class Level {
 		entities.forEach(e -> e.render(bm));
 
 		playerController.renderSelected(bm);
+		enemyController.renderSelected(bm);
 	}
 
 	public void fight() {
 		if (playerController.getSelected() == null || enemyController.getSelected() == null) return;
 		
-		
+		playerController.attack(enemyController);
 	}
 
 	public void tick() {

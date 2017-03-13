@@ -1,9 +1,7 @@
 package com.basementstudios.tag.mob;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * The player representation within the game.
@@ -49,9 +47,5 @@ public class Player extends Mob {
 		}
 
 		super.render(bm);
-	}
-
-	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.playerSpriteSheet;
 	}
 }

@@ -10,6 +10,9 @@ import com.basementstudios.tag.resource.Audio;
  */
 
 public class AudioPlayer {
+	public static int soundVolume = 100;
+	public static int musicVolume = 100;
+
 	public static void play(Audio audio) {
 		Thread t = new Thread(audio);
 		t.start();

@@ -3,8 +3,10 @@ package com.basementstudios.tag.mob;
 import com.basementstudios.network.CharacterData;
 
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.particle.TextParticle;
+import com.basementstudios.tag.resource.SpriteSheet;
 
 /**
  * A moving and dynamic character within the game.
@@ -21,7 +23,6 @@ public class Mob extends Entity {
 	protected int lastWalkDist, walkDist;
 
 	protected double xSize, ySize;
-	protected double newX, newY;
 
 	protected boolean hasGone = false;
 	protected boolean isAttacking = false;
@@ -30,6 +31,9 @@ public class Mob extends Entity {
 
 	protected int debuffDamage, debuffDuration;
 	protected Mob target = null;
+
+	protected double newX, newY;
+	protected boolean shallRandomWalk = false;
 
 	public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
 		this.x = x;
@@ -51,12 +55,21 @@ public class Mob extends Entity {
 		this.newY = newY;
 	}
 
+	public void moveForward(double walkLen) {
+		while (--walkLen > 0) {
+			xa++;
+			attemptMove();
+		}
+	}
+
 	public void tick() {
-		if (Math.abs(Math.floor(newX - x)) > 50 || Math.abs(Math.floor(newY - y)) > 50) {
-			if (x < newX) xa++;
-			if (x > newX) xa--;
-			if (y < newY) ya++;
-			if (y > newY) ya--;
+		if (shallRandomWalk) {
+			if (Math.abs(Math.floor(newX - x)) > 50 || Math.abs(Math.floor(newY - y)) > 50) {
+				if (x < newX) xa++;
+				if (x > newX) xa--;
+				if (y < newY) ya++;
+				if (y > newY) ya--;
+			}
 		}
 
 		if (xa != 0 || ya != 0) {
@@ -70,7 +83,6 @@ public class Mob extends Entity {
 		double yya = y + ya;
 
 		move(xxa, yya);
-		// move(0, yya);
 	}
 
 	private boolean move(double xxa, double yya) {
@@ -128,5 +140,13 @@ public class Mob extends Entity {
 
 	public final CharacterData getCharacterData() {
 		return characterData;
+	}
+
+	public SpriteSheet getSpriteSheet() {
+		if (characterData.getType() == 0) return ResourceManager.i.type0SpriteSheet;
+		if (characterData.getType() == 1) return ResourceManager.i.type1SpriteSheet;
+		if (characterData.getType() == 2) return ResourceManager.i.type2SpriteSheet;
+		if (characterData.getType() == 3) return ResourceManager.i.type3SpriteSheet;
+		return null;
 	}
 }

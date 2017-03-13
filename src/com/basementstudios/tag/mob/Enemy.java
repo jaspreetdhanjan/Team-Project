@@ -46,8 +46,4 @@ public class Enemy extends Mob {
 		}
 		super.render(bm);
 	}
-
-	public SpriteSheet getSpriteSheet() {
-		return ResourceManager.i.enemySpriteSheet;
-	}
 }

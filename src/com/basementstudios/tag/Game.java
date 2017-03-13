@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable {
 	public static final String URL = "theadventurersguild.co.uk";
 
 	private boolean stop = false;
-	private boolean fpsLock = true;
+	private boolean fpsLock = false;
 	private String fpsString = "";
 
 	private BufferedImage screenImg;
@@ -80,7 +80,7 @@ public class Game extends Canvas implements Runnable {
 				render = true;
 			}
 
-			if (render && fpsLock) {
+			if (render || !fpsLock) {
 				render();
 				frames++;
 			}
@@ -115,7 +115,7 @@ public class Game extends Canvas implements Runnable {
 		screenManager = new ScreenManager(new Input(this), loadingScreen);
 		requestFocus();
 
-//		AudioPlayer.play(ResourceManager.i.soundtrackSound);
+		AudioPlayer.play(ResourceManager.i.soundtrackSound);
 	}
 
 	private void tick() {
