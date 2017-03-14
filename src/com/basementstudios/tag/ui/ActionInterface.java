@@ -4,7 +4,10 @@ import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.audio.AudioPlayer;
 import com.basementstudios.tag.graphics.Bitmap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A basic interface that runs the Action class when an item is clicked
@@ -22,7 +25,7 @@ public class ActionInterface<S, T extends Action> extends Interface {
 
 	private Map<S, T> stateDirectory = new LinkedHashMap<S, T>();
 	private int selectedIndex = 0;
-	private S selected;
+    private S selection;
 
 	public ActionInterface(String title) {
 		this.title = title;
@@ -52,7 +55,8 @@ public class ActionInterface<S, T extends Action> extends Interface {
 				selected.onClick();
 			}
 		}
-	}
+        selection = nodes.get(selectedIndex);
+    }
 
 	public void render(Bitmap bm) {
 		int xScale = 2;
@@ -63,6 +67,7 @@ public class ActionInterface<S, T extends Action> extends Interface {
 		bm.setScale(1, 1);
 
 		drawSelectables(bm, selectedIndex, stateDirectory);
+
 	}
 
 	public void add(S param, T event) {
@@ -76,8 +81,8 @@ public class ActionInterface<S, T extends Action> extends Interface {
 	}
 
 	public S getSelected() {
-		return selected;
-	}
+        return selection;
+    }
 
 	public void replaceOption(S oldKey, S newKey) {
 		T ob = stateDirectory.remove(oldKey);

@@ -1,11 +1,11 @@
 package com.basementstudios.tag.screen;
 
 import com.basementstudios.network.CharacterData;
-
-import com.basementstudios.tag.*;
-import com.basementstudios.tag.controller.*;
-import com.basementstudios.tag.graphics.*;
-import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.Game;
+import com.basementstudios.tag.GameController;
+import com.basementstudios.tag.Input;
+import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.mob.Mob;
 
 /**
@@ -17,14 +17,20 @@ import com.basementstudios.tag.mob.Mob;
 public class GameScreen extends Screen {
 	private Level level;
 	private Bitmap hudBitmap;
+	private GameController gameController;
 
 	public GameScreen(Level level) {
 		this.level = level;
+		gameController = new GameController(level);
+		gameController.addEnemys(1);
+		gameController.addPlayers();
 	}
 
 	public void init() {
 		level.init();
 		hudBitmap = Bitmap.load("/level/hud.png");
+		gameController.startGame();
+		gameController.setScreenManager(screenManager);
 	}
 
 	public void tick(Input input) {
@@ -32,51 +38,32 @@ public class GameScreen extends Screen {
 			screenManager.setScreen(new PauseScreen());
 		}
 		level.tick();
-
-		PlayerController player = level.getPlayer();
-		if (input.num1.isClicked()) player.select(Controller.MOB_1);
-		if (input.num2.isClicked()) player.select(Controller.MOB_2);
-		if (input.num3.isClicked()) player.select(Controller.MOB_3);
-
-		EnemyController enemy = level.getEnemy();
-		if (input.num7.isClicked()) enemy.select(Controller.MOB_1);
-		if (input.num8.isClicked()) enemy.select(Controller.MOB_2);
-		if (input.num9.isClicked()) enemy.select(Controller.MOB_3);
-
-		if (input.space.isClicked()) {
-			level.fight();
-		}
+		gameController.tick(input);
 	}
 
 	public void renderScreen(Bitmap bm) {
 		bm.clear();
 		level.render(bm);
+		gameController.render(bm);
 	}
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 		bm.render(hudBitmap, 0, 0, 0xffffff);
 
-		for (int i = 0; i < level.getEnemy().getMobs().length; i++) {
-			Mob m = level.getEnemy().getMobs()[i];
-			String msg = "Villain: " + m.getCharacterData().getName();
+		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK || gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
+			Mob player = gameController.getPlayerController().getSelectedMob();
+			Mob enemy = gameController.getEnemyController().getAttackMob();
+			mobHud(bm, player, 12, 12);
+			mobHud(bm, enemy, 417, 12);
 
-			bm.drawString(msg, 500, 20 + i * 50, 0);
-		}
-
-		/*		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK || gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
-					Mob player = gameController.getPlayerController().getSelectedMob();
-					Mob enemy = gameController.getEnemyController().getAttackMob();
-					mobHud(bm, player, 0, 0);
-					mobHud(bm, enemy, 400, 0);
-		
-					bm.drawString("Use to W and S to select an enemy. Then press enter to atack.", 0, Game.HUD_HEIGHT - 16, 0xffffff);
+			bm.drawString("Use to W and S to select an enemy. Then press enter to attack.", 12, Game.HUD_HEIGHT - 20, 0xffffff);
 				} else {
-					bm.drawString("Please wait while the enemy takes its turn.", 0, Game.HUD_HEIGHT - 16, 0xffffff);
-				}*/
+			bm.drawString("Please wait while the enemy takes its turn.", 12, Game.HUD_HEIGHT - 20, 0xffffff);
+		}
 	}
 
-	private void mobHud(Bitmap bm, Mob player, int xStart, int yStart) {
+	public void mobHud(Bitmap bm, Mob player, int xStart, int yStart) {
 		if (player != null) {
 			bm.drawString("Name: " + player.getCharacterData().getName(), xStart, yStart, 0xffffff);
 			bm.drawString("Damage " + player.getCharacterData().getDmg(), xStart, yStart + 16, 0xffffff);

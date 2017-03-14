@@ -10,20 +10,47 @@ import com.basementstudios.tag.graphics.Bitmap;
  */
 
 public class Player extends Mob {
-	private int shootTime = 0;
 
-	public Player(double x, double y, CharacterData characterData) {
-		super(x, y, 128, 128, characterData);
+	public Player(double x, double y, double xSize, double ySize, CharacterData characterData) {
+		super(x, y, xSize, ySize, characterData);
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
-	}
 
+	}
 	public void tick() {
 		super.tick();
-		
-		if (shootTime > 0) {
-			shootTime--;
+	}
+
+	public void movePlayer() {
+		switch (attackState) {
+			case Mob.FORWARD_ATTACK:
+				xa = 2;
+				if (x - xStart == maxAttackFrame) {
+					attackState = Mob.ANIMATION_ATTACK;
+				}
+				break;
+			case Mob.ANIMATION_ATTACK:
+				xa = 0;
+				System.out.println(animationFrame);
+				if (animationFrame == 4) {
+					animationFrame--;
+					attackState = RETRACT_ATTACK;
+					getTarge().hit(characterData.getDmg());
+					getTarge().spellCast(characterData.getDmg(), characterData.getSpellDuration());
+				}
+				if (turn % 20 == 0) {
+					animationFrame++;
+				}
+				break;
+			case Mob.RETRACT_ATTACK:
+				xa = -2;
+				if (x - xStart == 0) {
+					attackState = Mob.NO_ATTACK;
+					xa = 0;
+				}
+				break;
 		}
+		attemptMove();
 	}
 
 	public void render(Bitmap bm) {
@@ -35,17 +62,18 @@ public class Player extends Mob {
 			ySpriteIndex = 1;
 
 			if (isMoving()) {
-				xSpriteIndex = (walkDist / 7) % 5;
+				xSpriteIndex = (walkDist / 10) % 4;
 			}
 		} else if (xa > 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 0;
 
 			if (isMoving()) {
-				xSpriteIndex = (walkDist / 7) % 5;
+				xSpriteIndex = (walkDist / 10) % 4;
 			}
 		}
 
 		super.render(bm);
 	}
+
 }

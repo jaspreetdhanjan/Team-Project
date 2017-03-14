@@ -14,7 +14,7 @@ import java.util.Map;
 public abstract class Interface {
 	protected int xStart = 85;
 	protected int paddingFromTitle = 64;
-	protected int paddingBetweenButtons = 32;
+    protected int paddingBetweenButtons = 16;
 
 	public void tick(Input input) {
 		boolean moveUp = input.up.isClicked();

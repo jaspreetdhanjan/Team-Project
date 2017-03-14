@@ -1,18 +1,16 @@
 package com.basementstudios.client;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.List;
-
-import javax.swing.*;
-
-import org.json.simple.JSONObject;
-
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.CharacterLoader;
-import com.basementstudios.network.InvalidTokenException;
 import com.basementstudios.network.Token;
 import com.basementstudios.tag.Game;
+import org.json.simple.JSONObject;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 /**
  * A login authenticator for the game.
@@ -120,8 +118,8 @@ public class LoginLauncher {
 						JOptionPane.showMessageDialog(null, "You need at least 3 characters on your account in order to play", "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Login Falied", "Error", JOptionPane.ERROR_MESSAGE);
-				}
+                    JOptionPane.showMessageDialog(null, "Login Failed", "Error", JOptionPane.ERROR_MESSAGE);
+                }
 			}
 		});
 	}

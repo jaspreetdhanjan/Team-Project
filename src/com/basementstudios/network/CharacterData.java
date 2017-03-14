@@ -11,20 +11,28 @@ import java.util.List;
  */
 
 public class CharacterData implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	public static final int NO_WEAPON = -1;
 	public static final int MAGIC_WEAPON = 1;
 	public static final int RANGED_WEAPON = 2;
 	public static final int MELEE_WEAPON = 3;
-
-	private final int id;
+    public static final int ROGUE_TYPE = 0;
+    public static final int MAGE_TYPE = 1;
+    public static final int NECRO_TYPE = 2;
+    public static final int KNIGHT_TYPE = 3;
+    private static final long serialVersionUID = 1L;
+    private final int id;
 	private final String name;
+
 	private final int type;
 
 	private int currentHealth, maxHealth;
-	private int dmg, def, spd, spellDuration, weaponType;
-	private List<Stat> stats = new ArrayList<Stat>();
+    private int dmg;
+    private int def;
+    private int spd;
+    private int spellDuration;
+
+    private int weaponType;
+    private List<Stat> stats = new ArrayList<Stat>();
 	private List<Item> items = new ArrayList<Item>();
 
 	public CharacterData(int id, String name, int type, int currentHealth, int maxHealth) {
@@ -50,10 +58,6 @@ public class CharacterData implements Serializable {
 
 	public int getID() {
 		return id;
-	}
-
-	public void setCurrentHealth(int currentHealth) {
-		this.currentHealth = currentHealth;
 	}
 
 	public int getMaxHealth() {
@@ -112,21 +116,41 @@ public class CharacterData implements Serializable {
 		return currentHealth;
 	}
 
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
 	public int getDef() {
 		return def;
 	}
+
+    public void setDef(int def) {
+        this.def = def;
+    }
 
 	public int getSpd() {
 		return spd;
 	}
 
+    public void setSpd(int spd) {
+        this.spd = spd;
+    }
+
 	public int getSpellDuration() {
 		return spellDuration;
 	}
 
+    public void setSpellDuration(int spellDuration) {
+        this.spellDuration = spellDuration;
+    }
+
 	public int getDmg() {
 		return dmg;
 	}
+
+    public void setDmg(int dmg) {
+        this.dmg = dmg;
+    }
 
 	public String toString() {
 		return name;

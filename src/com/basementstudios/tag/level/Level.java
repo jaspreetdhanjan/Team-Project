@@ -1,11 +1,11 @@
 package com.basementstudios.tag.level;
 
-import java.util.*;
-
 import com.basementstudios.tag.Entity;
-import com.basementstudios.tag.controller.*;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.resource.LevelData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Tracks the entities within a level, also produces the level environment.
@@ -20,8 +20,6 @@ public abstract class Level {
 	private List<Entity> toAdd = new ArrayList<Entity>();
 	private List<Entity> toRemove = new ArrayList<Entity>();
 
-	private PlayerController playerController;
-	private EnemyController enemyController;
 
 	/**
 	 * Constructs a new level.
@@ -34,9 +32,8 @@ public abstract class Level {
 	}
 
 	public void init() {
-		playerController = new PlayerController(this);
-		enemyController = new EnemyController(this, 3);
-	}
+
+    }
 
 	public void add(Entity e) {
 		toAdd.add(e);
@@ -49,16 +46,8 @@ public abstract class Level {
 	public void render(Bitmap bm) {
 		bm.render(levelData.getLevelImage(), 0, 0, 0xffffff);
 		entities.forEach(e -> e.render(bm));
-
-		playerController.renderSelected(bm);
-		enemyController.renderSelected(bm);
 	}
 
-	public void fight() {
-		if (playerController.getSelected() == null || enemyController.getSelected() == null) return;
-		
-		playerController.attack(enemyController);
-	}
 
 	public void tick() {
 		for (Entity e : entities) {
@@ -94,11 +83,4 @@ public abstract class Level {
 		return levelData.getLevelName();
 	}
 
-	public PlayerController getPlayer() {
-		return playerController;
-	}
-
-	public EnemyController getEnemy() {
-		return enemyController;
-	}
 }

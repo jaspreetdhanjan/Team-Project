@@ -1,7 +1,6 @@
 package com.basementstudios.tag.mob;
 
 import com.basementstudios.network.CharacterData;
-
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
@@ -15,138 +14,197 @@ import com.basementstudios.tag.resource.SpriteSheet;
  */
 
 public class Mob extends Entity {
-	private final CharacterData characterData;
+    public static final int NO_ATTACK = 0;
+    public static final int FORWARD_ATTACK = 1;
+    public static final int ANIMATION_ATTACK = 2;
+    public static final int RETRACT_ATTACK = 3;
+    protected final CharacterData characterData;
+    public boolean hasGone = false;
 
-	protected double x, y;
-	protected double xa, ya;
+    public int attackState = 0;
+    protected double x, y;
+    protected double xa, ya;
+    protected int lastWalkDist, walkDist;
+    protected double xSize, ySize;
+    protected int maxAttackFrame, animationFrame;
 
-	protected int lastWalkDist, walkDist;
+    protected int debuffDamage, debuffDuration;
+    protected Mob target = null;
 
-	protected double xSize, ySize;
+    protected double newX, newY;
 
-	protected boolean hasGone = false;
-	protected boolean isAttacking = false;
-	protected boolean isRetracting = false;
-	protected int maxAttackFrame;
+    protected double xStart, yStart;
 
-	protected int debuffDamage, debuffDuration;
-	protected Mob target = null;
+    protected float scale;
 
-	protected double newX, newY;
-	protected boolean shallRandomWalk = false;
 
-	public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
-		this.x = x;
-		this.y = y;
-		this.xSize = xSize;
-		this.ySize = ySize;
-		this.characterData = characterData;
-		newX = x;
-		newY = y;
-	}
+    public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
+        this.x = x;
+        this.y = y;
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.characterData = characterData;
+        newX = x;
+        newY = y;
 
-	public void setDelta(double xa, double ya) {
-		this.xa = xa;
-		this.ya = ya;
-	}
+        xStart = x;
+        yStart = y;
+        scale = (float) 50 / (float) characterData.getCurrentHealth();
+    }
 
-	public void moveTo(double newX, double newY) {
-		this.newX = newX;
-		this.newY = newY;
-	}
+    public static int getOffset(int weaponType, int type) {
+        if (type == CharacterData.NECRO_TYPE)
+            return 2;
+        else {
+            switch (weaponType) {
+                case CharacterData.NO_WEAPON:
+                    return 4;
+                case CharacterData.MAGIC_WEAPON:
+                    return 8;
+                case CharacterData.RANGED_WEAPON:
+                    return 6;
+                case CharacterData.MELEE_WEAPON:
+                    return 2;
+            }
+        }
+        return 0;
+    }
 
-	public void moveForward(double walkLen) {
-		while (--walkLen > 0) {
-			xa++;
-			attemptMove();
-		}
-	}
+    public static SpriteSheet getSpriteSheet(int type) {
+        switch (type) {
+            case CharacterData.KNIGHT_TYPE:
+                return ResourceManager.i.knightSpriteSheet;
+            case CharacterData.MAGE_TYPE:
+                return ResourceManager.i.mageSpriteSheet;
+            case CharacterData.NECRO_TYPE:
+                return ResourceManager.i.necromancerSpriteSheet;
+            case CharacterData.ROGUE_TYPE:
+                return ResourceManager.i.rougueSpriteSheet;
+        }
+        return null;
+    }
 
-	public void tick() {
-		if (shallRandomWalk) {
-			if (Math.abs(Math.floor(newX - x)) > 50 || Math.abs(Math.floor(newY - y)) > 50) {
-				if (x < newX) xa++;
-				if (x > newX) xa--;
-				if (y < newY) ya++;
-				if (y > newY) ya--;
-			}
-		}
+    public void attemptMove() {
+        double xxa = x + xa;
+        double yya = y + ya;
 
-		if (xa != 0 || ya != 0) {
-			attemptMove();
-		}
+        move(xxa, yya);
+    }
 
-	}
+    private boolean move(double xxa, double yya) {
+        if (isRemoved()) return false;
 
-	public void attemptMove() {
-		double xxa = x + xa;
-		double yya = y + ya;
+        lastWalkDist = walkDist;
+        walkDist++;
+        x = xxa;
+        y = yya;
+        return true;
+    }
 
-		move(xxa, yya);
-	}
+    public boolean isMoving() {
+        return walkDist != lastWalkDist;
+    }
 
-	private boolean move(double xxa, double yya) {
-		if (isRemoved()) return false;
+    public void render(Bitmap bm) {
+        int xp = (int) x;
+        int yp = (int) y;
+        if (attackState == ANIMATION_ATTACK) {
+            bm.render(getSpriteSheet().getSprites()[animationFrame][getOffset() + ySpriteIndex], xp, yp, colour);
+        } else {
+            bm.render(getBitmap(), xp, yp, colour);
+        }
 
-		lastWalkDist = walkDist;
-		walkDist++;
-		x = xxa;
-		y = yya;
-		return true;
-	}
+        // Draw the health bar
+        bm.drawString(characterData.getName(), xp + (getSpriteSheet().getSpriteWidth() - bm.getCharWidth(characterData.getName())) / 2, yp - 22, 0xffffff);
+        bm.fill(xp + 40, yp - 4, xp + 32 + (50), yp, 0xff0000);
+        bm.fill(xp + 40, yp - 4, Math.round(xp + 32 + (characterData.getCurrentHealth() * scale)), yp, 0xff00);
+    }
 
-	protected void collide(Entity cause, double xxa, double yya) {
-		xa = 0;
-		ya = 0;
-	}
+    @Override
+    public SpriteSheet getSpriteSheet() {
+        return getSpriteSheet(characterData.getType());
+    }
 
-	public boolean isMoving() {
-		return walkDist != lastWalkDist;
-	}
+    public void startAttack(int maxAttackFrame, Mob enemy) {
+        attackState = FORWARD_ATTACK;
+        this.maxAttackFrame = maxAttackFrame;
+        animationFrame = 0;
+        target = enemy;
+    }
 
-	public void render(Bitmap bm) {
-		int xp = (int) x;
-		int yp = (int) y;
-		bm.render(getBitmap(), xp, yp, colour);
+    public void spellCast(int spellDamage, int speelDamageDuration) {
+        this.debuffDamage = spellDamage;
+        this.debuffDuration = speelDamageDuration;
+    }
 
-		// Draw the health bar
-		bm.fill(xp + 40, yp - 4, xp + 32 + (characterData.getMaxHealth() / 2), yp, 0xff0000);
-		bm.fill(xp + 40, yp - 4, xp + 32 + (characterData.getCurrentHealth() / 2), yp, 0xff00);
-	}
+    public void turnTick() {
+        spellHurt();
+    }
 
-	public void onDied() {
-		remove();
-	}
+    public void spellHurt() {
+        int colour = 0x0f5b00;
 
-	public Mob getTarget() {
-		return target;
-	}
+        if (debuffDuration > 0) {
+            int xp = (int) x;
+            int yp = (int) y;
+            characterData.setCurrentHealth(characterData.getCurrentHealth() - debuffDamage);
+            level.add(new TextParticle("-" + debuffDamage, xp, yp, 2, colour));
+            debuffDuration--;
+        }
+    }
 
-	public int getDebuffDamage() {
-		return debuffDamage;
-	}
+    public void hurt(int dmg) {
+        int colour = 0xff0000;
+        int xp = (int) x;
+        int yp = (int) y;
+        level.add(new TextParticle("-" + dmg, xp, yp, 2, colour));
+    }
 
-	public int getDebuffDuration() {
-		return debuffDuration;
-	}
+    public void hit(int dmg) {
+        int damage = dmg - characterData.getDef();
 
-	public double getX() {
-		return x;
-	}
+        if (damage < 0) {
+            damage = 0;
+        }
+        characterData.setCurrentHealth(characterData.getCurrentHealth() - damage);
 
-	public double getY() {
-		return y;
-	}
+        hurt(damage);
+    }
 
-	public final CharacterData getCharacterData() {
-		return characterData;
-	}
+    public void movePlayer() {
 
-	public SpriteSheet getSpriteSheet() {
-		if (characterData.getType() == 0) return ResourceManager.i.type0SpriteSheet;
-		if (characterData.getType() == 1) return ResourceManager.i.type1SpriteSheet;
-		if (characterData.getType() == 2) return ResourceManager.i.type2SpriteSheet;
-		if (characterData.getType() == 3) return ResourceManager.i.type3SpriteSheet;
-		return null;
-	}
+    }
+
+    public int getOffset() {
+        return getOffset(characterData.getWeaponType(), characterData.getType());
+    }
+
+    public void onDied() {
+        remove();
+    }
+
+    public Mob getTarge() {
+        return target;
+    }
+
+    public int getDebuffDamage() {
+        return debuffDamage;
+    }
+
+    public int getDebuffDuration() {
+        return debuffDuration;
+    }
+
+    public CharacterData getCharacterData() {
+        return characterData;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
 }
