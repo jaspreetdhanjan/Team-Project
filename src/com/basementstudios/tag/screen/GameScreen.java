@@ -57,9 +57,9 @@ public class GameScreen extends Screen {
 			mobHud(bm, player, 12, 12);
 			mobHud(bm, enemy, 417, 12);
 
-			bm.drawString("Use to W and S to select an enemy. Then press enter to attack.", 12, Game.HUD_HEIGHT - 20, 0xffffff);
+			bm.drawString("Use to W and S to select an enemy. Then press enter to attack.", 12, Game.HUD_HEIGHT - 23, 0xffffff);
 				} else {
-			bm.drawString("Please wait while the enemy takes its turn.", 12, Game.HUD_HEIGHT - 20, 0xffffff);
+			bm.drawString("Please wait while the enemy takes its turn.", 12, Game.HUD_HEIGHT - 23, 0xffffff);
 		}
 	}
 
@@ -73,10 +73,10 @@ public class GameScreen extends Screen {
 			String weaponType = "error";
 			switch (player.getCharacterData().getWeaponType()) {
 				case CharacterData.NO_WEAPON:
-					weaponType = "Fists";
+					weaponType = "Paper Knife";
 					break;
 				case CharacterData.MELEE_WEAPON:
-					weaponType = "Melle";
+					weaponType = "Melee";
 					break;
 				case CharacterData.RANGED_WEAPON:
 					weaponType = "Ranged";

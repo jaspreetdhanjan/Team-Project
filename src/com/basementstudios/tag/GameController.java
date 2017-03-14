@@ -111,9 +111,9 @@ public class GameController {
         playerController.checkDead();
         enemyController.checkDead();
         if (playerController.getCharaList().size() == 0)
-            screenManager.setScreen(new EndScreen(false, null));
+            screenManager.setScreen(new EndScreen());
         else if (enemyController.getCharaList().size() == 0)
-            screenManager.setScreen(new EndScreen(true, playerController.getCharaList()));
+            screenManager.setScreen(new EndScreen(playerController.getCharaList()));
         else {
             Player player = playerController.getNext(turn, maxSpd);
             if (player != null) {

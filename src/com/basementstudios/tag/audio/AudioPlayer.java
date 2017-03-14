@@ -22,4 +22,8 @@ public class AudioPlayer {
 			e.printStackTrace();
 		}
 	}
+
+	public static void stop(Audio audio) {
+		audio.stop();
+	}
 }

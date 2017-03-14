@@ -1,11 +1,10 @@
 package com.basementstudios.tag.resource;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import com.basementstudios.tag.ResourceManager;
 
 import javax.sound.sampled.*;
-
-import com.basementstudios.tag.ResourceManager;
+import java.io.BufferedInputStream;
+import java.io.IOException;
 
 /**
  * Keeps data and plays an audio file.
@@ -47,5 +46,9 @@ public class Audio extends Resource implements Runnable {
 		clip.stop();
 		clip.setFramePosition(0);
 		clip.start();
+	}
+
+	public void stop() {
+		clip.stop();
 	}
 }

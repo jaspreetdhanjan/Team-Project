@@ -1,54 +1,80 @@
 package com.basementstudios.tag.screen;
 
-import java.io.IOException;
-import java.util.*;
-
+import com.basementstudios.network.InvalidTokenException;
+import com.basementstudios.network.PostRequest;
+import com.basementstudios.network.Token;
+import com.basementstudios.tag.Input;
+import com.basementstudios.tag.ResourceManager;
+import com.basementstudios.tag.audio.AudioPlayer;
+import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.mob.Player;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import com.basementstudios.network.*;
-import com.basementstudios.tag.Input;
-import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.mob.Player;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EndScreen extends Screen {
 	private boolean win;
 	private List<Player> mobs;
 	private List<String> winData = new ArrayList<String>();
+	private Bitmap background;
 
-	public EndScreen(boolean win, List<Player> mobs) {
-		this.win = win;
+	public EndScreen(List<Player> mobs) {
 		this.mobs = mobs;
+		win = true;
+		getWinData(mobs, 10, 200);
+		AudioPlayer.stop(ResourceManager.i.soundtrackSound);
+		AudioPlayer.play(ResourceManager.i.winSound);
+	}
 
-		if (win) {
-			getWinData(mobs, 10, 200);
-		}
+	public EndScreen() {
+		win = false;
 	}
 
 	public void tick(Input input) {
 	}
 
+	public void init() {
+		background = Bitmap.load("/level/endScreen.png");
+	}
+
 	public void renderScreen(Bitmap bm) {
 		bm.clear();
-		bm.fill(0, 0, bm.width, bm.height, 0xffffff);
-
-		int xo = 0;
-		int yo = 0;
+		bm.render(background, 0, 0, 0xffffff);
+		int xo;
+		int yo = 295;
 
 		if (win) {
-			bm.drawStringShadowed("Congratulations!!!", xo, yo, 0xff);
-			bm.drawStringShadowed("You have Won", xo, yo + 10, 0xff);
-			bm.drawStringShadowed("Reward: ", xo, yo + 30, 0xff);
+			bm.setScale(2, 2);
+
+			bm.setScale(2, 2);
+			xo = (bm.width - bm.getCharWidth("Congratulations Å")) / 2;
+
+			bm.drawString("Congratulations Å", xo, yo, 0x94ff00);
+			bm.setScale(1, 1);
+			xo = (bm.width - bm.getCharWidth("You have won!")) / 2;
+			bm.drawString("You have won!", xo, yo + 30, 0xffffff);
+
 			int i = 4;
 			for (String data : winData) {
-				bm.drawStringShadowed(data, xo, yo + 10 * i, 0xff);
+				xo = (bm.width - bm.getCharWidth(data)) / 2;
+				bm.drawString(data, xo, yo + 17 * i, 0xffffff);
 				i++;
 			}
-
-			bm.drawStringShadowed("and 200 gold", xo, yo + 10 * i, 0xff);
+			xo = (bm.width - bm.getCharWidth("and 200 gold")) / 2;
+			bm.drawString("and 200 gold", xo, yo + 17 * i, 0xfaff00);
 		} else {
-			bm.drawStringShadowed("Comisration :(", xo, yo, 0xff);
-			bm.drawStringShadowed("You have Lost :'(", xo, yo + 20, 0xff);
+			bm.setScale(2, 2);
+			xo = (bm.width - bm.getCharWidth("Commiseration Ö")) / 2;
+
+			bm.drawString("Commiseration Ö", xo, yo, 0xff0000);
+			bm.setScale(1, 1);
+			xo = (bm.width - bm.getCharWidth("You have lost")) / 2;
+			bm.drawString("You have lost", xo, yo + 30, 0xffffff);
 		}
 	}
 
@@ -79,9 +105,9 @@ public class EndScreen extends Screen {
 				charaData = poster.send("http://tag.yarbsemaj.com/api/chara/addXP.php", arguments1);
 				// System.out.println(charaData);
 				if ((boolean) charaData.get("success")) {
-					String newXP = String.valueOf((Long) charaData.get("newXP"));
-					String levelsGained = String.valueOf((Long) charaData.get("levelChange"));
-					winData.add(player.getCharacterData().getName() + ":XP " + newXP + "(" + XP + ")" + levelsGained + " new levels");
+					String newXP = String.valueOf(charaData.get("newXP"));
+					String levelsGained = String.valueOf(charaData.get("levelChange"));
+					winData.add(player.getCharacterData().getName() + ":XP (" + XP + ")" + levelsGained + " new levels");
 				}
 			}
 		} catch (InvalidTokenException | IOException | ParseException e) {

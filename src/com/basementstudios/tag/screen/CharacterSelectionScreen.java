@@ -98,10 +98,10 @@ public class CharacterSelectionScreen extends Screen {
             String weponType;
             switch (player.getWeaponType()) {
 				case CharacterData.NO_WEAPON:
-                    weponType = "Fists";
+                    weponType = "Paper Knife";
                     break;
 				case CharacterData.MELEE_WEAPON:
-                    weponType = "Melle";
+                    weponType = "Melee";
                     break;
 				case CharacterData.RANGED_WEAPON:
                     weponType = "Ranged";
