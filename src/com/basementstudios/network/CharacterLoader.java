@@ -199,6 +199,7 @@ public class CharacterLoader {
 					}
 					case 8: {
 						characterData.addSpd(stat.getValue());
+						System.out.println("Speed!");
 						break;
 					}
 				}

@@ -99,7 +99,6 @@ public class GameController {
         if (enemyController.getMaxSpeed() > maxSpd)
             maxSpd = enemyController.getMaxSpeed();
         maxSpd++;
-        turn++;
 
         getNext();
     }
