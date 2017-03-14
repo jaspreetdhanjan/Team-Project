@@ -190,9 +190,9 @@ public class GameController {
     public void addEnemys(int seed) {
         int y = 70;
         ArrayList<String> names = new ArrayList<String>();
-        names.add("AP & D");
-        names.add("The guy who spoiled Logan");
-        names.add("C++ GUI's");
+        names.add("AP and D");
+        names.add("That guy who spoiled Logan");
+        names.add("C++ GUIs");
 
         for (int i = 0; i < 3; i++) {
             int x = Game.WIDTH - 50 - ResourceManager.i.knightSpriteSheet.getSpriteWidth();
