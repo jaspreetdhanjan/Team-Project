@@ -112,8 +112,9 @@ public class LoginLauncher {
 					
 					List<CharacterData> characterData = new CharacterLoader().getCharacters();
 					if (characterData.size() >= 3) {
-						new Game();
-					} else {
+                        frame.dispose();
+                        new Game();
+                    } else {
 						Token.remove();
 						JOptionPane.showMessageDialog(null, "You need at least 3 characters on your account in order to play", "Error", JOptionPane.ERROR_MESSAGE);
 					}

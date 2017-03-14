@@ -1,10 +1,10 @@
 package com.basementstudios.network;
 
-import java.io.*;
-import java.util.HashMap;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+
+import java.io.*;
+import java.util.HashMap;
 
 /**
  * A login token.
@@ -86,6 +86,11 @@ public class Token {
 	public Token(String token) {
 		add(token);
 	}
+
+	public static void remove() {
+		File tokenFile = new File(TOKEN_FILE);
+		tokenFile.delete();
+	}
 	
 	private boolean isValid() {
 		HashMap<String, String> arguments = new HashMap<>();
@@ -118,15 +123,12 @@ public class Token {
 		return tokenText;
 	}
 	
-	public static void remove() {
-		File tokenFile = new File(TOKEN_FILE);
-		tokenFile.delete();
-	}
-	
 	public void add(String token) {
 		FileWriter tokenFile;
 		try {
-			tokenFile = new FileWriter(TOKEN_FILE);
+			File file = new File(TOKEN_FILE);
+			file.getParentFile().mkdirs();
+			tokenFile = new FileWriter(file);
 			BufferedWriter bufferedWriter = new BufferedWriter(tokenFile);
 			bufferedWriter.write(token);
 			bufferedWriter.close();
