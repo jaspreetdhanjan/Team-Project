@@ -160,6 +160,10 @@ public class Mob extends Entity {
         level.add(new TextParticle("-" + dmg, xp, yp, 2, colour));
     }
 
+    public void resetHealth() {
+        characterData.setCurrentHealth(characterData.getInitialHealth());
+    }
+
     public void hit(int dmg) {
         int damage = dmg - characterData.getDef();
 

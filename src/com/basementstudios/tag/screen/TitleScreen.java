@@ -20,7 +20,7 @@ public class TitleScreen extends Screen {
         AudioPlayer.play(ResourceManager.i.soundtrackSound);
 
         options = new RedirectInterface<String, Screen>(screenManager, Game.TITLE);
-		options.add("End", new EndScreen());
+		//options.add("End", new EndScreen());
 		options.add("Play", new LevelScreen());
 		options.add("Options", new OptionsScreen(this));
 		options.add("Quit", new ExitScreen());

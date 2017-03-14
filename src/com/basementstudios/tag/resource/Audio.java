@@ -3,7 +3,6 @@ package com.basementstudios.tag.resource;
 import com.basementstudios.tag.ResourceManager;
 
 import javax.sound.sampled.*;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 
 /**
@@ -27,9 +26,11 @@ public class Audio extends Resource implements Runnable {
 
 	public void create() {
 		try {
-			clip = AudioSystem.getClip();
-			AudioInputStream ais = AudioSystem.getAudioInputStream(new BufferedInputStream(Audio.class.getResourceAsStream(path)));
-			clip.open(ais);
+			AudioInputStream inputStream = AudioSystem.getAudioInputStream(this.getClass().getResource(path));
+			AudioFormat format = inputStream.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, format);
+			clip = (Clip) AudioSystem.getLine(info);
+			clip.open(inputStream);
 			if (loop) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
 			}

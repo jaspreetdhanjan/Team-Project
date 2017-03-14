@@ -25,8 +25,10 @@ public class CharacterData implements Serializable {
 
 	private final int type;
 
-	private int currentHealth, maxHealth;
-    private int dmg;
+	private int currentHealth;
+	private int maxHealth;
+	private int initialHealth;
+	private int dmg;
     private int def;
     private int spd;
     private int spellDuration;
@@ -40,7 +42,7 @@ public class CharacterData implements Serializable {
 		this.name = name;
 		this.type = type;
 		this.currentHealth = currentHealth;
-		this.maxHealth = maxHealth;
+		this.maxHealth = initialHealth = maxHealth;
 		dmg = 0;
 		def = 0;
 		spd = 0;
@@ -164,4 +166,9 @@ public class CharacterData implements Serializable {
 	public int getType() {
 		return type;
 	}
+
+	public int getInitialHealth() {
+		return initialHealth;
+	}
+
 }

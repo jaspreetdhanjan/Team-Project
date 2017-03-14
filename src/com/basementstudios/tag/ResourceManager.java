@@ -29,6 +29,8 @@ public class ResourceManager {
 	public final Audio selectionSound = new Audio(this, "select.wav", false);
 	public final Audio soundtrackSound = new Audio(this, "soundtrack_track_1.wav", false);
     public final Audio winSound = new Audio(this, "Who_Likes_to_Party.wav", false);
+	public final Audio loseSound = new Audio(this, "Bittersweet.wav", false);
+
 
 
 	public void addResource(Resource resource) {

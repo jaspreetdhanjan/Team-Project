@@ -19,12 +19,10 @@ import java.util.Map;
 
 public class EndScreen extends Screen {
 	private boolean win;
-	private List<Player> mobs;
 	private List<String> winData = new ArrayList<String>();
 	private Bitmap background;
 
 	public EndScreen(List<Player> mobs) {
-		this.mobs = mobs;
 		win = true;
 		getWinData(mobs, 10, 200);
 		AudioPlayer.stop(ResourceManager.i.soundtrackSound);
@@ -33,9 +31,16 @@ public class EndScreen extends Screen {
 
 	public EndScreen() {
 		win = false;
+		AudioPlayer.stop(ResourceManager.i.soundtrackSound);
+		AudioPlayer.play(ResourceManager.i.loseSound);
 	}
 
 	public void tick(Input input) {
+		if (input.enter.isClicked()) {
+			AudioPlayer.stop(ResourceManager.i.winSound);
+			AudioPlayer.stop(ResourceManager.i.loseSound);
+			screenManager.setScreen(new TitleScreen());
+		}
 	}
 
 	public void init() {
@@ -59,14 +64,14 @@ public class EndScreen extends Screen {
 			xo = (bm.width - bm.getCharWidth("You have won!")) / 2;
 			bm.drawString("You have won!", xo, yo + 30, 0xffffff);
 
-			int i = 4;
+			int i = 3;
 			for (String data : winData) {
 				xo = (bm.width - bm.getCharWidth(data)) / 2;
 				bm.drawString(data, xo, yo + 17 * i, 0xffffff);
 				i++;
 			}
 			xo = (bm.width - bm.getCharWidth("and 200 gold")) / 2;
-			bm.drawString("and 200 gold", xo, yo + 17 * i, 0xfaff00);
+			bm.drawString("and 200 gold!", xo, yo + 17 * i, 0xfaff00);
 		} else {
 			bm.setScale(2, 2);
 			xo = (bm.width - bm.getCharWidth("Commiseration Ö")) / 2;
@@ -80,6 +85,12 @@ public class EndScreen extends Screen {
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
+		bm.setScale(2, 2);
+		int xo = (bm.width - bm.getCharWidth("Press enter to continue")) / 2;
+
+		bm.drawString("Press enter to continue", xo, 40, 0xffffff);
+		bm.setScale(1, 1);
+
 	}
 
 	public void getWinData(List<Player> mobs, int XP, int gold) {
@@ -92,18 +103,14 @@ public class EndScreen extends Screen {
 			JSONObject charaData;
 			PostRequest poster = new PostRequest();
 			charaData = poster.send("http://tag.yarbsemaj.com/api/user/addGold.php", arguments);
-			// System.out.println(charaData);
-			if ((boolean) charaData.get("success")) {
-				// System.out.println("added gold");
-			}
 			for (Player player : mobs) {
+				player.resetHealth();
 				int id = player.getCharacterData().getID();
 				Map<String, String> arguments1 = new HashMap<String, String>();
 				arguments1.put("CharID", String.valueOf(id));
 				arguments1.put("Token", token.getToken());
 				arguments1.put("XP", String.valueOf(XP));
 				charaData = poster.send("http://tag.yarbsemaj.com/api/chara/addXP.php", arguments1);
-				// System.out.println(charaData);
 				if ((boolean) charaData.get("success")) {
 					String newXP = String.valueOf(charaData.get("newXP"));
 					String levelsGained = String.valueOf(charaData.get("levelChange"));
