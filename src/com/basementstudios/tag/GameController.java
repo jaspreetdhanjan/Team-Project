@@ -190,20 +190,14 @@ public class GameController {
     public void addEnemys(int seed) {
         int y = 70;
         ArrayList<String> names = new ArrayList<String>();
-        names.add("Bret");
-        names.add("Geoff");
-        names.add("Simon");
-        names.add("Alex");
-        names.add("Sam");
-        names.add("James");
-        names.add("Ben");
-        names.add("Nick");
-        names.add("Heston");
-        names.add("Jasp");
+        names.add("AP & D");
+        names.add("The guy who spoiled Logan");
+        names.add("C++ GUI's");
+
         for (int i = 0; i < 3; i++) {
             int x = Game.WIDTH - 50 - ResourceManager.i.knightSpriteSheet.getSpriteWidth();
             int dmg = (2 + rand.nextInt(5)) * seed;
-            int def = (1 + rand.nextInt(3)) * seed;
+            int def = (2 + rand.nextInt(5)) * seed;
             int spd = (1 + rand.nextInt(10)) * seed;
             int spellDuration = 0;
             int health = 50 * seed;
@@ -223,12 +217,12 @@ public class GameController {
                     break;
                 case 3:
                     dmg = dmg / 2;
-                    spellDuration = (1 + rand.nextInt(2)) * seed;
+                    spellDuration = (1 + rand.nextInt(3)) * seed;
                     weponType = CharacterData.MAGIC_WEAPON;
             }
 
 
-            String name = names.get(rand.nextInt(names.size()));
+            String name = names.get(i);
             int type = rand.nextInt(3);
             CharacterData data = new CharacterData(0, name, type, health, health);
             data.setDmg(dmg);
