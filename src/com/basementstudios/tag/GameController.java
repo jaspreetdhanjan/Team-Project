@@ -191,10 +191,15 @@ public class GameController {
         int y = 70;
         ArrayList<String> names = new ArrayList<String>();
         names.add("Bret");
-        names.add("Geff");
+        names.add("Geoff");
         names.add("Simon");
         names.add("Alex");
         names.add("Sam");
+        names.add("James");
+        names.add("Ben");
+        names.add("Nick");
+        names.add("Heston");
+        names.add("Jasp");
         for (int i = 0; i < 3; i++) {
             int x = Game.WIDTH - 50 - ResourceManager.i.knightSpriteSheet.getSpriteWidth();
             int dmg = (2 + rand.nextInt(5)) * seed;

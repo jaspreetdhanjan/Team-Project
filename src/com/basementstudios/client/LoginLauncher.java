@@ -1,6 +1,5 @@
 package com.basementstudios.client;
 
-import com.basementstudios.network.CharacterData;
 import com.basementstudios.network.CharacterLoader;
 import com.basementstudios.network.Token;
 import com.basementstudios.tag.Game;
@@ -10,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 /**
  * A login authenticator for the game.
@@ -109,9 +107,9 @@ public class LoginLauncher {
 
 				if ((boolean) loginData.get("success")) {
 					new Token((String) loginData.get("token"));
-					
-					List<CharacterData> characterData = new CharacterLoader().getCharacters();
-					if (characterData.size() >= 3) {
+
+
+                    if (new CharacterLoader().number() >= 3) {
                         frame.dispose();
                         new Game();
                     } else {

@@ -27,6 +27,8 @@ public class CharacterLoader {
 	private static final String URL = "http://tag.yarbsemaj.com/api/chara/list.php";
 	private static final String ITEM_STAT_URL = "http://tag.yarbsemaj.com/api/item/getStat.php";
 
+	private static final String NUMBER_URL = "http://tag.yarbsemaj.com/api/chara/numOfChara.php";
+
 	private String token;
 
 	private CharacterData characterData;
@@ -206,5 +208,22 @@ public class CharacterLoader {
 		if (characterData.getSpd() < 0) {
 			characterData.addSpd(1);
 		}
+	}
+
+	public int number() {
+		int results = 0;
+		PostRequest poster = new PostRequest();
+		Map<String, String> arguments = new HashMap<String, String>();
+		arguments.put("Token", token);
+		JSONObject charaData;
+		try {
+			charaData = poster.send(NUMBER_URL, arguments);
+			if ((boolean) charaData.get("success")) {
+				results = ((Long) charaData.get("numOfChars")).intValue();
+			}
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+		return results;
 	}
 }
