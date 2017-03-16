@@ -55,7 +55,9 @@ public class ActionInterface<S, T extends Action> extends Interface {
 				selected.onClick();
 			}
 		}
-        selection = nodes.get(selectedIndex);
+        if (selectedIndex < 0) selection = null;
+        else
+            selection = nodes.get(selectedIndex);
     }
 
 	public void render(Bitmap bm) {

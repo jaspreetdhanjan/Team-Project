@@ -16,8 +16,6 @@ import java.util.List;
  */
 
 public class ResourceManager {
-	private List<Resource> resources = new ArrayList<Resource>();
-
 	public static final ResourceManager i = new ResourceManager();
 	public final SpriteSheet particlesSpriteSheet = new SpriteSheet(this, "particles.png", 8, 8);
 	public final SpriteSheet entitiesSpriteSheet = new SpriteSheet(this, "entities.png", 32, 32);
@@ -25,13 +23,13 @@ public class ResourceManager {
     public final SpriteSheet mageSpriteSheet = new SpriteSheet(this, "mage.png", 128, 128);
     public final SpriteSheet necromancerSpriteSheet = new SpriteSheet(this, "necromancer.png", 128, 128);
     public final SpriteSheet rougueSpriteSheet = new SpriteSheet(this, "rogue.png", 128, 128);
-    public final LevelData testLevelData = new LevelData(this, "Test Level", "testLevel.png");
-	public final Audio selectionSound = new Audio(this, "select.wav", false);
+    public final LevelData demoLevel = new LevelData(this, "Demo level", "testLevel.png");
+    public final LevelData testLevelData = new LevelData(this, "World 1-1", "testLevel.png");
+    public final Audio selectionSound = new Audio(this, "select.wav", false);
 	public final Audio soundtrackSound = new Audio(this, "soundtrack_track_1.wav", false);
     public final Audio winSound = new Audio(this, "Who_Likes_to_Party.wav", false);
 	public final Audio loseSound = new Audio(this, "Bittersweet.wav", false);
-
-
+    private List<Resource> resources = new ArrayList<Resource>();
 
 	public void addResource(Resource resource) {
 		resources.add(resource);

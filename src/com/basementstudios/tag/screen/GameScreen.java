@@ -45,30 +45,30 @@ public class GameScreen extends Screen {
 		bm.clear();
 		level.render(bm);
 		gameController.render(bm);
+		bm.drawStringShadowed("Turn: " + String.valueOf(gameController.getTurn()), 600, 20, 0xffffff);
 	}
 
 	public void renderHud(Bitmap bm) {
 		bm.clear();
 		bm.render(hudBitmap, 0, 0, 0xffffff);
+		Mob player = gameController.getPlayerController().getActiveMob();
+		Mob enemy = gameController.getEnemyController().getActiveMob();
+		mobHud(bm, player, 12, 12);
+		mobHud(bm, enemy, 417, 12);
 
 		if (gameController.getGameState() == GameController.STATE_PLAYER_ATACK || gameController.getGameState() == GameController.STATE_PLAYER_ATACKING) {
-			Mob player = gameController.getPlayerController().getSelectedMob();
-			Mob enemy = gameController.getEnemyController().getAttackMob();
-			mobHud(bm, player, 12, 12);
-			mobHud(bm, enemy, 417, 12);
 
 			bm.drawString("Use to W and S to select an enemy. Then press enter to attack.", 12, Game.HUD_HEIGHT - 23, 0xffffff);
-				} else {
+		} else {
 			bm.drawString("Please wait while the enemy takes its turn.", 12, Game.HUD_HEIGHT - 23, 0xffffff);
 		}
 	}
 
 	public void mobHud(Bitmap bm, Mob player, int xStart, int yStart) {
 		if (player != null) {
-			bm.drawString("Name: " + player.getCharacterData().getName(), xStart, yStart, 0xffffff);
-			bm.drawString("Damage " + player.getCharacterData().getDmg(), xStart, yStart + 16, 0xffffff);
-			bm.drawString("Defence " + player.getCharacterData().getDef(), xStart, yStart + 32, 0xffffff);
-			bm.drawString("Speed " + player.getCharacterData().getSpd(), xStart, yStart + 48, 0xffffff);
+			bm.drawString("Damage " + player.getCharacterData().getDmg(), xStart, yStart + 0, 0xffffff);
+			bm.drawString("Defence " + player.getCharacterData().getDef(), xStart, yStart + 20, 0xffffff);
+			bm.drawString("Speed " + player.getCharacterData().getSpd(), xStart, yStart + 40, 0xffffff);
 
 			String weaponType = "error";
 			switch (player.getCharacterData().getWeaponType()) {
@@ -86,13 +86,13 @@ public class GameScreen extends Screen {
 					break;
 			}
 
-			bm.drawString("Weapon Type " + weaponType, xStart, yStart + 64, 0xffffff);
+			bm.drawString("Weapon Type " + weaponType, xStart, yStart + 60, 0xffffff);
 			if (player.getCharacterData().getSpellDuration() != 0) {
 				bm.drawString("Spell Duration " + player.getCharacterData().getSpellDuration(), xStart, yStart + 80, 0xffffff);
 			}
 
 			if (player.getDebuffDuration() != 0) {
-				bm.drawString("Debuff", xStart, yStart + 96, 0x85d19b);
+				bm.drawString("Debuff", xStart, yStart + 100, 0x85d19b);
 				bm.drawString(player.getDebuffDamage() + " damage for " + player.getDebuffDuration() + " turns", xStart, yStart + 112, 0x85d19b);
 			}
 		}

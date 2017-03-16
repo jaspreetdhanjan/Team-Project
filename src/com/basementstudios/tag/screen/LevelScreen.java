@@ -1,8 +1,10 @@
 package com.basementstudios.tag.screen;
 
-import com.basementstudios.tag.*;
+import com.basementstudios.tag.Input;
 import com.basementstudios.tag.graphics.Bitmap;
-import com.basementstudios.tag.level.*;
+import com.basementstudios.tag.level.DemoLevel;
+import com.basementstudios.tag.level.EasyLevel;
+import com.basementstudios.tag.level.Level;
 import com.basementstudios.tag.ui.RedirectInterface;
 
 /**
@@ -15,11 +17,13 @@ public class LevelScreen extends Screen {
 	private RedirectInterface<Level, Screen> options;
 
 	public void init() {
-		Level testLevel = new TestLevel();
+        Level testLevel = new DemoLevel();
+        Level easyLevel = new EasyLevel();
 
 		options = new RedirectInterface<Level, Screen>(screenManager, "Level Selector");
 		options.add(testLevel, new GameScreen(testLevel));
-	}
+        options.add(easyLevel, new GameScreen(easyLevel));
+    }
 
 	public void tick(Input input) {
 		options.tick(input);

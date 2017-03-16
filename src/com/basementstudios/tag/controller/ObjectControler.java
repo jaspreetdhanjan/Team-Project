@@ -57,6 +57,11 @@ public class ObjectControler<T extends Mob> {
         }
     }
 
+    public Mob getActiveMob() {
+        if (atacking) return selectedMob;
+        else return attackMob;
+    }
+
     public T getNext(int turn, int maxSpd) {
         int i = 0;
         for (T player : charaList) {
@@ -88,14 +93,14 @@ public class ObjectControler<T extends Mob> {
         if (selectedMob != null && atacking) {
             int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
             int xp = (int) (selectedMob.getX() + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2);
-            int yp = (int) (selectedMob.getY() - 20) + yOffs;
+            int yp = (int) (selectedMob.getY() - 30) + yOffs;
             bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
         }
 
         if (attackMob != null && !atacking) {
             int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
             int xp = (int) (attackMob.getX() + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2);
-            int yp = (int) (attackMob.getY() - 20) + yOffs;
+            int yp = (int) (attackMob.getY() - 30) + yOffs;
             bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], xp, yp, 0xffffff);
         }
     }

@@ -1,5 +1,6 @@
 package com.basementstudios.tag.level;
 
+import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.resource.LevelData;
@@ -47,6 +48,8 @@ public abstract class Level {
 		bm.render(levelData.getLevelImage(), 0, 0, 0xffffff);
 		entities.forEach(e -> e.render(bm));
 	}
+
+    public abstract ArrayList<CharacterData> getEnemy();
 
 
 	public void tick() {

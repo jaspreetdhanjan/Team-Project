@@ -24,12 +24,10 @@ public class GameController {
     public static final int STATE_PLAYER_ATACKING = 2;
     public static final int STATE_ENEMY_ATACK = 3;
     public static ArrayList<CharacterData> selectedCharacters = new ArrayList<CharacterData>(3);
-
+    public static int turn = 0;
+    public static int maxSpd = 0;
     private static int charaGap = 100;
     private static int charaIndent = 100;
-
-    private int turn = 0;
-    private int maxSpd = 0;
     private Level level = null;
     private ObjectControler<Player> playerController;
     private ObjectControler<Enemy> enemyController;
@@ -99,7 +97,6 @@ public class GameController {
         if (enemyController.getMaxSpeed() > maxSpd)
             maxSpd = enemyController.getMaxSpeed();
         maxSpd++;
-
         getNext();
     }
 
@@ -137,6 +134,7 @@ public class GameController {
     }
 
     public void nextTurn() {
+        System.out.println(turn);
         turn++;
         resetEntity();
         playerController.turnTick();
@@ -188,54 +186,15 @@ public class GameController {
      */
     public void addEnemys(int seed) {
         int y = 70;
-        ArrayList<String> names = new ArrayList<String>();
-        names.add("AP and D");
-        names.add("That guy who spoiled Logan");
-        names.add("C++ GUIs");
-
-        for (int i = 0; i < 3; i++) {
+        int i = 0;
+        for (CharacterData data : level.getEnemy()) {
             int x = Game.WIDTH - 50 - ResourceManager.i.knightSpriteSheet.getSpriteWidth();
-            int dmg = (2 + rand.nextInt(5)) * seed;
-            int def = (2 + rand.nextInt(5)) * seed;
-            int spd = (1 + rand.nextInt(10)) * seed;
-            int spellDuration = 0;
-            int health = 50 * seed;
-            int weponType = CharacterData.NO_WEAPON;
-
-            int wT = (0 + rand.nextInt(4)) * seed;
-
-            switch (wT) {
-                case 0:
-                    weponType = CharacterData.NO_WEAPON;
-                    break;
-                case 1:
-                    weponType = CharacterData.MELEE_WEAPON;
-                    break;
-                case 2:
-                    weponType = CharacterData.RANGED_WEAPON;
-                    break;
-                case 3:
-                    dmg = dmg / 2;
-                    spellDuration = (1 + rand.nextInt(3)) * seed;
-                    weponType = CharacterData.MAGIC_WEAPON;
-            }
-
-
-            String name = names.get(i);
-            int type = rand.nextInt(3);
-            CharacterData data = new CharacterData(0, name, type, health, health);
-            data.setDmg(dmg);
-            data.setSpd(spd);
-            data.setDef(def);
-            data.setSpellDuration(spellDuration);
-            data.setWeaponType(weponType);
-
             if (i == 1) {
                 x -= charaIndent;
             }
-
             Enemy enemy = new Enemy(x, y + charaGap * i, 1, 1, data);
             enemyController.addMob(enemy);
+            i++;
         }
         enemyController.selectAtack(0);
     }

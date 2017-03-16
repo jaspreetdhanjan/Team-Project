@@ -29,7 +29,8 @@ public class Game extends Canvas implements Runnable {
 	public static final String URL = "theadventurersguild.co.uk";
 	private static final long serialVersionUID = 1L;
 	private boolean stop = false;
-	private boolean fpsLock = true;
+    private boolean debug = false;
+    private boolean fpsLock = true;
 	private String fpsString = "";
 
 	private BufferedImage screenImg;
@@ -143,9 +144,11 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void renderToScreen() {
-		viewportBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
-		viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 22, 0xffffff);
-	}
+        if (debug) {
+            viewportBitmap.drawStringShadowed(VERSION, 6, 6, 0xffffff);
+            viewportBitmap.drawStringShadowed(fpsString, 6, 6 + 22, 0xffffff);
+        }
+    }
 
 	private void hudRender() {
 		screenManager.renderHud(hudBitmap);

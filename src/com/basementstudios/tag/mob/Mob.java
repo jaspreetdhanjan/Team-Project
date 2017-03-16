@@ -2,6 +2,7 @@ package com.basementstudios.tag.mob;
 
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.Entity;
+import com.basementstudios.tag.GameController;
 import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.particle.TextParticle;
@@ -35,7 +36,7 @@ public class Mob extends Entity {
 
     protected double xStart, yStart;
 
-    protected float scale;
+    protected float healthScale, turnScale;
 
 
     public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
@@ -49,7 +50,7 @@ public class Mob extends Entity {
 
         xStart = x;
         yStart = y;
-        scale = (float) 50 / (float) characterData.getCurrentHealth();
+        healthScale = (float) 50 / (float) characterData.getCurrentHealth();
     }
 
     public static int getOffset(int weaponType, int type) {
@@ -113,11 +114,24 @@ public class Mob extends Entity {
         } else {
             bm.render(getBitmap(), xp, yp, colour);
         }
-
+        yp = (int) y + ResourceManager.i.knightSpriteSheet.getSpriteHeight() + 16;
         // Draw the health bar
-        bm.drawString(characterData.getName(), xp + (getSpriteSheet().getSpriteWidth() - bm.getCharWidth(characterData.getName())) / 2, yp - 22, 0xffffff);
-        bm.fill(xp + 40, yp - 4, xp + 32 + (50), yp, 0xff0000);
-        bm.fill(xp + 40, yp - 4, Math.round(xp + 32 + (characterData.getCurrentHealth() * scale)), yp, 0xff00);
+        bm.drawStringShadowed(characterData.getName(), xp + (getSpriteSheet().getSpriteWidth() - bm.getCharWidth(characterData.getName())) / 2, yp - 22, 0xffffff);
+        bm.fill(xp + 40, yp - 3, xp + 32 + (50), yp, 0xff0000);
+        bm.fill(xp + 40, yp - 3, Math.round(xp + 32 + (characterData.getCurrentHealth() * healthScale)), yp, 0xff00);
+
+        int diffrence = GameController.maxSpd - characterData.getSpd();
+        turnScale = (float) 50 / (float) diffrence;
+
+        //draw speed bar
+        bm.fill(xp + 40, yp - 6, xp + 32 + (50), yp - 3, 0xe9ff00);
+        if (GameController.turn % diffrence != 0) {
+            bm.fill(xp + 40, yp - 6, Math.round(xp + 32 +
+                    ((diffrence - (GameController.turn % diffrence)) * turnScale)), yp - 3, 0x0002af);
+        } else {
+            bm.fill(xp + 40, yp - 6, xp + 32 + 50, yp - 3, 0xe9ff00);
+        }
+
     }
 
     @Override
