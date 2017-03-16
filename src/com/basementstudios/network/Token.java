@@ -90,7 +90,9 @@ public class Token {
 	public static void remove() {
 		File tokenFile = new File(TOKEN_FILE);
 		tokenFile.delete();
-	}
+        File ser = new File("doc/chara.ser");
+        ser.delete();
+    }
 	
 	private boolean isValid() {
 		HashMap<String, String> arguments = new HashMap<>();

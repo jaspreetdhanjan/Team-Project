@@ -22,9 +22,9 @@ public class DemoLevel extends Level {
         names.add("C++ GUIs");
 
         for (int i = 0; i < 3; i++) {
-            int dmg = (2 + rand.nextInt(10)) * seed;
-            int def = (30 + rand.nextInt(20)) * seed;
-            int spd = (1 + rand.nextInt(3)) * (seed / 4);
+            int dmg = (2 + rand.nextInt(10)) * seed / 2;
+            int def = (30 + rand.nextInt(20)) * seed / 5;
+            int spd = (1 + rand.nextInt(4)) * (seed / 6);
             int spellDuration = 0;
             int health = 100 * seed;
             int weponType = CharacterData.NO_WEAPON;
