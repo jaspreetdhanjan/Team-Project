@@ -39,6 +39,8 @@ public class GameController {
         this.level = level;
         playerController = new ObjectControler<Player>(level);
         enemyController = new ObjectControler<Enemy>(level);
+        turn = 0;
+        maxSpd = 0;
     }
 
 
