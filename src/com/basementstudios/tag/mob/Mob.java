@@ -147,8 +147,10 @@ public class Mob extends Entity {
     }
 
     public void spellCast(int spellDamage, int speelDamageDuration) {
-        this.debuffDamage = spellDamage;
-        this.debuffDuration = speelDamageDuration;
+        if (this.debuffDamage < spellDamage || this.debuffDuration < speelDamageDuration) {
+            this.debuffDamage = spellDamage;
+            this.debuffDuration = speelDamageDuration;
+        }
     }
 
     public void turnTick() {
