@@ -31,7 +31,6 @@ public class Player extends Mob {
 				break;
 			case Mob.ANIMATION_ATTACK:
 				xa = 0;
-				System.out.println(animationFrame);
 				if (animationFrame == 4) {
 					animationFrame--;
 					attackState = RETRACT_ATTACK;

@@ -11,7 +11,9 @@ import com.basementstudios.tag.graphics.Bitmap;
 
 public class LoadingScreen extends Screen {
 	private static final int MIN_WAIT_TIME = 20 * 60;
-	public static String log = "Loading";
+
+	public static String status = "Loading";
+
 	private final Screen whenFinished;
 	private Thread task;
 	private int tickCount = 0;
@@ -46,24 +48,22 @@ public class LoadingScreen extends Screen {
 		int xBob = (int) ((Math.sin(tickCount / 10.0) * 10.0) % 50.0);
 		int yBob = (int) ((Math.cos(tickCount / 10.0) * 10.0) % 50.0);
 
-		String m = "Loading...";
-		int xo = (bm.width - bm.getCharWidth(m) * scale) / scale;
+		int xo = (bm.width - bm.getCharWidth(status) * scale) / scale;
 		int yo = bm.height / 2;
 		xo += xBob;
 		yo += yBob;
 
 		bm.setScale(scale, scale);
-		bm.drawString(m, xo, yo, 0xffffff);
+		bm.drawString(status, xo, yo, 0xffffff);
 
 		scale = 1;
-		m = log;
-		xo = (bm.width - bm.getCharWidth(m) / 2) / 2;
+		xo = (bm.width - bm.getCharWidth(status) / 2) / 2;
 		yo = (bm.height / 2) + 50;
 		xo += xBob;
 		yo += yBob;
 
 		bm.setScale(scale, scale);
-		bm.drawString(m, xo, yo, 0xffffff);
+		bm.drawString(status, xo, yo, 0xffffff);
 		bm.setScale(1, 1);
 	}
 

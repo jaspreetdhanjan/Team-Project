@@ -15,7 +15,8 @@ import com.basementstudios.tag.mob.Mob;
  */
 
 public class GameScreen extends Screen {
-	private Level level;
+	private final Level level;
+
 	private Bitmap hudBitmap;
 	private GameController gameController;
 
@@ -100,5 +101,9 @@ public class GameScreen extends Screen {
 
 	public boolean isLive() {
 		return true;
+	}
+
+	public Level getLevel() {
+		return level;
 	}
 }

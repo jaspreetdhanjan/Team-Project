@@ -21,7 +21,7 @@ public class TitleScreen extends Screen {
 
         options = new RedirectInterface<String, Screen>(screenManager, Game.TITLE);
 		//options.add("End", new EndScreen());
-		options.add("Play", new LevelScreen());
+		options.add("Play", new LevelSelectionScreen());
 		options.add("Options", new OptionsScreen(this));
 		options.add("Quit", new ExitScreen());
 	}

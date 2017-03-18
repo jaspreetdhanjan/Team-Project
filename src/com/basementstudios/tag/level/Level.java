@@ -21,7 +21,6 @@ public abstract class Level {
 	private List<Entity> toAdd = new ArrayList<Entity>();
 	private List<Entity> toRemove = new ArrayList<Entity>();
 
-
 	/**
 	 * Constructs a new level.
 	 * 
@@ -33,8 +32,7 @@ public abstract class Level {
 	}
 
 	public void init() {
-
-    }
+	}
 
 	public void add(Entity e) {
 		toAdd.add(e);
@@ -49,8 +47,7 @@ public abstract class Level {
 		entities.forEach(e -> e.render(bm));
 	}
 
-    public abstract ArrayList<CharacterData> getEnemy();
-
+	public abstract List<CharacterData> getEnemy();
 
 	public void tick() {
 		for (Entity e : entities) {
@@ -86,4 +83,7 @@ public abstract class Level {
 		return levelData.getLevelName();
 	}
 
+	public int getDifficulty() {
+		return 0;
+	}
 }

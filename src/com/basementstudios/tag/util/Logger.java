@@ -10,7 +10,7 @@ public class Logger {
 
 	public static synchronized void log(String msg) {
 		logs.add(msg);
-        LoadingScreen.log = msg;
-        System.out.println(msg);
+		LoadingScreen.status = msg;
+		System.out.println(msg);
 	}
 }

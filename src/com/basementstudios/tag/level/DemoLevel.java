@@ -3,60 +3,63 @@ package com.basementstudios.tag.level;
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.ResourceManager;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class DemoLevel extends Level {
-    public DemoLevel() {
-        super(ResourceManager.i.demoLevel);
-    }
+	public DemoLevel() {
+		super(ResourceManager.i.demoLevel);
+	}
 
-    @Override
-    public ArrayList<CharacterData> getEnemy() {
-        int seed = 50;
-        ArrayList<String> names = new ArrayList<String>();
-        ArrayList<CharacterData> characterDataArrayList = new ArrayList();
-        Random rand = new Random();
-        names.add("AP and D");
-        names.add("Logan Spoiler");
-        names.add("C++ GUIs");
+	@Override
+	public List<CharacterData> getEnemy() {
+		int seed = 50;
+		List<String> names = new ArrayList<String>();
+		List<CharacterData> characterDataArrayList = new ArrayList<CharacterData>();
+		Random rand = new Random();
+		names.add("AP and D");
+		names.add("Logan Spoiler");
+		names.add("C++ GUIs");
 
-        for (int i = 0; i < 3; i++) {
-            int dmg = (2 + rand.nextInt(10)) * seed / 2;
-            int def = (30 + rand.nextInt(20)) * seed / 5;
-            int spd = (1 + rand.nextInt(4)) * (seed / 6);
-            int spellDuration = 0;
-            int health = 100 * seed;
-            int weponType = CharacterData.NO_WEAPON;
+		for (int i = 0; i < 3; i++) {
+			int dmg = (2 + rand.nextInt(10)) * seed / 2;
+			int def = (30 + rand.nextInt(20)) * seed / 5;
+			int spd = (1 + rand.nextInt(4)) * (seed / 6);
+			int spellDuration = 0;
+			int health = 100 * seed;
+			int weponType = CharacterData.NO_WEAPON;
 
-            int wT = (0 + rand.nextInt(4));
+			int wT = (0 + rand.nextInt(4));
 
-            switch (wT) {
-                case 0:
-                    weponType = CharacterData.NO_WEAPON;
-                    break;
-                case 1:
-                    weponType = CharacterData.MELEE_WEAPON;
-                    break;
-                case 2:
-                    weponType = CharacterData.RANGED_WEAPON;
-                    break;
-                case 3:
-                    dmg = dmg / 10;
-                    spellDuration = (1 + rand.nextInt(3)) * seed;
-                    weponType = CharacterData.MAGIC_WEAPON;
-            }
+			switch (wT) {
+				case 0:
+					weponType = CharacterData.NO_WEAPON;
+					break;
+				case 1:
+					weponType = CharacterData.MELEE_WEAPON;
+					break;
+				case 2:
+					weponType = CharacterData.RANGED_WEAPON;
+					break;
+				case 3:
+					dmg = dmg / 10;
+					spellDuration = (1 + rand.nextInt(3)) * seed;
+					weponType = CharacterData.MAGIC_WEAPON;
+			}
 
-            String name = names.get(i);
-            int type = rand.nextInt(3);
-            CharacterData data = new CharacterData(0, name, type, health, health);
-            data.setDmg(dmg);
-            data.setSpd(spd);
-            data.setDef(def);
-            data.setSpellDuration(spellDuration);
-            data.setWeaponType(weponType);
-            characterDataArrayList.add(data);
-        }
-        return characterDataArrayList;
-    }
+			String name = names.get(i);
+			int type = rand.nextInt(3);
+			CharacterData data = new CharacterData(0, name, type, health, health);
+			data.setDmg(dmg);
+			data.setSpd(spd);
+			data.setDef(def);
+			data.setSpellDuration(spellDuration);
+			data.setWeaponType(weponType);
+			characterDataArrayList.add(data);
+		}
+		return characterDataArrayList;
+	}
+	
+	public int getDifficulty() {
+		return 12;
+	}
 }

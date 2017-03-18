@@ -1,16 +1,13 @@
 package com.basementstudios.tag;
 
 import com.basementstudios.network.CharacterData;
-import com.basementstudios.tag.controller.ObjectControler;
+import com.basementstudios.tag.controller.ObjectController;
 import com.basementstudios.tag.graphics.Bitmap;
 import com.basementstudios.tag.level.Level;
-import com.basementstudios.tag.mob.Enemy;
-import com.basementstudios.tag.mob.Mob;
-import com.basementstudios.tag.mob.Player;
+import com.basementstudios.tag.mob.*;
 import com.basementstudios.tag.screen.EndScreen;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Controls the game flow
@@ -18,27 +15,29 @@ import java.util.Random;
  * @author James Bray
  */
 public class GameController {
-
     public static final int STATE_NULL = 0;
     public static final int STATE_PLAYER_ATACK = 1;
     public static final int STATE_PLAYER_ATACKING = 2;
     public static final int STATE_ENEMY_ATACK = 3;
+    
     public static ArrayList<CharacterData> selectedCharacters = new ArrayList<CharacterData>(3);
+    
     public static int turn = 0;
     public static int maxSpd = 0;
     private static int charaGap = 100;
     private static int charaIndent = 100;
+    
     private Level level = null;
-    private ObjectControler<Player> playerController;
-    private ObjectControler<Enemy> enemyController;
+    private ObjectController<Player> playerController;
+    private ObjectController<Enemy> enemyController;
     private Random rand = new Random();
     private ScreenManager screenManager;
     private int gameState = 0;
 
     public GameController(Level level) {
         this.level = level;
-        playerController = new ObjectControler<Player>(level);
-        enemyController = new ObjectControler<Enemy>(level);
+        playerController = new ObjectController<Player>(level);
+        enemyController = new ObjectController<Enemy>(level);
         turn = 0;
         maxSpd = 0;
     }
@@ -136,7 +135,6 @@ public class GameController {
     }
 
     public void nextTurn() {
-        System.out.println(turn);
         turn++;
         resetEntity();
         playerController.turnTick();
@@ -168,7 +166,6 @@ public class GameController {
         int unlovedCharas = 3 - selectedCharacters.size();
         for (int i = 0; i < unlovedCharas; i++) {
             selectedCharacters.add(Characters.getAvailable().get(i));
-            System.out.println(selectedCharacters.size());
         }
 
         for (int i = 0; i < 3; i++) {
@@ -205,11 +202,11 @@ public class GameController {
         return turn;
     }
 
-    public ObjectControler<Player> getPlayerController() {
+    public ObjectController<Player> getPlayerController() {
         return playerController;
     }
 
-    public ObjectControler<Enemy> getEnemyController() {
+    public ObjectController<Enemy> getEnemyController() {
         return enemyController;
     }
 

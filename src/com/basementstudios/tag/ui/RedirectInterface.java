@@ -59,6 +59,10 @@ public class RedirectInterface<S, T extends Screen> extends Interface {
 			manager.setScreen(selectedValue);
 		}
 	}
+	
+	public T getSelected() {
+		return selectedValue;
+	}
 
 	public void render(Bitmap bm) {
 		int xScale = 2;

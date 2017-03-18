@@ -136,7 +136,6 @@ public class CharacterLoader {
 		PostRequest poster = new PostRequest();
 		Map<String, String> arguments = new HashMap<String, String>();
 		arguments.put("ItemID", String.valueOf(item.getID()));
-		System.out.println("ItemData");
 
 		JSONObject charaData;
 		try {
@@ -179,7 +178,6 @@ public class CharacterLoader {
 			}
 
 			for (Stat stat : item.getStats()) {
-				System.out.println(stat.getID() + stat.getName());
 				switch (stat.getID()) {
 					case 1: {
 						characterData.addSpd(-stat.getValue());
@@ -199,7 +197,6 @@ public class CharacterLoader {
 					}
 					case 8: {
 						characterData.addSpd(stat.getValue());
-						System.out.println("Speed!");
 						break;
 					}
 				}

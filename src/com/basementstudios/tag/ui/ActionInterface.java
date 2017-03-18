@@ -25,7 +25,7 @@ public class ActionInterface<S, T extends Action> extends Interface {
 
 	private Map<S, T> stateDirectory = new LinkedHashMap<S, T>();
 	private int selectedIndex = 0;
-    private S selection;
+	private S selection;
 
 	public ActionInterface(String title) {
 		this.title = title;
@@ -55,10 +55,9 @@ public class ActionInterface<S, T extends Action> extends Interface {
 				selected.onClick();
 			}
 		}
-        if (selectedIndex < 0) selection = null;
-        else
-            selection = nodes.get(selectedIndex);
-    }
+		if (selectedIndex < 0) selection = null;
+		else selection = nodes.get(selectedIndex);
+	}
 
 	public void render(Bitmap bm) {
 		int xScale = 2;
@@ -83,8 +82,8 @@ public class ActionInterface<S, T extends Action> extends Interface {
 	}
 
 	public S getSelected() {
-        return selection;
-    }
+		return selection;
+	}
 
 	public void replaceOption(S oldKey, S newKey) {
 		T ob = stateDirectory.remove(oldKey);

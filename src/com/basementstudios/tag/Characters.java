@@ -17,24 +17,23 @@ public class Characters {
 		return availableCharacters;
 	}
 
-    public static void setAvailable(List<CharacterData> characters) {
-        availableCharacters.addAll(characters);
-    }
+	public static void setAvailable(List<CharacterData> characters) {
+		availableCharacters.addAll(characters);
+	}
 
-    public static void load(String fileName) {
-        ObjectInputStream ois = null;
-        try {
-            FileInputStream fin = new FileInputStream(fileName);
-            ois = new ObjectInputStream(fin);
-            Logger.log("Loading ->  characters from file");
-            for (CharacterData characterData : (ArrayList<CharacterData>) ois.readObject()) {
-                GameController.selectedCharacters.add(new CharacterLoader().getUpdateData(characterData));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
+	public static void load(String fileName) {
+		ObjectInputStream ois = null;
+		try {
+			FileInputStream fin = new FileInputStream(fileName);
+			ois = new ObjectInputStream(fin);
+			Logger.log("Loading ->  Cached characters");
+			for (CharacterData characterData : (List<CharacterData>) ois.readObject()) {
+				GameController.selectedCharacters.add(new CharacterLoader().getUpdateData(characterData));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -32,7 +32,6 @@ public class Enemy extends Mob {
 				break;
 			case Mob.ANIMATION_ATTACK:
 				xa = 0;
-				System.out.println(animationFrame);
 
 				if (animationFrame == 4) {
 					animationFrame--;
@@ -56,8 +55,6 @@ public class Enemy extends Mob {
 	}
 
 	public void render(Bitmap bm) {
-		int colour = 0xffffff;
-
 		if (xa == 0) {
 			xSpriteIndex = 0;
 			ySpriteIndex = 1;
@@ -78,6 +75,4 @@ public class Enemy extends Mob {
 		}
 		super.render(bm);
 	}
-
-
 }
