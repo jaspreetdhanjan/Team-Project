@@ -86,17 +86,16 @@ public class ObjectController<T extends Mob> {
 	 */
 	public void render(Bitmap bm) {
 		if (selectedMob != null && attacking) {
-			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-			int xp = (int) (selectedMob.getX() + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2);
-			int yp = (int) (selectedMob.getY() - 30) + yOffs;
-			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], xp, yp, 0xffffff);
+			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 300.0 / 100.0) * 15.0);
+			int yp = (int) (selectedMob.getY() - 40) + yOffs;
+			
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[0][0], (int)selectedMob.getCenterX()+10, yp, 0xffffff);
 		}
 
 		if (attackMob != null && !attacking) {
-			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 250.0 / 100.0) * 5.0);
-			int xp = (int) (attackMob.getX() + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2);
-			int yp = (int) (attackMob.getY() - 30) + yOffs;
-			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], xp, yp, 0xffffff);
+			int yOffs = (int) (Math.sin(System.currentTimeMillis() % 300.0 / 100.0) * 15.0);
+			int yp = (int) (attackMob.getY() - 40) + yOffs;
+			bm.render(ResourceManager.i.entitiesSpriteSheet.getSprites()[1][0], (int)attackMob.getCenterX()-10, yp, 0xffffff);
 		}
 	}
 

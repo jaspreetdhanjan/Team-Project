@@ -5,6 +5,10 @@ import com.basementstudios.tag.Entity;
 import com.basementstudios.tag.GameController;
 import com.basementstudios.tag.ResourceManager;
 import com.basementstudios.tag.graphics.Bitmap;
+import com.basementstudios.tag.particle.Explosion;
+import com.basementstudios.tag.particle.FlameParticle;
+import com.basementstudios.tag.particle.Particle;
+import com.basementstudios.tag.particle.SmokeParticle;
 import com.basementstudios.tag.particle.TextParticle;
 import com.basementstudios.tag.resource.SpriteSheet;
 
@@ -15,216 +19,232 @@ import com.basementstudios.tag.resource.SpriteSheet;
  */
 
 public class Mob extends Entity {
-    public static final int NO_ATTACK = 0;
-    public static final int FORWARD_ATTACK = 1;
-    public static final int ANIMATION_ATTACK = 2;
-    public static final int RETRACT_ATTACK = 3;
-    protected final CharacterData characterData;
-    public boolean hasGone = false;
+	public static final int NO_ATTACK = 0;
+	public static final int FORWARD_ATTACK = 1;
+	public static final int ANIMATION_ATTACK = 2;
+	public static final int RETRACT_ATTACK = 3;
 
-    public int attackState = 0;
-    protected double x, y;
-    protected double xa, ya;
-    protected int lastWalkDist, walkDist;
-    protected double xSize, ySize;
-    protected int maxAttackFrame, animationFrame;
+	protected double x, y;
+	protected final double xSize, ySize;
+	protected final CharacterData characterData;
 
-    protected int debuffDamage, debuffDuration;
-    protected Mob target = null;
+	public boolean hasGone = false;
+	public int attackState = 0;
+	protected double xa, ya;
+	protected int lastWalkDist, walkDist;
+	protected int maxAttackFrame, animationFrame;
 
-    protected double newX, newY;
+	protected int debuffDamage, debuffDuration;
+	protected Mob target = null;
 
-    protected double xStart, yStart;
+	protected double newX, newY;
 
-    protected float healthScale, turnScale;
+	protected double xStart, yStart;
 
+	protected float healthScale, turnScale;
 
-    public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
-        this.x = x;
-        this.y = y;
-        this.xSize = xSize;
-        this.ySize = ySize;
-        this.characterData = characterData;
-        newX = x;
-        newY = y;
+	public Mob(double x, double y, double xSize, double ySize, CharacterData characterData) {
+		this.x = x;
+		this.y = y;
+		this.xSize = xSize;
+		this.ySize = ySize;
+		this.characterData = characterData;
+		newX = x;
+		newY = y;
 
-        xStart = x;
-        yStart = y;
-        healthScale = (float) 50 / (float) characterData.getCurrentHealth();
-    }
+		xStart = x;
+		yStart = y;
+		healthScale = (float) 50 / (float) characterData.getCurrentHealth();
+	}
 
-    public static int getOffset(int weaponType, int type) {
-        if (type == CharacterData.NECRO_TYPE)
-            return 2;
-        else {
-            switch (weaponType) {
-                case CharacterData.NO_WEAPON:
-                    return 4;
-                case CharacterData.MAGIC_WEAPON:
-                    return 8;
-                case CharacterData.RANGED_WEAPON:
-                    return 6;
-                case CharacterData.MELEE_WEAPON:
-                    return 2;
-            }
-        }
-        return 0;
-    }
+	public Particle getParticleEffect(double x, double y, double z) {
+		switch (characterData.getWeaponType()) {
+			case CharacterData.NO_WEAPON: return null;
+			case CharacterData.MAGIC_WEAPON: return new FlameParticle(x, y, z);
+			case CharacterData.RANGED_WEAPON: return new SmokeParticle(x, y, z);
+			case CharacterData.MELEE_WEAPON: return null;
+		}
 
-    public static SpriteSheet getSpriteSheet(int type) {
-        switch (type) {
-            case CharacterData.KNIGHT_TYPE:
-                return ResourceManager.i.knightSpriteSheet;
-            case CharacterData.MAGE_TYPE:
-                return ResourceManager.i.mageSpriteSheet;
-            case CharacterData.NECRO_TYPE:
-                return ResourceManager.i.necromancerSpriteSheet;
-            case CharacterData.ROGUE_TYPE:
-                return ResourceManager.i.rougueSpriteSheet;
-        }
-        return null;
-    }
+		return null;
+	}
 
-    public void attemptMove() {
-        double xxa = x + xa;
-        double yya = y + ya;
+	public static int getOffset(int weaponType, int type) {
+		if (type == CharacterData.NECRO_TYPE) {
+			return 2;
+		} else {
+			switch (weaponType) {
+				case CharacterData.NO_WEAPON:
+					return 4;
+				case CharacterData.MAGIC_WEAPON:
+					return 8;
+				case CharacterData.RANGED_WEAPON:
+					return 6;
+				case CharacterData.MELEE_WEAPON:
+					return 2;
+			}
+		}
 
-        move(xxa, yya);
-    }
+		return 0;
+	}
 
-    private boolean move(double xxa, double yya) {
-        if (isRemoved()) return false;
+	public static SpriteSheet getSpriteSheet(int type) {
+		switch (type) {
+			case CharacterData.KNIGHT_TYPE:
+				return ResourceManager.i.knightSpriteSheet;
+			case CharacterData.MAGE_TYPE:
+				return ResourceManager.i.mageSpriteSheet;
+			case CharacterData.NECRO_TYPE:
+				return ResourceManager.i.necromancerSpriteSheet;
+			case CharacterData.ROGUE_TYPE:
+				return ResourceManager.i.rougueSpriteSheet;
+		}
 
-        lastWalkDist = walkDist;
-        walkDist++;
-        x = xxa;
-        y = yya;
-        return true;
-    }
+		return null;
+	}
 
-    public boolean isMoving() {
-        return walkDist != lastWalkDist;
-    }
+	public void attemptMove() {
+		double xxa = x + xa;
+		double yya = y + ya;
 
-    public void render(Bitmap bm) {
-        int xp = (int) x;
-        int yp = (int) y;
-        if (attackState == ANIMATION_ATTACK) {
-            bm.render(getSpriteSheet().getSprites()[animationFrame][getOffset() + ySpriteIndex], xp, yp, colour);
-        } else {
-            bm.render(getBitmap(), xp, yp, colour);
-        }
-        yp = (int) y + ResourceManager.i.knightSpriteSheet.getSpriteHeight() + 16;
-        // Draw the health bar
-        bm.drawStringShadowed(characterData.getName(), xp + (getSpriteSheet().getSpriteWidth() - bm.getCharWidth(characterData.getName())) / 2, yp - 22, 0xffffff);
-        bm.fill(xp + 40, yp - 3, xp + 32 + (50), yp, 0xff0000);
-        bm.fill(xp + 40, yp - 3, Math.round(xp + 32 + (characterData.getCurrentHealth() * healthScale)), yp, 0xff00);
+		move(xxa, yya);
+	}
 
-        int diffrence = GameController.maxSpd - characterData.getSpd();
-        turnScale = (float) 50 / (float) diffrence;
+	private boolean move(double xxa, double yya) {
+		if (isRemoved()) return false;
 
-        //draw speed bar
-        bm.fill(xp + 40, yp - 6, xp + 32 + (50), yp - 3, 0xe9ff00);
-        if (GameController.turn % diffrence != 0) {
-            bm.fill(xp + 40, yp - 6, Math.round(xp + 32 +
-                    ((diffrence - (GameController.turn % diffrence)) * turnScale)), yp - 3, 0x0002af);
-        } else {
-            bm.fill(xp + 40, yp - 6, xp + 32 + 50, yp - 3, 0xe9ff00);
-        }
+		lastWalkDist = walkDist;
+		walkDist++;
+		x = xxa;
+		y = yya;
+		return true;
+	}
 
-    }
+	public boolean isMoving() {
+		return walkDist != lastWalkDist;
+	}
 
-    @Override
-    public SpriteSheet getSpriteSheet() {
-        return getSpriteSheet(characterData.getType());
-    }
+	public void render(Bitmap bm) {
+		int xp = (int) x;
+		int yp = (int) y;
+		if (attackState == ANIMATION_ATTACK) {
+			bm.render(getSpriteSheet().getSprites()[animationFrame][getOffset() + ySpriteIndex], xp, yp, colour);
+		} else {
+			bm.render(getBitmap(), xp, yp, colour);
+		}
+		yp = (int) y + ResourceManager.i.knightSpriteSheet.getSpriteHeight() + 16;
+		// Draw the health bar
+		bm.drawStringShadowed(characterData.getName(), xp + (getSpriteSheet().getSpriteWidth() - bm.getCharWidth(characterData.getName())) / 2, yp - 22, 0xffffff);
+		bm.fill(xp + 40, yp - 3, xp + 32 + (50), yp, 0xff0000);
+		bm.fill(xp + 40, yp - 3, Math.round(xp + 32 + (characterData.getCurrentHealth() * healthScale)), yp, 0xff00);
 
-    public void startAttack(int maxAttackFrame, Mob enemy) {
-        attackState = FORWARD_ATTACK;
-        this.maxAttackFrame = maxAttackFrame;
-        animationFrame = 0;
-        target = enemy;
-    }
+		int diffrence = GameController.maxSpd - characterData.getSpd();
+		turnScale = (float) 50 / (float) diffrence;
 
-    public void spellCast(int spellDamage, int speelDamageDuration) {
-        if (this.debuffDamage < spellDamage || this.debuffDuration < speelDamageDuration) {
-            this.debuffDamage = spellDamage;
-            this.debuffDuration = speelDamageDuration;
-        }
-    }
+		// draw speed bar
+		bm.fill(xp + 40, yp - 6, xp + 32 + (50), yp - 3, 0xe9ff00);
+		if (GameController.turn % diffrence != 0) {
+			bm.fill(xp + 40, yp - 6, Math.round(xp + 32 + ((diffrence - (GameController.turn % diffrence)) * turnScale)), yp - 3, 0x0002af);
+		} else {
+			bm.fill(xp + 40, yp - 6, xp + 32 + 50, yp - 3, 0xe9ff00);
+		}
 
-    public void turnTick() {
-        spellHurt();
-    }
+	}
 
-    public void spellHurt() {
-        int colour = 0x0f5b00;
+	@Override
+	public SpriteSheet getSpriteSheet() {
+		return getSpriteSheet(characterData.getType());
+	}
 
-        if (debuffDuration > 0) {
-            int xp = (int) x;
-            int yp = (int) y;
-            characterData.setCurrentHealth(characterData.getCurrentHealth() - debuffDamage);
-            level.add(new TextParticle("-" + debuffDamage, xp, yp, 2, colour));
-            debuffDuration--;
-        }
-    }
+	public void startAttack(int maxAttackFrame, Mob enemy) {
+		attackState = FORWARD_ATTACK;
+		this.maxAttackFrame = maxAttackFrame;
+		animationFrame = 0;
+		target = enemy;
+	}
 
-    public void hurt(int dmg) {
-        int colour = 0xff0000;
-        int xp = (int) x;
-        int yp = (int) y;
-        level.add(new TextParticle("-" + dmg, xp, yp, 2, colour));
-    }
+	public void spellCast(int spellDamage, int speelDamageDuration) {
+		if (this.debuffDamage < spellDamage || this.debuffDuration < speelDamageDuration) {
+			this.debuffDamage = spellDamage;
+			this.debuffDuration = speelDamageDuration;
+		}
+	}
 
-    public void resetHealth() {
-        characterData.setCurrentHealth(characterData.getInitialHealth());
-    }
+	public void turnTick() {
+		spellHurt();
+	}
 
-    public void hit(int dmg) {
-        int damage = dmg - characterData.getDef();
+	public void spellHurt() {
+		int colour = 0x0f5b00;
 
-        if (damage < 0) {
-            damage = 0;
-        }
-        characterData.setCurrentHealth(characterData.getCurrentHealth() - damage);
+		if (debuffDuration > 0) {
+			characterData.setCurrentHealth(characterData.getCurrentHealth() - debuffDamage);
+			level.add(new TextParticle("-" + debuffDamage, getCenterX(), getCenterY() + 50, 2, colour));
+			debuffDuration--;
+		}
+	}
 
-        hurt(damage);
-    }
+	public void hurt(int dmg) {
+		int colour = 0xff0000;
+		level.add(new TextParticle("-" + dmg, getCenterX(), getCenterY() - 50, 2, colour));
+	}
 
-    public void movePlayer() {
+	public void resetHealth() {
+		characterData.setCurrentHealth(characterData.getInitialHealth());
+	}
 
-    }
+	public void hit(int dmg) {
+		int damage = dmg - characterData.getDef();
 
-    public int getOffset() {
-        return getOffset(characterData.getWeaponType(), characterData.getType());
-    }
+		if (damage < 0) {
+			damage = 0;
+		}
+		characterData.setCurrentHealth(characterData.getCurrentHealth() - damage);
 
-    public void onDied() {
-        remove();
-    }
+		hurt(damage);
+	}
 
-    public Mob getTarge() {
-        return target;
-    }
+	public void movePlayer() {
 
-    public int getDebuffDamage() {
-        return debuffDamage;
-    }
+	}
 
-    public int getDebuffDuration() {
-        return debuffDuration;
-    }
+	public int getOffset() {
+		return getOffset(characterData.getWeaponType(), characterData.getType());
+	}
 
-    public CharacterData getCharacterData() {
-        return characterData;
-    }
+	public void onDied() {
+		level.add(new Explosion(getCenterX(), getCenterY(), 2));
+		remove();
+	}
 
-    public double getX() {
-        return x;
-    }
+	public Mob getTarget() {
+		return target;
+	}
 
-    public double getY() {
-        return y;
-    }
+	public int getDebuffDamage() {
+		return debuffDamage;
+	}
 
+	public int getDebuffDuration() {
+		return debuffDuration;
+	}
+
+	public CharacterData getCharacterData() {
+		return characterData;
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public double getCenterX() {
+		return getX() + (128 - ResourceManager.i.entitiesSpriteSheet.getSpriteWidth()) / 2.0;
+	}
+
+	public double getCenterY() {
+		return y + 128;
+	}
 }

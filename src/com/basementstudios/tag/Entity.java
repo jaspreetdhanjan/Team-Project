@@ -14,19 +14,21 @@ import java.util.Random;
 
 public abstract class Entity {
 	public static final Random random = new Random();
+
 	protected Level level;
+
 	protected int xSpriteIndex, ySpriteIndex;
 	protected int colour = 0xffffff;
-    protected int turn = 0;
-    private boolean removed = false;
+	protected int turn = 0;
+	private boolean removed = false;
 
 	public final void init(Level level) {
 		this.level = level;
 	}
 
 	public void tick() {
-        turn++;
-    }
+		turn++;
+	}
 
 	public abstract void render(Bitmap bm);
 

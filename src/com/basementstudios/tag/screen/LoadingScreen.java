@@ -10,7 +10,7 @@ import com.basementstudios.tag.graphics.Bitmap;
  */
 
 public class LoadingScreen extends Screen {
-	private static final int MIN_WAIT_TIME = 20 * 60;
+	private static final int MIN_WAIT_TIME = 1 * 60;
 
 	public static String status = "Loading";
 
@@ -44,26 +44,20 @@ public class LoadingScreen extends Screen {
 			bm.pixels[i] = ((i + tickCount) % 256);
 		}
 
-		int scale = 2;
 		int xBob = (int) ((Math.sin(tickCount / 10.0) * 10.0) % 50.0);
 		int yBob = (int) ((Math.cos(tickCount / 10.0) * 10.0) % 50.0);
 
-		int xo = (bm.width - bm.getCharWidth(status) * scale) / scale;
+		centerDraw("Loading...", bm, xBob, yBob, 3);
+	}
+
+	private void centerDraw(String msg, Bitmap bm, int xBob, int yBob, int scale) {
+		int xo = (bm.width - bm.getCharWidth(msg) * scale) / 2;
 		int yo = bm.height / 2;
 		xo += xBob;
 		yo += yBob;
 
 		bm.setScale(scale, scale);
-		bm.drawString(status, xo, yo, 0xffffff);
-
-		scale = 1;
-		xo = (bm.width - bm.getCharWidth(status) / 2) / 2;
-		yo = (bm.height / 2) + 50;
-		xo += xBob;
-		yo += yBob;
-
-		bm.setScale(scale, scale);
-		bm.drawString(status, xo, yo, 0xffffff);
+		bm.drawString(msg, xo, yo, 0xffffff);
 		bm.setScale(1, 1);
 	}
 
@@ -71,6 +65,7 @@ public class LoadingScreen extends Screen {
 		for (int i = 0; i < bm.pixels.length; i++) {
 			bm.pixels[i] = ((i + tickCount) % 256);
 		}
+		centerDraw(status, bm, 0, 0, 1);
 	}
 
 	public boolean fullscreenDraw() {

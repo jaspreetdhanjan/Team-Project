@@ -10,13 +10,12 @@ import com.basementstudios.tag.graphics.Bitmap;
  */
 
 public class Player extends Mob {
-
 	public Player(double x, double y, double xSize, double ySize, CharacterData characterData) {
 		super(x, y, xSize, ySize, characterData);
 		xSpriteIndex = 0;
 		ySpriteIndex = 0;
-
 	}
+
 	public void tick() {
 		super.tick();
 	}
@@ -34,11 +33,12 @@ public class Player extends Mob {
 				if (animationFrame == 4) {
 					animationFrame--;
 					attackState = RETRACT_ATTACK;
-					getTarge().hit(characterData.getDmg());
-					getTarge().spellCast(characterData.getDmg(), characterData.getSpellDuration());
+					getTarget().hit(characterData.getDmg());
+					getTarget().spellCast(characterData.getDmg(), characterData.getSpellDuration());
 				}
 				if (turn % 20 == 0) {
 					animationFrame++;
+					addArrows();
 				}
 				break;
 			case Mob.RETRACT_ATTACK:
@@ -50,6 +50,10 @@ public class Player extends Mob {
 				break;
 		}
 		attemptMove();
+	}
+
+	private void addArrows() {
+		// level.add(new Arrow(x, y, 2));
 	}
 
 	public void render(Bitmap bm) {
@@ -74,5 +78,4 @@ public class Player extends Mob {
 
 		super.render(bm);
 	}
-
 }

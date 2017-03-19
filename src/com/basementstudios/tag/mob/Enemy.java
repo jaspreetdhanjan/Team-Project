@@ -36,8 +36,8 @@ public class Enemy extends Mob {
 				if (animationFrame == 4) {
 					animationFrame--;
 					attackState = RETRACT_ATTACK;
-					getTarge().hit(characterData.getDmg());
-					getTarge().spellCast(characterData.getDmg(), characterData.getSpellDuration());
+					getTarget().hit(characterData.getDmg());
+					getTarget().spellCast(characterData.getDmg(), characterData.getSpellDuration());
 				}
 				if (turn % 20 == 0) {
 					animationFrame++;
