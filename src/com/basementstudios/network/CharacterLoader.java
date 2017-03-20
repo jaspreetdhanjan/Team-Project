@@ -154,6 +154,11 @@ public class CharacterLoader {
 	}
 
 	public void calculateBattleStats() {
+        characterData.setSpd(0);
+        characterData.setDef(0);
+        characterData.setDmg(0);
+        characterData.setSpellDuration(0);
+
 		characterData.addDmg(characterData.getStats().get(2).getValue());
 		characterData.addSpd(characterData.getStats().get(4).getValue());
 

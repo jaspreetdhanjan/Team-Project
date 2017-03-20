@@ -3,7 +3,9 @@ package com.basementstudios.tag.level;
 import com.basementstudios.network.CharacterData;
 import com.basementstudios.tag.ResourceManager;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class DemoLevel extends Level {
 	public DemoLevel() {
@@ -22,8 +24,8 @@ public class DemoLevel extends Level {
 
 		for (int i = 0; i < 3; i++) {
 			int dmg = (2 + rand.nextInt(10)) * seed / 2;
-			int def = (30 + rand.nextInt(20)) * seed / 5;
-			int spd = (1 + rand.nextInt(4)) * (seed / 6);
+			int def = (25 + rand.nextInt(15)) * seed / 5;
+			int spd = (2 + rand.nextInt(2)) * (seed / 7);
 			int spellDuration = 0;
 			int health = 100 * seed;
 			int weponType = CharacterData.NO_WEAPON;
@@ -41,7 +43,7 @@ public class DemoLevel extends Level {
 					weponType = CharacterData.RANGED_WEAPON;
 					break;
 				case 3:
-					dmg = dmg / 10;
+					dmg = dmg / 15;
 					spellDuration = (1 + rand.nextInt(3)) * seed;
 					weponType = CharacterData.MAGIC_WEAPON;
 			}
